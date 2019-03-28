@@ -1,0 +1,26 @@
+{
+  "name": "jr-gopnik",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "GamesProSeif",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "dotenv": "^7.0.0",
+    "enmap": "^4.8.1",
+    "express": "^4.16.4",
+    "express-formidable": "^1.2.0",
+    "express-handlebars": "^3.0.2",
+    "node-fetch": "^2.3.0",
+    "notevil": "^1.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
