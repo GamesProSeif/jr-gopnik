@@ -110,3 +110,4 @@ exports.run = (bot, message, args) => {
 
 exports.desc = 'Gets deleted message (message-position only works in the current channel)';
 exports.usage = '[ChannelMention | MessagePosition]'
+exports.guildOnly = true;

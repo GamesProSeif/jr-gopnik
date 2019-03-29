@@ -33,3 +33,4 @@ exports.desc = 'Get all permissions of a user';
 exports.usage = '[username|id|mention]';
 
 exports.aliases = ['permission', 'perms', 'perm'];
+exports.guildOnly = true;

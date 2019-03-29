@@ -26,3 +26,4 @@ exports.run = async (bot, message, args) => {
 
 exports.desc = 'Evaluates __JavaScript__ code';
 exports.group = 'dev';
+exports.guildOnly = true;

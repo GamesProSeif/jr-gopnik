@@ -24,3 +24,4 @@ exports.run = (bot, message, args) => {
 
 exports.desc = 'Gets all edits of a message';
 exports.aliases = ['edit'];
+exports.guildOnly = true;

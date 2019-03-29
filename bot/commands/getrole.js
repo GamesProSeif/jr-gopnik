@@ -25,3 +25,4 @@ exports.run = (bot, message, args) => {
 exports.desc = 'Gets the id of a role';
 exports.group = 'dev';
 exports.usage = '<rolename>';
+exports.guildOnly = true;

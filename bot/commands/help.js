@@ -14,6 +14,7 @@ exports.run = (bot, message, args) => {
       .setDescription(`**${commandsFound} commands found** - <> means *required*, [] means *optional*`)
       .setFooter('Currently showing USER commands');
     message.author.send({embed});
+    message.channel.send('Sent you in DMs cause I don\'t have a page system 😔');
   }
   else {
     if (bot.commands.get(args[0].toLowerCase())) {

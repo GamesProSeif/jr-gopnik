@@ -18,6 +18,14 @@ const handler = (bot, message) => {
   cmd = bot.commands.get(command) || bot.commands.find(c => c.aliases.includes(command));
   if (!cmd) return;
 
+  if (cmd.guildOnly && message.channel.type !== 'text') {
+    return message.channel.send({embed:{
+      title: 'Error',
+      description: 'This command can be only run in a server',
+      color: bot.config.colors.error
+    }});
+  }
+
   // Group validation
   if (cmd.group !== 'user') {
     if (bot.config.roles[cmd.group]) {

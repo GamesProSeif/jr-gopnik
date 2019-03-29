@@ -1,5 +1,5 @@
 const handler = (bot, message) => {
-  if (message.author.bot) return;
+  if (message.author.bot || message.channel.type !== 'text') return;
   let channelMessages = bot.deletedMessages.filter(m => m.channel.id === message.channel.id);
 
   if (channelMessages.size >= 10) {

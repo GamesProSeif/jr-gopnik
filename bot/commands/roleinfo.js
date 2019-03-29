@@ -49,3 +49,4 @@ exports.desc = 'Gets information about a role';
 exports.usage = '<rolename|id|mention>';
 
 exports.aliases = ['role-info', 'ri'];
+exports.guildOnly = true;

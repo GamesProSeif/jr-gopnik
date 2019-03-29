@@ -31,3 +31,4 @@ exports.run = (bot, message, args) => {
 
 exports.desc = 'Gets information about the server';
 exports.aliases = ['si'];
+exports.guildOnly = true;
