@@ -64,6 +64,12 @@ const handler = (bot, message) => {
     }
   }
 
+  if (args.join(' ').toUpperCase() == 'HELP' && cmd.name !== 'embed') {
+    let help = bot.commands.get('help');
+    help.run(bot, message, [cmd.name]);
+    return;
+  }
+
   cmd.run(bot, message, args);
 }
 

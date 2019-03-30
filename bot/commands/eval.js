@@ -1,5 +1,3 @@
-const safeEval = require('notevil');
-
 exports.run = async (bot, message, args) => {
   try {
     let regex = /(^```\w*|```$)/gm;
@@ -11,13 +9,14 @@ exports.run = async (bot, message, args) => {
       });
     }
 
-    let evaled = safeEval(code);
-    console.log(evaled);
+    let evaled = eval(code);
 
-    if (typeof evaled !== 'string')
-      evaled = require('util').inspect(evaled);
+    if (typeof evaled !== 'string') evaled = require('util').inspect(evaled);
+    if (evaled.length >= 2000) {
+      return message.channel.send('Evaluated value was too long');
+    }
     message.channel.send(bot.functions.clean(evaled), {
-      code: 'js'
+      code: ''
     });
   } catch (err) {
     message.channel.send(`\`ERROR\` \`\`\`js\n${bot.functions.clean(err)}\n\`\`\``);

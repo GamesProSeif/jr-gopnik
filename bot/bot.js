@@ -6,7 +6,7 @@ module.exports = () => {
   const Discord = require('discord.js');
   const bot = new Discord.Client();
   const Enmap = require('enmap');
-  const config = require(path.join(__dirname, 'config.json'));
+  const config = require(path.join(__dirname, 'config', 'config.json'));
   bot.config = config; // Making config accessible everywhere
 
   // Converting colors to integers
@@ -20,19 +20,7 @@ module.exports = () => {
   bot.deletedMessages = new Discord.Collection();
 
   // Public commands
-  bot.functions = {};
-  bot.functions.capitalize = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1).toString().toLowerCase();
-  }
-  bot.functions.getRandom = (min, max) => {
-    return Math.floor(Math.random() * (max - min) + min);
-  }
-  bot.functions.clean = text => {
-    if (typeof(text) === 'string') {
-      return text.replace(/`/g, '`' + String.fromCharCode(8203)).replace(/@/g, '@' + String.fromCharCode(8203));
-    }
-    else return text;
-  }
+  bot.functions = require(path.join(__dirname, 'config', 'functions.js'));
 
   // Event handler
   fs.readdir(path.join(__dirname, 'events/'), (err, files) => {

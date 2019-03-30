@@ -12,9 +12,11 @@ exports.run = async (bot, message, args) => {
       }});
     }
     let file = path.join(__dirname, '..', 'assets', 'later', files[bot.functions.getRandom(0, files.length)]);
-    message.channel.send({
+    await message.channel.send({
       files: [file]
     });
+    await message.react(bot.config.emojis.trash);
+    message.delete(3);
   } catch (e) {
     console.log(e);
   }

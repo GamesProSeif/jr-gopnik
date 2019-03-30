@@ -53,7 +53,8 @@ exports.run = (bot, message, args) => {
       embed
         .setDescription(`**${commandsFound} commands found** - <> means *required*, [] means *optional*`)
         .setFooter(`Currently showing ${args[0].toUpperCase()} commands`);
-      message.channel.send({embed});
+      message.author.send({embed});
+      message.channel.send('Sent you in DMs cause I don\'t have a page system 😔');
     }
     else {
       return message.channel.send({embed:{
