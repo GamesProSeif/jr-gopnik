@@ -16,7 +16,7 @@ exports.run = async (bot, message, args) => {
       files: [file]
     });
     await message.react(bot.config.emojis.trash);
-    message.delete(3);
+    message.delete(3000);
   } catch (e) {
     console.log(e);
   }
