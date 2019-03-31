@@ -1,10 +1,9 @@
-module.exports = () => {
+module.exports = (bot) => {
   // Setting up dependencies
   const fs = require('fs');
   const path = require('path');
   require('dotenv').config();
-  const Discord = require('discord.js');
-  const bot = new Discord.Client();
+  const { Collection } = require('discord.js');
   const Enmap = require('enmap');
   const config = require(path.join(__dirname, 'config', 'config.json'));
   bot.config = config; // Making config accessible everywhere
@@ -17,7 +16,7 @@ module.exports = () => {
   // Edits Enmap
   bot.editedMessages = new Enmap();
   // Snipe Enmap
-  bot.deletedMessages = new Discord.Collection();
+  bot.deletedMessages = new Collection();
 
   // Public commands
   bot.functions = require(path.join(__dirname, 'config', 'functions.js'));
