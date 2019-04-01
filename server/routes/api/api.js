@@ -80,5 +80,10 @@ module.exports = (bot) => {
     next();
   });
 
+  router.get('/commands', (req, res, next) => {
+    res.json(bot.commands.map(c => {return {name: c.name, usage: c.usage, desc: c.desc, group: c.group, guildOnly: c.guildOnly, aliases: c.aliases}}));
+    next();
+  });
+
   return router;
 }
