@@ -26,58 +26,76 @@ module.exports = (bot) => {
   });
 
   router.get('/bot', (req, res, next) => {
-    res.status(200).json(botUser);
-    next();
+    if (botUser) {
+      res.status(200).json(botUser);
+      next();
+    }
+    else {
+      res.status(400).json({error: 'Bot is not ready, make a request later.'});
+      next();
+    }
   });
 
   router.get('/guilds', (req, res, next) => {
-    res.status(200).json(guilds.map(g => {
-      return {
-        id: g.id,
-        name: g.name
-      }
-    }));
-    next();
+    if (guilds) {
+      res.status(200).json(guilds.map(g => {
+        return {
+          id: g.id,
+          name: g.name
+        }
+      }));
+      next();
+    }
+    else {
+      res.status(400).json({error: 'Bot is not ready, make a request later.'});
+      next();
+    }
   });
 
   router.get('/guilds/:guildId', (req, res, next) => {
-    let id = req.params.guildId;
-    if (guilds.has(id)) {
-      let guild = guilds.get(id);
-      res.json({
-        id: guild.id,
-        name: guild.name,
-        owner: guild.owner.username,
-        iconURL: guild.iconURL,
-        createdAt: guild.createdAt,
-        createdTimestamp: guild.createdTimestamp,
-        channels: guild.channels.map(c => {
-          return {
-            id: c.id,
-            name: c.name,
-            type: c.type
-          }
-        }),
-        roles: guild.roles.map(r => {
-          return {
-            id: r.id,
-            name: r.name
-          }
-        }),
-        members: guild.members.map(m => {
-          return {
-            id: m.id,
-            name: m.user.username,
-            bot: m.user.bot
-          }
-        })
-      });
-    } else {
-      res.json({
-        error: `No guild found with id ${id}`
-      });
+    if (guilds) {
+      let id = req.params.guildId;
+      if (guilds.has(id)) {
+        let guild = guilds.get(id);
+        res.json({
+          id: guild.id,
+          name: guild.name,
+          owner: guild.owner.username,
+          iconURL: guild.iconURL,
+          createdAt: guild.createdAt,
+          createdTimestamp: guild.createdTimestamp,
+          channels: guild.channels.map(c => {
+            return {
+              id: c.id,
+              name: c.name,
+              type: c.type
+            }
+          }),
+          roles: guild.roles.map(r => {
+            return {
+              id: r.id,
+              name: r.name
+            }
+          }),
+          members: guild.members.map(m => {
+            return {
+              id: m.id,
+              name: m.user.username,
+              bot: m.user.bot
+            }
+          })
+        });
+      } else {
+        res.json({
+          error: `No guild found with id ${id}`
+        });
+      }
+      next();
     }
-    next();
+    else {
+      res.status(400).json({error: 'Bot is not ready, make a request later.'});
+      next();
+    }
   });
 
   router.get('/commands', (req, res, next) => {
