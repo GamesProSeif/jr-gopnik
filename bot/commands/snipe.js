@@ -23,7 +23,7 @@ exports.run = (bot, message, args) => {
       let files = deletedMessage.attachments.map(att => att.proxyURL)
       embed.attachFiles(files);
     }
-    message.channel.send({embed});
+    message.channel.send(embed);
   }
   else if (message.mentions.channels.first() && args.length == 1) {
     let channelId = message.mentions.channels.first().id;
@@ -49,7 +49,7 @@ exports.run = (bot, message, args) => {
       let files = deletedMessage.attachments.map(att => att.proxyURL)
       embed.attachFiles(files);
     }
-    message.channel.send({embed});
+    message.channel.send(embed);
   }
   else if (!isNaN(args.join(' '))) {
     let num = args.join(' ');
@@ -97,7 +97,7 @@ exports.run = (bot, message, args) => {
       let files = deletedMessage.attachments.map(att => att.proxyURL)
       embed.attachFiles(files);
     }
-    message.channel.send({embed});
+    message.channel.send(embed);
   }
   else {
     message.channel.send({embed:{

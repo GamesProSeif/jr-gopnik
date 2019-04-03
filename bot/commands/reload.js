@@ -1,9 +1,11 @@
-const { join } = require('path');
+const {
+  join
+} = require('path');
 
 exports.run = (bot, message, args) => {
-  if(!args || args.size < 1) return message.reply("Must provide a command name to reload.");
+  if (!args || args.size < 1) return message.reply("Must provide a command name to reload.");
   const commandName = args[0].toLowerCase();
-  if(!bot.commands.has(commandName)) {
+  if (!bot.commands.has(commandName)) {
     return message.reply("That command does not exist");
   }
 

@@ -57,7 +57,7 @@ exports.run = (bot, message, args) => {
       ]
     }
     message.author.send(`\`\`\`json\n${JSON.stringify(embed,null,2)}\n\`\`\``);
-    message.author.send({embed});
+    message.author.send(embed);
   } else {
     async function f() {
       try {
@@ -65,7 +65,7 @@ exports.run = (bot, message, args) => {
         if (embed.color) {
           embed.color = parseInt(embed.color.replace('#', '0x'));
         }
-        await message.channel.send({embed});
+        await message.channel.send(embed);
       } catch (e) {
         message.channel.send({
           embed: {

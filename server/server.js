@@ -8,12 +8,16 @@ module.exports = (bot) => {
   app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 
   // Handlebars Middleware
-  app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+  app.engine('handlebars', exphbs({
+    defaultLayout: 'main'
+  }));
   app.set('view engine', 'handlebars');
 
   // Body Parser Middleware
   app.use(express.json());
-  app.use(express.urlencoded({extended: false}));
+  app.use(express.urlencoded({
+    extended: false
+  }));
 
   app.get('/', (req, res) => {
     res.send('Welcome to the server');

@@ -3,7 +3,9 @@ module.exports = (bot) => {
   const fs = require('fs');
   const path = require('path');
   require('dotenv').config();
-  const { Collection } = require('discord.js');
+  const {
+    Collection
+  } = require('discord.js');
   const Enmap = require('enmap');
   const config = require(path.join(__dirname, 'config', 'config.json'));
   bot.config = config; // Making config accessible everywhere

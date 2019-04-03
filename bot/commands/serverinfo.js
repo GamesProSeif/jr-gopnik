@@ -26,7 +26,7 @@ exports.run = (bot, message, args) => {
     .addField('Members', `Users: ${users}\nBots: ${bots}\nTotal: ${totalMembers}`, true)
     .addField('Roles', guild.roles.array().join(' '), true);
 
-  message.channel.send({embed});
+  message.channel.send(embed);
 }
 
 exports.desc = 'Gets information about the server';

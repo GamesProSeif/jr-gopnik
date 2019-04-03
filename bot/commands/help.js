@@ -13,7 +13,7 @@ exports.run = (bot, message, args) => {
     embed
       .setDescription(`**${commandsFound} commands found** - <> means *required*, [] means *optional*`)
       .setFooter('Currently showing USER commands');
-    message.author.send({embed});
+    message.author.send(embed);
     message.channel.send('Sent you in DMs cause I don\'t have a page system 😔');
   }
   else {
@@ -27,7 +27,7 @@ exports.run = (bot, message, args) => {
         .setFooter(`Currently showing ${key.toUpperCase()} command`)
         .addField(bot.functions.capitalize(key), `**Description**: ${value.desc}\n**Usage**: \`${bot.config.prefix + value.usage}\`\n**Group**: ${value.group}` + aliases);
 
-        message.channel.send({embed});
+        message.channel.send(embed);
     }
     else if (bot.commands.find(c => c.aliases.includes(args[0].toLowerCase()))) {
       let value = bot.commands.find(c => c.aliases.includes(args[0].toLowerCase()));
@@ -39,7 +39,7 @@ exports.run = (bot, message, args) => {
         .setFooter(`Currently showing ${key.toUpperCase()} command`)
         .addField(bot.functions.capitalize(key), `**Description**: ${value.desc}\n**Usage**: \`${bot.config.prefix + value.usage}\`\n**Group**: ${value.group}` + aliases);
 
-        message.channel.send({embed});
+        message.channel.send(embed);
     }
     else if (bot.commands.find(c => c.group.toLowerCase() === args[0].toLowerCase())) {
       let commands = bot.commands.filter(c => c.group.toLowerCase() === args[0].toLowerCase());
@@ -53,7 +53,7 @@ exports.run = (bot, message, args) => {
       embed
         .setDescription(`**${commandsFound} commands found** - <> means *required*, [] means *optional*`)
         .setFooter(`Currently showing ${args[0].toUpperCase()} commands`);
-      message.author.send({embed});
+      message.author.send(embed);
       message.channel.send('Sent you in DMs cause I don\'t have a page system 😔');
     }
     else {

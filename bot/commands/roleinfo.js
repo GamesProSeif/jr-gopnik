@@ -40,7 +40,7 @@ exports.run = (bot, message, args) => {
       .addField('Members', role.members.map(m => m.displayName).join(', '), true)
       .addField('Permissions', perms, false);
 
-      message.channel.send({embed});
+      message.channel.send(embed);
   }
 }
 

@@ -6,8 +6,7 @@ const handler = (bot, oldMessage, newMessage) => {
   }
   if (bot.editedMessages.has(oldMessage.id)) {
     bot.editedMessages.push(oldMessage.id, newMessage.content, 'edits');
-  }
-  else {
+  } else {
     bot.editedMessages.set(oldMessage.id, {
       id: oldMessage.id,
       originalMessage: oldMessage.content,

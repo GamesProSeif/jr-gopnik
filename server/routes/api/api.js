@@ -29,9 +29,10 @@ module.exports = (bot) => {
     if (botUser) {
       res.status(200).json(botUser);
       next();
-    }
-    else {
-      res.status(400).json({error: 'Bot is not ready, make a request later.'});
+    } else {
+      res.status(400).json({
+        error: 'Bot is not ready, make a request later.'
+      });
       next();
     }
   });
@@ -45,9 +46,10 @@ module.exports = (bot) => {
         }
       }));
       next();
-    }
-    else {
-      res.status(400).json({error: 'Bot is not ready, make a request later.'});
+    } else {
+      res.status(400).json({
+        error: 'Bot is not ready, make a request later.'
+      });
       next();
     }
   });
@@ -91,15 +93,25 @@ module.exports = (bot) => {
         });
       }
       next();
-    }
-    else {
-      res.status(400).json({error: 'Bot is not ready, make a request later.'});
+    } else {
+      res.status(400).json({
+        error: 'Bot is not ready, make a request later.'
+      });
       next();
     }
   });
 
   router.get('/commands', (req, res, next) => {
-    res.json(bot.commands.map(c => {return {name: c.name, usage: c.usage, desc: c.desc, group: c.group, guildOnly: c.guildOnly, aliases: c.aliases}}));
+    res.json(bot.commands.map(c => {
+      return {
+        name: c.name,
+        usage: c.usage,
+        desc: c.desc,
+        group: c.group,
+        guildOnly: c.guildOnly,
+        aliases: c.aliases
+      }
+    }));
     next();
   });
 
