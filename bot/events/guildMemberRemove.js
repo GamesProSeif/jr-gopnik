@@ -5,7 +5,7 @@ const handler = (bot, member) => {
     `You said you won't leave me again ${member} 😢`,
     `Wa-wai-wait.. did ${member} just leave?`
   ];
-  let generalChanenl = member.guilds.channels.find(c => c.name.toUpperCase() === 'GENERAL');
+  let generalChanenl = member.guild.channels.find(c => c.name.toUpperCase() === 'GENERAL');
   let toBeSent = leaveMessages[bot.functions.getRandom(0, leaveMessages.length)];
   generalChannel.send(toBeSent);
 }
