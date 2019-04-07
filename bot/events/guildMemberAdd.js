@@ -8,7 +8,7 @@ const handler = async (bot, member) => {
   ];
   await member.addRole(bot.config.roles.kid);
 
-  let generalChanenl = member.guild.channels.find(c => c.name.toUpperCase() === 'GENERAL');
+  let generalChannel = member.guild.channels.find(c => c.name.toUpperCase() === 'GENERAL');
   let toBeSent = joinMessages[bot.functions.getRandom(0, joinMessages.length)];
   generalChannel.send(toBeSent);
 }
