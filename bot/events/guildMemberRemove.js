@@ -1,4 +1,5 @@
 const handler = (bot, member) => {
+  member = member.user.username;
   let leaveMessages = [
     `Looks like someone's mad, ${member} bbye.`,
     `What did I do to you ${member} ;-;. See ya forever ~~who knows~~`,
