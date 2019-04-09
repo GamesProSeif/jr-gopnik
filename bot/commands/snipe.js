@@ -2,6 +2,11 @@ const { RichEmbed } = require('discord.js');
 
 exports.run = (bot, message, args) => {
   if (!args[0]) {
+    let name = message.channel.name.toUpperCase();
+    if (name == 'NSFW' || name == 'HOT-GUYS' || NAME == 'HOT-GIRLS') {
+      return message.channel.send('I dont\'t work for dirty people smh');
+    }
+
     let channelMessages = bot.deletedMessages.filter(m => m.channel.id === message.channel.id);
     if (channelMessages.size == 0) {
       return message.channel.send({embed:{
@@ -23,9 +28,13 @@ exports.run = (bot, message, args) => {
       let files = deletedMessage.attachments.map(att => att.proxyURL)
       embed.attachFiles(files);
     }
-    message.channel.send({embed});
+    message.channel.send(embed);
   }
   else if (message.mentions.channels.first() && args.length == 1) {
+    let name = message.mentions.channels.first().name.toUpperCase();
+    if (name == 'NSFW' || name == 'HOT-GUYS' || NAME == 'HOT-GIRLS') {
+      return message.channel.send('I dont\'t work for dirty people smh');
+    }
     let channelId = message.mentions.channels.first().id;
     let channelMessages = bot.deletedMessages.filter(m => m.channel.id === channelId);
     if (channelMessages.size == 0) {
@@ -49,9 +58,13 @@ exports.run = (bot, message, args) => {
       let files = deletedMessage.attachments.map(att => att.proxyURL)
       embed.attachFiles(files);
     }
-    message.channel.send({embed});
+    message.channel.send(embed);
   }
   else if (!isNaN(args.join(' '))) {
+    let name = message.channel.name.toUpperCase();
+    if (name == 'NSFW' || name == 'HOT-GUYS' || NAME == 'HOT-GIRLS') {
+      return message.channel.send('I dont\'t work for dirty people smh');
+    }
     let num = args.join(' ');
     if (!Number.isInteger(parseFloat(num)) || parseInt(num) < 1) {
       return message.channel.send({embed:{
@@ -97,7 +110,7 @@ exports.run = (bot, message, args) => {
       let files = deletedMessage.attachments.map(att => att.proxyURL)
       embed.attachFiles(files);
     }
-    message.channel.send({embed});
+    message.channel.send(embed);
   }
   else {
     message.channel.send({embed:{
