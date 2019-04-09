@@ -12,7 +12,11 @@ const getSniped = (bot, channel, position) => {
   position = position ? position : 1;
   let cname = channel.name.toUpperCase();
   if (cname == 'NSFW' || cname == 'HOT-GUYS' || cname == 'HOT-GIRLS') {
-    return 'I dont\'t work for dirty people smh';
+    return {
+      title: 'Error',
+      description: 'I don\'t work for dirty people smh',
+      color: bot.config.colors.error
+    }
   }
   if (!Number.isInteger(parseFloat(position)) || parseInt(position) < 1) {
     return {
@@ -29,7 +33,7 @@ const getSniped = (bot, channel, position) => {
       color: bot.config.colors.error
     }
   }
-  let channelMessages = bot.deletedMessages.filter(m => m.channel.id === message.channel.id);
+  let channelMessages = bot.deletedMessages.filter(m => m.channel.id === channel.id);
   if (channelMessages.size == 0) {
     return {
       title: 'Error',
@@ -40,7 +44,7 @@ const getSniped = (bot, channel, position) => {
   if (position > channelMessages.size) {
     return {
       title: 'Error',
-      description: `Current number of cached deleted messages is ${channelMessages.size}`,
+      description: `Current number of cached deleted messages in ${channel} is ${channelMessages.size}`,
       color: bot.config.colors.error
     }
   }
@@ -64,28 +68,28 @@ const getSniped = (bot, channel, position) => {
 }
 
 exports.run = (bot, message, args) => {
-  if (!args) {
+  if (!args[0]) {
     let embed = getSniped(bot, message.channel);
-    return message.channel.send(embed);
+    return message.channel.send({embed});
   }
   else if (message.mentions.channels.first() && args.length == 1) {
     let channel = message.mentions.channels.first();
     let embed = getSniped(bot, channel);
-    return message.channel.send(embed);
+    return message.channel.send({embed});
   }
   else if (message.mentions.channels.first() && !isNaN(args.slice(1).join(' '))) {
     let channel = message.mentions.channels.first();
     let position = parseFloat(args[1]);
     let embed = getSniped(bot, channel, position);
-    return message.channel.send(embed);
+    return message.channel.send({embed});
   }
   else if (!isNaN(args.join(' '))) {
-    let position = parseFloat(args[1]);
+    let position = parseFloat(args[0]);
     let embed = getSniped(bot, message.channel, position);
-    return message.channel.send(embed);
+    return message.channel.send({embed});
   }
   else {
-    return message.channel.send(genError(bot, args));
+    return message.channel.send({embed: genError(bot, args)});
   }
 }
 
