@@ -73,7 +73,7 @@ exports.run = (bot, message, args) => {
     let embed = getSniped(bot, channel);
     return message.channel.send(embed);
   }
-  else if ((message.mentions.channels.first() && !isNaN(args.slice(1).join(' '))) {
+  else if (message.mentions.channels.first() && !isNaN(args.slice(1).join(' '))) {
     let channel = message.mentions.channels.first();
     let position = parseFloat(args[1]);
     let embed = getSniped(bot, channel, position);
