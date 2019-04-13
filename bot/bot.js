@@ -54,6 +54,7 @@ module.exports = (bot) => {
       if (!props.usage) props.usage = commandName.toLowerCase();
       else props.usage = `${commandName.toLowerCase()} ${props.usage}`;
       if (!props.aliases) props.aliases = [];
+      if (!props.examples) props.examples = [];
       props.guildOnly = props.guildOnly ? props.guildOnly : false;
 
       bot.commands.set(commandName.toLowerCase(), props);

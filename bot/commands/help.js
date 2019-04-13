@@ -2,59 +2,55 @@ const { RichEmbed } = require('discord.js');
 
 exports.run = (bot, message, args) => {
   if (!args[0]) {
-    let commands = bot.commands.filter(c => c.group.toLowerCase() === 'user');
     const embed = new RichEmbed()
-      .setColor(bot.config.colors.info);
-    let commandsFound = 0;
-    commands.forEach((value, key) => {
-      commandsFound++;
-      embed.addField(bot.functions.capitalize(key), `**Description**: ${value.desc}\n**Usage**: \`${bot.config.prefix + value.usage}\``);
+      .setColor(bot.config.colors.info)
+      .setTitle('List of Commands')
+      .setDescription('<> means *required*, [] means *optional*')
+    let groups = ['user'];
+    bot.commands.forEach(c => {
+      if (!groups.includes(c.group)) {
+        groups.push(c.group);
+      }
     });
-    embed
-      .setDescription(`**${commandsFound} commands found** - <> means *required*, [] means *optional*`)
-      .setFooter('Currently showing USER commands');
-    message.author.send(embed);
-    message.channel.send('Sent you in DMs cause I don\'t have a page system 😔');
+    groups.forEach(group => {
+      let commands = bot.commands.filter(c => c.group === group);
+      embed.addField(`❯ ${bot.functions.capitalize(group)} - ${commands.size}`, commands.map(c => `\`${c.name}\``).join(' '));
+    });
+    message.channel.send(embed);
   }
   else {
-    if (bot.commands.get(args[0].toLowerCase())) {
-      let key = args[0].toLowerCase();
-      let value = bot.commands.get(args[0].toLowerCase());
-      let aliases = value.aliases[0] ? '\n**Aliases**: ' + value.aliases.map(str => '`' + str + '`').join(' - ') : '';
+    if (bot.commands.has(args[0].toLowerCase())) {
+      let command = bot.commands.get(args[0].toLowerCase());
       const embed = new RichEmbed()
         .setColor(bot.config.colors.info)
-        .setDescription(`**Command found** - <> means *required*, [] means *optional*`)
-        .setFooter(`Currently showing ${key.toUpperCase()} command`)
-        .addField(bot.functions.capitalize(key), `**Description**: ${value.desc}\n**Usage**: \`${bot.config.prefix + value.usage}\`\n**Group**: ${value.group}` + aliases);
-
-        message.channel.send(embed);
+        .setTitle(bot.functions.capitalize(command.name))
+        .addField('❯ Description', command.desc)
+        .addField('❯ Group', bot.functions.capitalize(command.group))
+        .addField('❯ Usage', `\`${bot.config.prefix}${command.usage}\``);
+      if (command.aliases[0]) embed.addField('❯ Aliases', command.aliases.map(a => `\`${a}\``).join(' '));
+      if (command.examples[0]) embed.addField('❯ Examples', commands.examples.join('\n'));
+      message.channel.send(embed);
     }
     else if (bot.commands.find(c => c.aliases.includes(args[0].toLowerCase()))) {
-      let value = bot.commands.find(c => c.aliases.includes(args[0].toLowerCase()));
-      let key = value.name;
-      let aliases = value.aliases[0] ? '\n**Aliases**: ' + value.aliases.map(str => '`' + str + '`').join(' - ') : '';
+      let command = bot.commands.find(c => c.aliases.includes(args[0].toLowerCase()));
       const embed = new RichEmbed()
         .setColor(bot.config.colors.info)
-        .setDescription(`**Command found** - <> means *required*, [] means *optional*`)
-        .setFooter(`Currently showing ${key.toUpperCase()} command`)
-        .addField(bot.functions.capitalize(key), `**Description**: ${value.desc}\n**Usage**: \`${bot.config.prefix + value.usage}\`\n**Group**: ${value.group}` + aliases);
-
-        message.channel.send(embed);
+        .setTitle(bot.functions.capitalize(command.name))
+        .addField('❯ Description', command.desc)
+        .addField('❯ Group', bot.functions.capitalize(command.group))
+        .addField('❯ Usage', `\`${bot.config.prefix}${command.usage}\``);
+      if (command.aliases[0]) embed.addField('❯ Aliases', command.aliases.map(a => `\`${a}\``).join(' '));
+      if (command.examples[0]) embed.addField('❯ Examples', commands.examples.join('\n'));
+      message.channel.send(embed);
     }
-    else if (bot.commands.find(c => c.group.toLowerCase() === args[0].toLowerCase())) {
-      let commands = bot.commands.filter(c => c.group.toLowerCase() === args[0].toLowerCase());
+    else if (bot.commands.find(c => c.group === args[0].toLowerCase())) {
+      let commands = bot.commands.filter(c => c.group === args[0].toLowerCase());
       const embed = new RichEmbed()
-        .setColor(bot.config.colors.info);
-      let commandsFound = 0;
-      commands.forEach((value, key) => {
-        commandsFound++;
-        embed.addField(bot.functions.capitalize(key), `**Description**: ${value.desc}\n**Usage**: \`${bot.config.prefix + value.usage}\``);
-      });
-      embed
-        .setDescription(`**${commandsFound} commands found** - <> means *required*, [] means *optional*`)
-        .setFooter(`Currently showing ${args[0].toUpperCase()} commands`);
-      message.author.send(embed);
-      message.channel.send('Sent you in DMs cause I don\'t have a page system 😔');
+        .setColor(bot.config.colors.info)
+        .setTitle('List of Commands')
+        .setDescription('<> means *required*, [] means *optional*')
+        .addField(`❯ ${bot.functions.capitalize(args[0])} - ${commands.size}`, commands.map(c => `\`${c.name}\``).join(' '));
+      message.channel.send(embed);
     }
     else {
       return message.channel.send({embed:{
