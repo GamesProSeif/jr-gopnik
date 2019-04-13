@@ -25,7 +25,7 @@ exports.run = (bot, message, args) => {
     .setAuthor(member.user.tag, member.user.avatarURL)
     .setDescription(perms);
 
-  message.channel.send({embed})
+  message.channel.send(embed)
 }
 
 exports.desc = 'Get all permissions of a user';

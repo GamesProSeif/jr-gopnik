@@ -30,7 +30,7 @@ exports.run = (bot, message, args) => {
     .addField('Joined Server At', `${jDate.getUTCDate()} ${days[jDate.getUTCDay()]} ${months[jDate.getUTCMonth()]} ${jDate.getFullYear()}`, true)
     .addField('Joined Discord At', `${dDate.getUTCDate()} ${days[dDate.getUTCDay()]} ${months[dDate.getUTCMonth()]} ${dDate.getFullYear()}`, true);
 
-  message.channel.send({embed});
+  message.channel.send(embed);
 }
 
 exports.desc = 'Get information about a user';

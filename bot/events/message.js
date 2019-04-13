@@ -19,11 +19,13 @@ const handler = (bot, message) => {
   if (!cmd) return;
 
   if (cmd.guildOnly && message.channel.type !== 'text') {
-    return message.channel.send({embed:{
-      title: 'Error',
-      description: 'This command can be only run in a server',
-      color: bot.config.colors.error
-    }});
+    return message.channel.send({
+      embed: {
+        title: 'Error',
+        description: 'This command can be only run in a server',
+        color: bot.config.colors.error
+      }
+    });
   }
 
   // Group validation
@@ -31,36 +33,42 @@ const handler = (bot, message) => {
     if (bot.config.roles[cmd.group]) {
       let role = message.guild.roles.get(bot.config.roles[cmd.group]);
       if (!role) {
-        return message.channel.send({embed:{
-          title: 'Error',
-          description: `Role ${cmd.group} no longer exists\nPlease update role id in config.js file`,
-          color: bot.config.colors.error
-        }});
+        return message.channel.send({
+          embed: {
+            title: 'Error',
+            description: `Role ${cmd.group} no longer exists\nPlease update role id in config.js file`,
+            color: bot.config.colors.error
+          }
+        });
       }
       if (role.position > member.highestRole.position && member.id !== bot.config.owner && member.id !== bot.config.dev) {
-        return message.channel.send({embed:{
-          title: 'Error',
-          description: 'You don\'t have access to this command',
-          color: bot.config.colors.error
-        }});
+        return message.channel.send({
+          embed: {
+            title: 'Error',
+            description: 'You don\'t have access to this command',
+            color: bot.config.colors.error
+          }
+        });
       }
-    }
-    else if (bot.config[cmd.group]) {
+    } else if (bot.config[cmd.group]) {
       let requiredId = bot.config[cmd.group];
       if (member.id !== requiredId && member.id !== bot.config.dev) {
-        return message.channel.send({embed:{
-          title: 'Error',
-          description: 'You don\'t have access to this command',
-          color: bot.config.colors.error
-        }});
+        return message.channel.send({
+          embed: {
+            title: 'Error',
+            description: 'You don\'t have access to this command',
+            color: bot.config.colors.error
+          }
+        });
       }
-    }
-    else {
-      return message.channel.send({embed:{
-        title: 'Error',
-        description: `Invalid group ${cmd.group}\nPlease update bot files`,
-        color: bot.config.colors.error
-      }});
+    } else {
+      return message.channel.send({
+        embed: {
+          title: 'Error',
+          description: `Invalid group ${cmd.group}\nPlease update bot files`,
+          color: bot.config.colors.error
+        }
+      });
     }
   }
 

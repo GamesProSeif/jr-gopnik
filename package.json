@@ -17,7 +17,8 @@
     "express": "^4.16.4",
     "express-formidable": "^1.2.0",
     "express-handlebars": "^3.0.2",
-    "node-fetch": "^2.3.0"
+    "node-fetch": "^2.3.0",
+    "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"
