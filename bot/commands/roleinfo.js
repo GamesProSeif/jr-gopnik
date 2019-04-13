@@ -50,6 +50,6 @@ exports.aliases = ['role-info', 'ri'];
 exports.guildOnly = true;
 exports.examples = [
   'Bot',
-  '@Bot',
+  '\@Bot',
   '564510790384615434'
 ];

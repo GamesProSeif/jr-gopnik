@@ -34,6 +34,6 @@ exports.aliases = ['permission', 'perms', 'perm'];
 exports.guildOnly = true;
 exports.examples = [
   'GamesProSeif'
-  '@GamesProSeif',
+  '\@GamesProSeif',
   '252829167320694784'
 ];
