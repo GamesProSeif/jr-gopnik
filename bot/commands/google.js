@@ -34,4 +34,7 @@ exports.run = (bot, message, args) => {
 
 exports.desc = 'Generates a link to [lmgtfy](http://lmgtfy.com "Lmgtfy website") with specified context';
 exports.usage = '<context>';
-exports.aliases = ['imgtfy', 'img', 'google'];
+exports.aliases = ['lmgtfy', 'imgtfy', 'img'];
+exports.examples = [
+  'What is my ip?'
+];

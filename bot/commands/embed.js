@@ -84,3 +84,6 @@ exports.run = (bot, message, args) => {
 exports.desc = 'Generates an embed from a JSON input and sends it. Use `embed help` to see an example';
 exports.usage = '<JSON-OBJECT>';
 exports.aliases = ['e'];
+exports.examples = [
+  '{"title": "My title", "description: "My description"}'
+];

@@ -39,3 +39,8 @@ exports.usage = '[username|id|mention]';
 
 exports.aliases = ['user-info', 'memberinfo', 'member-info', 'ui'];
 exports.guildOnly = true;
+exports.examples = [
+  'GamesProSeif'
+  '@GamesProSeif',
+  '252829167320694784'
+];

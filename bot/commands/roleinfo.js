@@ -45,8 +45,11 @@ exports.run = (bot, message, args) => {
 }
 
 exports.desc = 'Gets information about a role';
-
 exports.usage = '<rolename|id|mention>';
-
 exports.aliases = ['role-info', 'ri'];
 exports.guildOnly = true;
+exports.examples = [
+  'Bot',
+  '@Bot',
+  '564510790384615434'
+];

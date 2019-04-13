@@ -46,3 +46,7 @@ exports.run = (bot, message, args) => {
 exports.desc = 'Gets the location of an IPv4/IPv6 address';
 exports.usage = '<IPv4|IPv6>';
 exports.aliases = ['ip'];
+exports.examples = [
+  '123.123.123.123',
+  '2001:0db8:85a3:0000:0000:8a2e:0370:7334'
+];

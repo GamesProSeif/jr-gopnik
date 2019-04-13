@@ -96,3 +96,9 @@ exports.run = (bot, message, args) => {
 exports.desc = 'Gets deleted message';
 exports.usage = '[ChannelMention [position] | position]';
 exports.guildOnly = true;
+exports.examples = [
+  '',
+  '3',
+  '#General',
+  '#General 3'
+];

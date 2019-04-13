@@ -65,3 +65,8 @@ exports.run = (bot, message, args) => {
 exports.desc = 'Displays list of commands';
 exports.usage = '[command/group]';
 exports.aliases = ['h'];
+exports.examples = [
+  '',
+  'admin',
+  'ping'
+]
