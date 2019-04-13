@@ -1,14 +1,14 @@
 exports.run = (bot, message, args) => {
   if (!args[0]) {
     if (bot.deletedMessages.size == 0) {
-      return message.channels.send({embed:{
+      return message.channel.send({embed:{
         title: 'Error',
         description: 'No cached messages',
         color: bot.config.colors.error
       }});
     }
     bot.deletedMessages.clear();
-    return message.channels.send({embed: {
+    return message.channel.send({embed: {
       title: 'Successful',
       description: 'Cleared snipe cache',
       color: bot.config.colors.true
