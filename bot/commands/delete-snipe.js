@@ -14,7 +14,7 @@ exports.run = (bot, message, args) => {
       color: bot.config.colors.true
     }});
   }
-  else if (message.mentions.channels.first() && args.length == 0) {
+  else if (message.mentions.channels.first() && args.length !== 0) {
     let channel = message.mentions.channels.first();
     let deletedMessages = bot.deletedMessages.filter(m => m.channel.id === channel.id);
     if (deletedMessages.size == 0) {
