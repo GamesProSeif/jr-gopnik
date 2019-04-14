@@ -5,6 +5,3 @@ const {
 const bot = new Client();
 (require(path.join(__dirname, 'bot', 'bot.js')))(bot);
 (require(path.join(__dirname, 'server', 'server.js')))(bot);
-
-exports.bot = bot;
-exports.something = 'Hello';
