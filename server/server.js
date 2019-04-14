@@ -29,6 +29,6 @@ module.exports = (bot) => {
 
   app.get('/home', (req, res) => res.redirect('/'));
 
-  const PORT = process.env.PORT || 5000;
+  const PORT = process.env.PORT || 8080;
   app.listen(PORT, () => console.log(`Running server on port ${PORT}`));
 }
