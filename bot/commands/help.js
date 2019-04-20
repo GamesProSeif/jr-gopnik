@@ -4,8 +4,8 @@ exports.run = (bot, message, args) => {
   if (!args[0]) {
     const embed = new RichEmbed()
       .setColor(bot.config.colors.info)
-      .setTitle('List of Commands')
-      .setDescription('<> means *required*, [] means *optional*')
+      .setTitle('❯ Commands')
+      .setDescription('A list of available commands.\nFor additional info on a command, type ?help <command>')
     let groups = ['user'];
     bot.commands.forEach(c => {
       if (!groups.includes(c.group)) {

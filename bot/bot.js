@@ -62,5 +62,5 @@ module.exports = (bot) => {
     });
   });
 
-  bot.login(process.env.token);
+  bot.login(process.env.token || bot.config.token);
 }

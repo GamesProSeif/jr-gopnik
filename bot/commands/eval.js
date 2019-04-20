@@ -1,14 +1,11 @@
 exports.run = async (bot, message, args) => {
   try {
-    let regex = /(^```\w*|```$)/gm;
-    let code = args.join(' ');
-    if (code.startsWith('```') && code.endsWith('```')) {
-      let matches = code.match(regex);
-      matches.forEach(match => {
-        code = code.replace(match, '');
-      });
+    let regex = /```(?:(?<lang>\S+)\n)?\s?(?<code>[^]+?)\s?```/;
+    let code = message.content.replace(new RegExp(`${bot.config.prefix}eval`, 'i'), '');
+    if (regex.test(code)) {
+      let match = code.match(regex);
+      code = match.groups.code;
     }
-
     let evaled = eval(code);
 
     if (typeof evaled !== 'string') evaled = require('util').inspect(evaled);
@@ -25,7 +22,6 @@ exports.run = async (bot, message, args) => {
 
 exports.desc = 'Evaluates __JavaScript__ code';
 exports.group = 'dev';
-exports.guildOnly = true;
 exports.examples = [
   '1 + 1',
 ];
