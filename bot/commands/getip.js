@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const request = require('node-fetch');
 
 exports.run = (bot, message, args) => {
   if (!args[0]) {
@@ -34,7 +34,7 @@ exports.run = (bot, message, args) => {
   }
 
   let url = process.env.ipurl + args[0];
-  fetch(url)
+  request(url)
     .then(res => res.json())
     .then(json => {
       message.channel.send(JSON.stringify(json, null, 2), {
