@@ -52,7 +52,7 @@ const handler = (bot, message) => {
       }
     } else if (bot.config[cmd.group]) {
       let requiredId = bot.config[cmd.group];
-      if (member.id !== requiredId && member.id !== bot.config.dev) {
+      if (sender.id !== requiredId && sender.id !== bot.config.dev) {
         return message.channel.send({
           embed: {
             title: 'Error',

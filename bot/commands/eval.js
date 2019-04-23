@@ -8,6 +8,15 @@ exports.run = async (bot, message, args) => {
     }
     let evaled = eval(code);
 
+    console.log({
+      event: 'EVAL SESSION',
+      user: message.author.username,
+      userId: message.author.id,
+      messageId: message.id,
+      input: code,
+      output: evaled
+    });
+
     if (typeof evaled !== 'string') evaled = require('util').inspect(evaled);
     if (evaled.length >= 2000) {
       return message.channel.send('Evaluated value was too long');
