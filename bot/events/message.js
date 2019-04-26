@@ -1,3 +1,5 @@
+const { Collection } = require('discord.js');
+
 const handler = (bot, message) => {
   let prefix = bot.config.prefix
   let sender = message.author;
@@ -28,6 +30,27 @@ const handler = (bot, message) => {
     });
   }
 
+  /* cooldown */
+  if (!bot.cooldowns.has(cmd.name)) {
+    bot.cooldowns.set(cmd.name, new Collection());
+  }
+
+  const now = Date.now();
+  const timestamps = bot.cooldowns.get(cmd.name);
+  const cooldownAmount = (cmd.cooldown) * 1000;
+
+  if (timestamps.has(message.author.id)) {
+    const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+
+    if (now < expirationTime) {
+  		const timeLeft = (expirationTime - now) / 1000;
+  		return message.reply(`please wait \`${timeLeft.toFixed(1)}\` more second(s) before reusing the \`${cmd.name}\` command.`);
+  		return message.reply(`chill for ${timeLeft.toFixed(2)}`);
+	  }
+  }
+  timestamps.set(message.author.id, now);
+  setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+
   // Group validation
   if (cmd.group !== 'user') {
     if (bot.config.roles[cmd.group]) {
@@ -41,7 +64,7 @@ const handler = (bot, message) => {
           }
         });
       }
-      if (role.position > member.highestRole.position && member.id !== bot.config.owner && member.id !== bot.config.dev) {
+      if (role.position > member.highestRole.position && member.id !== member.guild.owner.id && member.id !== bot.config.dev) {
         return message.channel.send({
           embed: {
             title: 'Error',

@@ -15,9 +15,11 @@ module.exports = (bot) => {
     bot.config.colors[key] = parseInt(bot.config.colors[key]);
   });
 
+  // Cooldown Collection
+  bot.cooldowns = new Collection();
   // Edits Enmap
   bot.editedMessages = new Enmap();
-  // Snipe Enmap
+  // Snipe Collection
   bot.deletedMessages = new Collection();
 
   // Public commands
@@ -55,6 +57,7 @@ module.exports = (bot) => {
       else props.usage = `${commandName.toLowerCase()} ${props.usage}`;
       if (!props.aliases) props.aliases = [];
       if (!props.examples) props.examples = [];
+      if (!props.cooldown) props.cooldown = 3;
       props.examples = props.examples.map(e => `${bot.config.prefix}${props.name} ${e}`);
       props.guildOnly = props.guildOnly ? props.guildOnly : false;
 

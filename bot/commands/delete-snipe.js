@@ -49,4 +49,5 @@ exports.examples = [
   '',
   '#General'
 ]
-exports.group = 'admin';
+// exports.group = 'admin';
+exports.cooldown = 1 * 60 * 60;

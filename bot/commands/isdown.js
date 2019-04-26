@@ -16,3 +16,4 @@ exports.usage = '<link>';
 exports.examples = [
   'google.com'
 ];
+exports.cooldown = 20;
