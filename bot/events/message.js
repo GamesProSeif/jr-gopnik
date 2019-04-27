@@ -48,7 +48,7 @@ const handler = (bot, message) => {
   		return message.reply(`chill for ${timeLeft.toFixed(2)}`);
 	  }
   }
-  if (!message.member.hasPermission('ADMINISTRATOR') && message.author.id !== bot.config.dev) {
+  if ((message.channel.type !== 'dm' && !message.member.hasPermission('ADMINISTRATOR')) && message.author.id !== bot.config.dev) {
     timestamps.set(message.author.id, now);
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
   }
