@@ -44,7 +44,7 @@ exports.run = (bot, message, args) => {
 
 exports.desc = 'Deletes messages from snipe cache';
 exports.usage = '[channel-mention]'
-exports.aliases = ['delete-snipes', 'deletesnipe', 'deletesnipes', 'd-snipe', 'd-snipes'];
+exports.aliases = ['delete-snipes', 'deletesnipe', 'deletesnipes', 'd-snipe', 'd-snipes', 'dsnipe'];
 exports.examples = [
   '',
   '#General'

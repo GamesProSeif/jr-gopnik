@@ -40,7 +40,7 @@ exports.run = (bot, message, args) => {
         .addField('❯ Group', bot.functions.capitalize(command.group))
         .addField('❯ Usage', `\`${bot.config.prefix}${command.usage}\``);
       if (command.aliases[0]) embed.addField('❯ Aliases', command.aliases.map(a => `\`${a}\``).join(' '));
-      if (command.examples[0]) embed.addField('❯ Examples', commands.examples.join('\n'));
+      if (command.examples[0]) embed.addField('❯ Examples', command.examples.join('\n'));
       message.channel.send(embed);
     }
     else if (bot.commands.find(c => c.group === args[0].toLowerCase())) {
