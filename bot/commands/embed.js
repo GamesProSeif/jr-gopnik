@@ -3,7 +3,7 @@ exports.run = (bot, message, args) => {
     message.channel.send({
       embed: {
         title: 'Error',
-        description: `Invalid usage. Please refer to \`${prefix}embed help\``,
+        description: `Invalid usage. Please refer to \`${bot.config.prefix}embed help\``,
         color: bot.config.colors.error
       }
     });
@@ -65,7 +65,7 @@ exports.run = (bot, message, args) => {
         if (embed.color) {
           embed.color = parseInt(embed.color.replace('#', '0x'));
         }
-        await message.channel.send(embed);
+        await message.channel.send({embed});
       } catch (e) {
         message.channel.send({
           embed: {
