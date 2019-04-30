@@ -12,7 +12,7 @@
   "author": "GamesProSeif",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^11.4.2",
+    "discord.js": "github:discordjs/discord.js",
     "dotenv": "^7.0.0",
     "enmap": "^4.8.1",
     "express": "^4.16.4",
