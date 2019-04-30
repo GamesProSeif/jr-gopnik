@@ -1,4 +1,4 @@
-const { RichEmbed, Permissions } = require('discord.js');
+const { MessageEmbed, Permissions } = require('discord.js');
 
 exports.run = (bot, message, args) => {
   let role;
@@ -28,7 +28,7 @@ exports.run = (bot, message, args) => {
     let perms = new Permissions(role.permissions).toArray();
     perms = perms.map(p => p.split('_').map(w => bot.functions.capitalize(w)).join(' ')).join(', ');
 
-    const embed = new RichEmbed()
+    const embed = new MessageEmbed()
       .setColor(bot.config.colors.info)
       .addField('Name', role.name, true)
       .addField('ID', role.id, true)

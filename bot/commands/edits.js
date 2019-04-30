@@ -1,5 +1,5 @@
 const {
-  RichEmbed
+  MessageEmbed
 } = require('discord.js');
 
 exports.run = (bot, message, args) => {
@@ -13,7 +13,7 @@ exports.run = (bot, message, args) => {
       }
     });
   } else {
-    const embed = new RichEmbed()
+    const embed = new MessageEmbed()
       .setColor(bot.config.colors.info)
       .setAuthor(editedMessage.authorTag, editedMessage.authorAvatarURL)
       .setTimestamp(editedMessage.timestamp);

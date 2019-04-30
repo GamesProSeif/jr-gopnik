@@ -1,4 +1,5 @@
-> This product is not ready for usage
+> This product is not ready for usage,  
+Neither the completion of this documentation.
 
 # Gopnik
 

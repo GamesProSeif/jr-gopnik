@@ -1,4 +1,4 @@
-const { RichEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 exports.run = (bot, message, args) => {
   let guild = message.guild;
@@ -16,9 +16,9 @@ exports.run = (bot, message, args) => {
   let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Sep', 'Aug', 'Oct', 'Nov', 'Dec'];
 
-  const embed = new RichEmbed()
+  const embed = new MessageEmbed()
     .setColor(bot.config.colors.info)
-    .setThumbnail(guild.iconURL)
+    .setThumbnail(guild.iconURL())
     .addField('Name', guild.name, true)
     .addField('Owner', guild.owner, true)
     .addField('Created At', `${dDate.getUTCDate()} ${days[dDate.getUTCDay()]} ${months[dDate.getUTCMonth()]} ${dDate.getFullYear()}`, false)

@@ -18,7 +18,7 @@ module.exports = (bot) => {
       id: bot.user.id,
       username: bot.user.username,
       tag: bot.user.tag,
-      avatarURL: bot.user.avatarURL,
+      avatarURL: bot.user.avatarURL(),
       createdAt: bot.user.createdAt,
       createdTimestamp: bot.user.createdTimestamp
     }
@@ -63,7 +63,7 @@ module.exports = (bot) => {
           id: guild.id,
           name: guild.name,
           owner: guild.owner.username,
-          iconURL: guild.iconURL,
+          iconURL: guild.iconURL(),
           createdAt: guild.createdAt,
           createdTimestamp: guild.createdTimestamp,
           channels: guild.channels.map(c => {

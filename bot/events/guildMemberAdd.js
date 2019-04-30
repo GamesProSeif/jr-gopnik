@@ -11,8 +11,8 @@ const handler = async (bot, member) => {
     `Wait, are you a sheep ${member}? ALL GOATS SCREAM!`,
     `${member} joined. Hot goat identified. Breeding with ${member.guild.members.random()}`
   ];
-  if (!member.user.bot) await member.addRole(bot.config.roles.kid);
-  else await member.addRole(bot.config.roles.bot);
+  if (!member.user.bot) await member.roles.add(bot.config.roles.kid);
+  else await member.roles.add(bot.config.roles.bot);
 
   let generalChannel = member.guild.channels.find(c => c.name.toUpperCase() === 'GENERAL');
   let toBeSent = joinMessages[bot.functions.getRandom(0, joinMessages.length)];

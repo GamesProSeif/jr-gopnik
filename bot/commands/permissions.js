@@ -1,4 +1,4 @@
-const { RichEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 exports.run = (bot, message, args) => {
   let member;
@@ -19,10 +19,10 @@ exports.run = (bot, message, args) => {
 
   perms = perms.map(p => p.split('_').map(w => bot.functions.capitalize(w)).join(' ')).join(', ');
 
-  const embed = new RichEmbed()
+  const embed = new MessageEmbed()
     .setColor(bot.config.colors.info)
     .setTitle('Permissions')
-    .setAuthor(member.user.tag, member.user.avatarURL)
+    .setAuthor(member.user.tag, member.user.avatarURL())
     .setDescription(perms);
 
   message.channel.send(embed)

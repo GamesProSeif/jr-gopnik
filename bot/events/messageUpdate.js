@@ -12,7 +12,7 @@ const handler = (bot, oldMessage, newMessage) => {
       originalMessage: oldMessage.content,
       edits: [oldMessage.content, newMessage.content],
       authorTag: oldMessage.author.tag,
-      authorAvatarURL: oldMessage.author.avatarURL,
+      authorAvatarURL: oldMessage.author.avatarURL(),
       timestamp: newMessage.createdTimestamp
     });
   }

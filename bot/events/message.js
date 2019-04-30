@@ -66,7 +66,7 @@ const handler = (bot, message) => {
           }
         });
       }
-      if (role.position > member.highestRole.position && member.id !== member.guild.owner.id && member.id !== bot.config.dev) {
+      if (role.position > member.roles.highest.position && member.id !== member.guild.owner.id && member.id !== bot.config.dev) {
         return message.channel.send({
           embed: {
             title: 'Error',
