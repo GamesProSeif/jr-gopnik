@@ -1,4 +1,4 @@
-const { RichEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 exports.run = (bot, message, args) => {
   let member;
@@ -20,13 +20,13 @@ exports.run = (bot, message, args) => {
   let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Sep', 'Aug', 'Oct', 'Nov', 'Dec'];
 
-  const embed = new RichEmbed()
+  const embed = new MessageEmbed()
     .setColor(bot.config.colors.info)
-    .setAuthor(member.user.tag, member.user.avatarURL)
-    .setThumbnail(member.user.avatarURL)
+    .setAuthor(member.user.tag, member.user.avatarURL())
+    .setThumbnail(member.user.avatarURL())
     .addField('Username | Nickname', `${member.user.username} | ${member.displayName}`, true)
     .addField('ID', member.id, true)
-    .addField('Highest Role', member.highestRole, false)
+    .addField('Highest Role', member.roles.highest, false)
     .addField('Joined Server At', `${jDate.getUTCDate()} ${days[jDate.getUTCDay()]} ${months[jDate.getUTCMonth()]} ${jDate.getFullYear()}`, true)
     .addField('Joined Discord At', `${dDate.getUTCDate()} ${days[dDate.getUTCDay()]} ${months[dDate.getUTCMonth()]} ${dDate.getFullYear()}`, true);
 

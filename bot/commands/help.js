@@ -1,8 +1,8 @@
-const { RichEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 exports.run = (bot, message, args) => {
   if (!args[0]) {
-    const embed = new RichEmbed()
+    const embed = new MessageEmbed()
       .setColor(bot.config.colors.info)
       .setTitle('❯ Commands')
       .setDescription(`A list of available commands.\nFor additional info on a command, type \`${bot.config.prefix}help <command>\``)
@@ -21,7 +21,7 @@ exports.run = (bot, message, args) => {
   else {
     if (bot.commands.has(args[0].toLowerCase())) {
       let command = bot.commands.get(args[0].toLowerCase());
-      const embed = new RichEmbed()
+      const embed = new MessageEmbed()
         .setColor(bot.config.colors.info)
         .setTitle(bot.functions.capitalize(command.name))
         .addField('❯ Description', command.desc)
@@ -33,7 +33,7 @@ exports.run = (bot, message, args) => {
     }
     else if (bot.commands.find(c => c.aliases.includes(args[0].toLowerCase()))) {
       let command = bot.commands.find(c => c.aliases.includes(args[0].toLowerCase()));
-      const embed = new RichEmbed()
+      const embed = new MessageEmbed()
         .setColor(bot.config.colors.info)
         .setTitle(bot.functions.capitalize(command.name))
         .addField('❯ Description', command.desc)
@@ -45,7 +45,7 @@ exports.run = (bot, message, args) => {
     }
     else if (bot.commands.find(c => c.group === args[0].toLowerCase())) {
       let commands = bot.commands.filter(c => c.group === args[0].toLowerCase());
-      const embed = new RichEmbed()
+      const embed = new MessageEmbed()
         .setColor(bot.config.colors.info)
         .setTitle('List of Commands')
         .setDescription('<> means *required*, [] means *optional*')

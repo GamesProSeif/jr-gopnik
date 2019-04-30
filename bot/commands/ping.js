@@ -4,9 +4,10 @@ exports.run = (bot, message, args) => {
     .then(sent => {
       newtime = sent.createdTimestamp;
       sent.edit({
+        content: '',
         embed: {
           title: 'Ping',
-          description: `⏰ ${parseInt(newtime - oldtime)} ms\n💓 ${parseInt(bot.ping)} ms`,
+          description: `⏰ ${parseInt(newtime - oldtime)} ms\n💓 ${parseInt(bot.ws.ping)} ms`,
           color: bot.config.colors.info
         }
       });

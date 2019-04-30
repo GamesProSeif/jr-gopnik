@@ -1,4 +1,4 @@
-const { RichEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 const genError = (bot, args) => {
   return {
@@ -51,9 +51,9 @@ const getSniped = (bot, channel, position) => {
   let arr = channelMessages.array();
   let deletedMessage = arr[arr.length - position];
 
-  let embed = new RichEmbed()
+  let embed = new MessageEmbed()
     .setColor(bot.config.colors.info)
-    .setAuthor(deletedMessage.author.tag, deletedMessage.author.avatarURL)
+    .setAuthor(deletedMessage.author.tag, deletedMessage.author.avatarURL())
     .setTimestamp(deletedMessage.createdTimestamp);
 
   if (deletedMessage.content) {
