@@ -47,8 +47,8 @@ exports.run = (bot, message, args) => {
       let commands = bot.commands.filter(c => c.group === args[0].toLowerCase());
       const embed = new MessageEmbed()
         .setColor(bot.config.colors.info)
-        .setTitle('List of Commands')
-        .setDescription('<> means *required*, [] means *optional*')
+        .setTitle('❯ Commands')
+        .setDescription(`A list of available commands.\nFor additional info on a command, type \`${bot.config.prefix}help <command>\``)
         .addField(`❯ ${bot.functions.capitalize(args[0])} - ${commands.size}`, commands.map(c => `\`${c.name}\``).join(' '));
       message.channel.send(embed);
     }
