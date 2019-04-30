@@ -13,7 +13,6 @@ let getContent = async (bot, message, id) => {
       return message.channel.send(content, {code: 'md'});
     }
   } catch (e) {
-    console.log(e);
     return message.channel.send({embed:{
       title: 'Error',
       description: `Couldn't fetch message of id \`${id}\``,
