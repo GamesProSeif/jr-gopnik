@@ -10,6 +10,9 @@ let getContent = async (bot, message, id) => {
     else {
       let fetched = await message.channel.messages.fetch(id);
       let content = bot.functions.clean(fetched.content);
+      if (content === '') {
+        return message.channel.send(`The message does have any content. Probably an embed or an attachment present.`)
+      }
       return message.channel.send(content, {code: 'md'});
     }
   } catch (e) {
