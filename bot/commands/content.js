@@ -35,18 +35,18 @@ exports.run = async (bot, message, args) => {
         if (collected.first().content.toUpperCase() === 'CANCEL') {
           return message.channel.send('Cancelled');
         } else {
-          getContent(bot, message, collected.first().content);
+          return getContent(bot, message, collected.first().content);
         }
       } else {
         return message.channel.send({embed:{
           title: 'Error',
-          description: `Didn't get any response after 10\nEnded command`,
+          description: `Didn't get any response after 10 seconds\nEnded command`,
           color: bot.config.colors.error
         }});
       }
     });
   } else {
-    getContent(bot, message, args.join(' '));
+    return getContent(bot, message, args.join(' '));
   }
 }
 

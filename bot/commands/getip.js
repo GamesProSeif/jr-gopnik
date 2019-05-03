@@ -1,6 +1,6 @@
-const request = require('node-fetch');
+const fetch = require('node-fetch');
 
-exports.run = (bot, message, args) => {
+const getIp = async (bot, message, args) => {
   if (!args[0]) {
     return message.channel.send({
       embed: {
@@ -33,14 +33,42 @@ exports.run = (bot, message, args) => {
     });
   }
 
+  let sent = await message.channel.send('Getting IP information...');
+
   let url = process.env.ipurl + args[0];
-  request(url)
+  fetch(url)
     .then(res => res.json())
     .then(json => {
-      message.channel.send(JSON.stringify(json, null, 2), {
+      sent.edit(JSON.stringify(json, null, 2), {
         code: 'json'
       });
     });
+}
+
+exports.run = (bot, message, args) => {
+  if (!args[0]) {
+    message.reply(`what's the ip you want information about?\n\nType \`cancel\` to cancel the command`);
+    const filter = m => m.author.id === message.author.id;
+    const collector = message.channel.createMessageCollector(filter, {max: 1, time: 10000, errors: ['time']});
+
+    collector.on('end', (collected, reason) => {
+      if (reason === 'limit') {
+        if (collected.first().content.toUpperCase() === 'CANCEL') {
+          return message.channel.send('Cancelled');
+        } else {
+          return getIp(bot, message, collected.first().content.split(/\s+/));
+        }
+      } else {
+        return message.channel.send({embed:{
+          title: 'Error',
+          description: `Didn't get any response after 10 seconds\nEnded command`,
+          color: bot.config.colors.error
+        }});
+      }
+    });
+  } else {
+    getIp(bot, message, args);
+  }
 }
 
 exports.desc = 'Gets the location of an IPv4/IPv6 address';
