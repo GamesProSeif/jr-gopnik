@@ -2,15 +2,16 @@ const fetch = require('node-fetch');
 
 exports.run = async (bot, message, args) => {
   try {
-    let regex = /(?<silent>(?:-s|--silent) *)?```(?:(?<lang>\S+)\n)?\s?(?<code>[^]+?)\s?```/;
-    // let code = message.content.replace(new RegExp(`(?:${bot.config.prefix}|<@!?${bot.user.id}>)eval`, 'i'), '');
-    let code = args.join(' ');
+    let regex = /\s*(?<silent>(?:-s|--silent) *)?\s*```(?:(?<lang>\S+)\n)?\s?(?<code>[^]+?)\s?```/;
+    let code = message.content.replace(new RegExp(`(?:${bot.config.prefix}|<@!?${bot.user.id}>)eval`, 'i'), '');
+    // let code = args.join(' ');
     let silent;
     if (regex.test(code)) {
       let match = code.match(regex);
       code = match.groups.code;
       silent = match.groups.silent ? true : false;
     }
+    console.log(code);
     let evaled = await eval(code);
 
     console.log({
@@ -21,6 +22,7 @@ exports.run = async (bot, message, args) => {
       input: code,
       output: evaled
     });
+
 
     if (!silent) {
       if (typeof evaled !== 'string') evaled = require('util').inspect(evaled);

@@ -4,7 +4,7 @@ const handler = (bot, message) => {
   const prefix = new RegExp(`^(?:${bot.config.prefix}|<@!?${bot.user.id}> ?)`, 'i');
   const msg = message.content;
   if (!msg.match(prefix)) return;
-  const args = msg.slice(msg.match(prefix)[0].length).split(/ +/);
+  const args = msg.slice(msg.match(prefix)[0].length).split(/\s+/);
   const command = args.shift().toLowerCase();
   let sender = message.author;
   let member = message.member;
