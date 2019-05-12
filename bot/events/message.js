@@ -1,13 +1,13 @@
 const { Collection } = require('discord.js');
 
 const handler = (bot, message) => {
-  let prefix = bot.config.prefix
+  const prefix = new RegExp(`^(?:${bot.config.prefix}|<@!?${bot.user.id}> ?)`, 'i');
+  const msg = message.content;
+  if (!msg.match(prefix)) return;
+  const args = msg.slice(msg.match(prefix)[0].length).split(/ +/);
+  const command = args.shift().toLowerCase();
   let sender = message.author;
   let member = message.member;
-  let msg = message.content;
-  let cont = msg.split(/\s+/);
-  let args = cont.slice(1);
-  let command = msg.startsWith(prefix) ? cont[0].slice(prefix.length).toLowerCase() : undefined;
 
   if (message.content == `<@${bot.user.id}>` || message.content.replace(/ /g, '').toUpperCase() == `<@${bot.user.id}>HELP`) {
     return message.channel.send(`My prefix is \`${bot.config.prefix}\``);
