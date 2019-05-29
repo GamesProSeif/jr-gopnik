@@ -35,7 +35,7 @@ const getIp = async (bot, message, args) => {
 
   let sent = await message.channel.send('Getting IP information...');
 
-  let url = process.env.ipurl + args[0];
+  let url = process.env.IPINFO_API_KEY + args[0];
   fetch(url)
     .then(res => res.json())
     .then(json => {
