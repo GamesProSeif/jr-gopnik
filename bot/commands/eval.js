@@ -25,15 +25,14 @@ exports.run = async (bot, message, args) => {
 
 
     if (!silent) {
-      if (typeof evaled !== 'string') evaled = require('util').inspect(evaled);
+      let code = '';
+      if (typeof evaled !== 'string') evaled = require('util').inspect(evaled), code = 'js';
       if (evaled.length >= 2000) {
         let response = await fetch('https://hastebin.com/documents', {method: 'POST', body: evaled});
         let {key} = await response.json();
         return message.reply(`**Output was too long and was uploaded to https://hastebin.com/${key}.js**`);
       }
-      message.channel.send(bot.functions.clean(evaled), {
-        code: ''
-      });
+      message.channel.send(bot.functions.clean(evaled), {code});
     }
   } catch (err) {
     message.channel.send(`\`ERROR\` \`\`\`js\n${bot.functions.clean(err)}\n\`\`\``);
