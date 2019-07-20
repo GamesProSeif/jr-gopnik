@@ -5,13 +5,15 @@ const {
   InhibitorHandler,
   ListenerHandler
 } = require('discord-akairo');
-const GuildModel = require(path.join(__dirname, '..', 'models', 'guild.js'));
+const clientConfig = require(path.join(__dirname, '..', 'config', 'config.json'));
+const clientFunctions = require(path.join(__dirname, '..', 'config', 'functions.js'));
+// const GuildModel = require(path.join(__dirname, '..', 'models', 'guild.js'));
 
 module.exports = () => {
   class GopnikClient extends AkairoClient {
     constructor() {
       super({
-        ownerID: '252829167320694784'
+        ownerID: clientConfig.ownerID
       });
 
       this.commandHandler = new CommandHandler(this, {
@@ -23,7 +25,7 @@ module.exports = () => {
         //   console.log(prefix);
         //   return prefix || '/';
         // },
-        prefix: message => '/',
+        prefix: message => clientConfig.prefix,
         allowMention: true,
         handleEdits: true,
         commandUtil: true,
@@ -66,8 +68,8 @@ module.exports = () => {
 
   const client = new GopnikClient();
 
-  client.config = require(path.join(__dirname, 'config', 'config.json'));
-  client.functions = require(path.join(__dirname, 'config', 'functions.js'));
+  client.config = clientConfig;
+  client.functions = clientFunctions;
 
   client.login(process.env.DISCORD_TOKEN || client.config.token);
 }
