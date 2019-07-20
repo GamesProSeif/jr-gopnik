@@ -1,7 +1,7 @@
 const { Command } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
 const moment = require('moment');
-const momentDurationFormatSetup = require("moment-duration-format");
+const fetch = require('node-fetch');
 const { join } = require('path');
 const { version } = require(join(__dirname, '..', '..', 'package.json'));
 
@@ -14,7 +14,9 @@ class StatsCommand extends Command {
     });
   }
 
-  exec(message) {
+  async exec(message) {
+    const { commit, html_url: commitURL } = (await (await fetch('https://api.github.com/repos/gamesproseif/jr-gopnik/commits')).json())[0];
+
     const embed = new MessageEmbed()
       .setColor(this.client.config.colors.info)
       .setThumbnail(this.client.user.displayAvatarURL())
@@ -25,6 +27,7 @@ class StatsCommand extends Command {
       .addField('❯ Version', version, true)
       .addField('❯ Source Code', `[View Here](https://github.com/GamesProSeif/jr-gopnik/)`, true)
       .addField('❯ Library', `[discord.js](https://discord.js.org/) - [akairo](https://discord-akairo.github.io/)`, true)
+      .addField('❯ Last Update', `[${commit.message}](${commitURL})`)
       .setFooter(`© ${moment().format('YYYY')} Jr. Gopnik`);
 
     return message.util.send(embed);
