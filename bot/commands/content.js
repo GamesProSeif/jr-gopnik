@@ -1,54 +1,32 @@
-let getContent = async (bot, message, id) => {
-  try {
-    if (!/\d{16,20}/.test(id)) {
-      return message.channel.send({embed:{
-        title: 'Error',
-        description: `Invalid message id \`${id}\``,
-        color: bot.config.colors.error
-      }});
-    }
-    else {
-      let fetched = await message.channel.messages.fetch(id);
-      let content = bot.functions.clean(fetched.content);
-      if (content === '') {
-        return message.channel.send(`The message does have any content. Probably an embed or an attachment present.`)
-      }
-      return message.channel.send(content, {code: 'md'});
-    }
-  } catch (e) {
-    return message.channel.send({embed:{
-      title: 'Error',
-      description: `Couldn't fetch message of id \`${id}\``,
-      color: bot.config.colors.error
-    }});
-  }
-}
+const { Command } = require('discord-akairo');
 
-exports.run = async (bot, message, args) => {
-  if (!args[0]) {
-    message.reply(`what's the id of the message you want the content of?\n\nType \`cancel\` to cancel the command`);
-    const filter = m => m.author.id === message.author.id;
-    const collector = message.channel.createMessageCollector(filter, {max: 1, time: 10000, errors: ['time']});
-
-    collector.on('end', (collected, reason) => {
-      if (reason === 'limit') {
-        if (collected.first().content.toUpperCase() === 'CANCEL') {
-          return message.channel.send('Cancelled');
-        } else {
-          return getContent(bot, message, collected.first().content);
+class ContentCommand extends Command {
+  constructor() {
+    super('content', {
+      aliases: ['content', 'cnt'],
+      description: 'Gets the pure content of a message in the current channel',
+      category: 'text',
+      args: [
+        {
+          id: 'message',
+          type: 'message',
+          prompt: {
+            start: `What's the id of the message you want the content of?`,
+            retry: `That's not a valid id! Try again.`
+          }
         }
-      } else {
-        return message.channel.send({embed:{
-          title: 'Error',
-          description: `Didn't get any response after 10 seconds\nEnded command`,
-          color: bot.config.colors.error
-        }});
-      }
+      ]
     });
-  } else {
-    return getContent(bot, message, args.join(' '));
+    this.usage = '<messageID>';
+  }
+
+  exec(message, args) {
+    let content = this.client.functions.clean(args.message.content);
+    if (content === '') {
+      return message.channel.send(`The message does have any content. Probably an embed or an attachment present.`)
+    }
+    return message.channel.send(content, {code: 'md'});
   }
 }
 
-exports.desc = 'Gets the pure content of a message in the current channel';
-exports.usage = '<message-id>';
+module.exports = ContentCommand;

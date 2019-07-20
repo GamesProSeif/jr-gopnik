@@ -1,53 +1,43 @@
-exports.run = (bot, message, args) => {
-  if (!args[0]) {
-    if (bot.deletedMessages.size == 0) {
-      return message.channel.send({embed:{
-        title: 'Error',
-        description: 'No cached messages',
-        color: bot.config.colors.error
-      }});
-    }
-    bot.deletedMessages.clear();
-    return message.channel.send({embed: {
-      title: 'Successful',
-      description: 'Cleared snipe cache',
-      color: bot.config.colors.true
-    }});
-  }
-  else if (message.mentions.channels.first() && args.length !== 0) {
-    let channel = message.mentions.channels.first();
-    let deletedMessages = bot.deletedMessages.filter(m => m.channel.id === channel.id);
-    if (deletedMessages.size == 0) {
-      return message.channel.send({embed:{
-        title: 'Error',
-        description: `No cached messages in ${channel}`,
-        color: bot.config.colors.error
-      }});
-    }
-    deletedMessages.forEach(m => {
-      bot.deletedMessages.delete(m.id);
+const { Command } = require('discord-akairo');
+const { MessageEmbed } = require('discord.js');
+const { join } = require('path');
+const Snipe = require(join(__dirname, '..', '..', 'models', 'snipe.js'));
+
+class DeleteSnipeCommand extends Command {
+  constructor() {
+    super('delete-snipe', {
+      aliases: ['delete-snipe', 'deletesnipe', 'd-snipe', 'dsnipe'],
+      description: 'Deletes snipes in a channel',
+      category: 'text',
+      channel: 'guild',
+      userPermissions: ['MANAGE_MESSAGES'],
+      args: [
+        {
+          id: 'channel',
+          type: 'textChannel',
+          default: message => message.channel,
+          prompt: {
+            start: `What's the text channel you want to delete snipes in?`,
+            retry: `Invalid text channel! Try again.`,
+            optional: true
+          }
+        }
+      ]
     });
-    return message.channel.send({embed:{
-      title: 'Successful',
-      description: `Cleared snipe cache in ${channel}`,
-      color: bot.config.colors.true
-    }});
+
+    this.usage = '[#channel]';
   }
-  else {
-    return message.channel.send({embed:{
-      title: 'Error',
-      description: `Invalid argument: ${args.join(' ')}`,
-      color: bot.config.colors.error
-    }});
+
+  async exec(message, args) {
+    let deleted = await Snipe.destroy({
+      where: {
+        guild: message.guild.id,
+        channel: args.channel.id
+      }
+    });
+
+    return message.util.send(`✅ Deleted \`${deleted}\` snipe(s) in ${args.channel}`);
   }
 }
 
-exports.desc = 'Deletes messages from snipe cache';
-exports.usage = '[channel-mention]'
-exports.aliases = ['delete-snipes', 'deletesnipe', 'deletesnipes', 'd-snipe', 'd-snipes', 'dsnipe'];
-exports.examples = [
-  '',
-  '#General'
-]
-// exports.group = 'admin';
-exports.cooldown = 1 * 60 * 60;
+module.exports = DeleteSnipeCommand;
