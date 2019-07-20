@@ -23,7 +23,7 @@ class StatsCommand extends Command {
       .addField('❯ Memory Usage', `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`, true)
       .addField('❯ General Statistics', `• Guilds: ${this.client.guilds.size}\n• Channels: ${this.client.channels.size}`, true)
       .addField('❯ Version', version, true)
-      .addField('❯ Source Code', `[View Here](https://github.com/GamesProSeif/jr-gopnik-akairo/)`, true)
+      .addField('❯ Source Code', `[View Here](https://github.com/GamesProSeif/jr-gopnik/)`, true)
       .addField('❯ Library', `[discord.js](https://discord.js.org/) - [akairo](https://discord-akairo.github.io/)`, true)
       .setFooter(`© ${moment().format('YYYY')} Jr. Gopnik`);
 
