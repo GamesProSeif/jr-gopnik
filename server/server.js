@@ -23,7 +23,7 @@ module.exports = (bot) => {
     res.send('Welcome to the server');
   });
 
-  app.use('/api/', require(path.join(__dirname, 'routes', 'api', 'api.js'))(bot));
+  // app.use('/api/', require(path.join(__dirname, 'routes', 'api', 'api.js'))(bot));
 
   app.disable('etag');
 

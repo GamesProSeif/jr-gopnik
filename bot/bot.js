@@ -1,69 +1,73 @@
-module.exports = (bot) => {
-  // Setting up dependencies
-  const fs = require('fs');
-  const path = require('path');
-  require('dotenv').config();
-  const {
-    Collection
-  } = require('discord.js');
-  const Enmap = require('enmap');
-  const config = require(path.join(__dirname, 'config', 'config.json'));
-  bot.config = config; // Making config accessible everywhere
+const path = require('path');
+const {
+  AkairoClient,
+  CommandHandler,
+  InhibitorHandler,
+  ListenerHandler
+} = require('discord-akairo');
+const GuildModel = require(path.join(__dirname, '..', 'models', 'guild.js'));
 
-  // Converting colors to integers
-  Object.keys(bot.config.colors).map(function(key) {
-    bot.config.colors[key] = parseInt(bot.config.colors[key]);
-  });
+module.exports = () => {
+  class GopnikClient extends AkairoClient {
+    constructor() {
+      super({
+        ownerID: '252829167320694784'
+      });
 
-  // Cooldown Collection
-  bot.cooldowns = new Collection();
-  // Edits Enmap
-  bot.editedMessages = new Enmap();
-  // Snipe Collection
-  bot.deletedMessages = new Collection();
+      this.commandHandler = new CommandHandler(this, {
+        directory: path.join(__dirname, 'commands/'),
+        // prefix: async message => {
+        //   if (!message || !message.guild) return '/';
+        //   const {settings} = await GuildModel.findOne({guild_id: message.guild.id}).exec();
+        //   const prefix = settings.get('prefix');
+        //   console.log(prefix);
+        //   return prefix || '/';
+        // },
+        prefix: message => '/',
+        allowMention: true,
+        handleEdits: true,
+        commandUtil: true,
+        commandUtilLifetime: 600000,
+        argumentDefaults: {
+          prompt: {
+            modifyStart: (message, text) => `${text}\nType \`cancel\` to cancel this command.`,
+            modifyRetry: (message, text) => `${text}\nType \`cancel\` to cancel this command.`,
+            timeout:'Time ran out, command has been cancelled.',
+            ended: 'Too many retries, command has been cancelled.',
+            cancel: 'Command has been cancelled.',
+            retries: 4,
+            time: 30000
+          }
+        },
+        defaultCooldown: 3000
+      });
 
-  // Public commands
-  bot.functions = require(path.join(__dirname, 'config', 'functions.js'));
+      this.inhibitorHandler = new InhibitorHandler(this, {
+          directory: path.join(__dirname, 'inhibitors/')
+      });
 
-  // Event handler
-  fs.readdir(path.join(__dirname, 'events/'), (err, files) => {
-    if (err) return console.error(err);
-    files.forEach(file => {
-      // Looping across files
-      if (!file.endsWith('.js')) return; // Don't read non js files
-      const event = require(path.join(__dirname, 'events', file)); // Require event
-      let eventName = file.split('.')[0]; // Get the name (dont include .js)
+      this.listenerHandler = new ListenerHandler(this, {
+          directory: path.join(__dirname, 'listeners/')
+      });
 
-      // Handling each event
-      bot.on(eventName, event.bind(null, bot));
-      delete require.cache[require.resolve(path.join(__dirname, 'events', file))];
-    });
-  });
+      this.listenerHandler.setEmitters({
+        commandHandler: this.commandHandler,
+        inhibitorHandler: this.inhibitorHandler,
+        listenerHandler: this.listenerHandler
+      });
 
-  // Command handler
-  bot.commands = new Enmap(); // Generating Enmap
-  // Looping across files
-  fs.readdir(path.join(__dirname, 'commands'), (err, files) => {
-    if (err) return console.error(err);
-    files.forEach(file => {
-      if (!file.endsWith('.js')) return; // Don't read non js files
-      let props = require(path.join(__dirname, 'commands', file)); // Require command
-      let commandName = file.split('.')[0]; // Get the name (dont include .js in name)
+      this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
+      this.commandHandler.useListenerHandler(this.listenerHandler);
+      this.listenerHandler.loadAll();
+      this.inhibitorHandler.loadAll();
+      this.commandHandler.loadAll();
+    }
+  }
 
-      props.name = commandName;
-      if (!props.desc) props.desc = 'No description defined';
-      if (!props.group) props.group = 'user';
-      if (!props.usage) props.usage = commandName.toLowerCase();
-      else props.usage = `${commandName.toLowerCase()} ${props.usage}`;
-      if (!props.aliases) props.aliases = [];
-      if (!props.examples) props.examples = [];
-      if (!props.cooldown) props.cooldown = 3;
-      props.examples = props.examples.map(e => `${bot.config.prefix}${props.name} ${e}`);
-      props.guildOnly = props.guildOnly ? props.guildOnly : false;
+  const client = new GopnikClient();
 
-      bot.commands.set(commandName.toLowerCase(), props);
-    });
-  });
+  client.config = require(path.join(__dirname, 'config', 'config.json'));
+  client.functions = require(path.join(__dirname, 'config', 'functions.js'));
 
-  bot.login(process.env.DISCORD_TOKEN || bot.config.token);
+  client.login(process.env.DISCORD_TOKEN || client.config.token);
 }

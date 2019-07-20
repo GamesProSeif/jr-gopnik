@@ -1,19 +1,38 @@
 const fetch = require('node-fetch');
+const { Command } = require('discord-akairo');
 
-exports.run = async (bot, message, args) => {
-  if (!args[0]) {
-    return message.channel.send('Give me the link I need to check wth?!?');
+class IsDownCommand extends Command {
+  constructor() {
+    super('isdown', {
+      aliases: ['isdown'],
+      description: 'Checks if a website is down',
+      category: 'special',
+      args: [
+        {
+          id: 'url',
+          type: 'url',
+          prompt: {
+            start: `What's the URL you want to check?`,
+            retry: `Invalid URL! Try again.`
+          }
+        }
+      ]
+    });
+
+    this.usage = '<url>';
   }
-  let sent = await message.channel.send('Checking the website...');
-  let res = await fetch('https://api.downfor.cloud/httpcheck/' + args.join(' '));
-  let json = await res.json();
-  let reply = json.isDown ? `Yup, looks like <${json.returnedUrl}> is down for me too.` : `Nah, <${json.returnedUrl}> is fine.`;
-  sent.edit(reply);
+
+  async exec(message, args) {
+    let sent = await message.util.send('Checking the website...');
+    try {
+      let res = await fetch(args.url.href);
+
+      let reply = res.ok ? `Nah, <${args.url.href}> is fine.` : `Yup, looks like <${args.url.href}> is down for me too.`;
+      return sent.edit(reply);
+    } catch (e) {
+      return sent.edit(`Yup, looks like <${args.url.href}> is down for me too.`);
+    }
+  }
 }
 
-exports.desc = 'Checks whether a website is down';
-exports.usage = '<link>';
-exports.examples = [
-  'google.com'
-];
-exports.cooldown = 20;
+module.exports = IsDownCommand;

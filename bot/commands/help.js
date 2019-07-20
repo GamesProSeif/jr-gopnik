@@ -1,72 +1,70 @@
+const { Command } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
 
-exports.run = (bot, message, args) => {
-  if (!args[0]) {
-    const embed = new MessageEmbed()
-      .setColor(bot.config.colors.info)
-      .setTitle('❯ Commands')
-      .setDescription(`A list of available commands.\nFor additional info on a command, type \`${bot.config.prefix}help <command>\``)
-    let groups = ['user'];
-    bot.commands.forEach(c => {
-      if (!groups.includes(c.group)) {
-        groups.push(c.group);
-      }
+class HelpCommand extends Command {
+  constructor() {
+    super('help', {
+      aliases: ['help', 'h'],
+      description: 'Displays information about a command',
+      category: 'util',
+      args: [
+        {
+          id: 'command',
+          type: 'commandAlias',
+          default: null
+        }
+      ]
     });
-    groups.forEach(group => {
-      let commands = bot.commands.filter(c => c.group === group);
-      embed.addField(`❯ ${bot.functions.capitalize(group)} - ${commands.size}`, commands.map(c => `\`${c.name}\``).join(' '));
-    });
-    message.channel.send(embed);
+
+    this.usage = '[command]';
   }
-  else {
-    if (bot.commands.has(args[0].toLowerCase())) {
-      let command = bot.commands.get(args[0].toLowerCase());
-      const embed = new MessageEmbed()
-        .setColor(bot.config.colors.info)
-        .setTitle(bot.functions.capitalize(command.name))
-        .addField('❯ Description', command.desc)
-        .addField('❯ Group', bot.functions.capitalize(command.group))
-        .addField('❯ Usage', `\`${bot.config.prefix}${command.usage}\``);
-      if (command.aliases[0]) embed.addField('❯ Aliases', command.aliases.map(a => `\`${a}\``).join(' '));
-      if (command.examples[0]) embed.addField('❯ Examples', command.examples.map(e => `\`${e}\``).join('\n'));
-      message.channel.send(embed);
-    }
-    else if (bot.commands.find(c => c.aliases.includes(args[0].toLowerCase()))) {
-      let command = bot.commands.find(c => c.aliases.includes(args[0].toLowerCase()));
-      const embed = new MessageEmbed()
-        .setColor(bot.config.colors.info)
-        .setTitle(bot.functions.capitalize(command.name))
-        .addField('❯ Description', command.desc)
-        .addField('❯ Group', bot.functions.capitalize(command.group))
-        .addField('❯ Usage', `\`${bot.config.prefix}${command.usage}\``);
-      if (command.aliases[0]) embed.addField('❯ Aliases', command.aliases.map(a => `\`${a}\``).join(' '));
-      if (command.examples[0]) embed.addField('❯ Examples', command.examples.join('\n'));
-      message.channel.send(embed);
-    }
-    else if (bot.commands.find(c => c.group === args[0].toLowerCase())) {
-      let commands = bot.commands.filter(c => c.group === args[0].toLowerCase());
-      const embed = new MessageEmbed()
-        .setColor(bot.config.colors.info)
+
+  exec(message, args) {
+    const commandHandler = this.client.commandHandler;
+    const embed = new MessageEmbed()
+      .setColor(this.client.config.colors.info);
+
+    if (!args.command) {
+      embed
         .setTitle('❯ Commands')
-        .setDescription(`A list of available commands.\nFor additional info on a command, type \`${bot.config.prefix}help <command>\``)
-        .addField(`❯ ${bot.functions.capitalize(args[0])} - ${commands.size}`, commands.map(c => `\`${c.name}\``).join(' '));
-      message.channel.send(embed);
+        .setDescription(`A list of available commands.\nFor additional info on a command, type \`${this.client.commandHandler.prefix()}help <command>\``)
+        .setFooter(`${commandHandler.modules.size} Commands`, this.client.user.displayAvatarURL());
+
+      let categories = commandHandler.categories.array().map(c => c.id);
+
+      if (categories.includes('default')) {
+        categories.splice(categories.findIndex(c => c === 'default'), 1);
+        categories.unshift('default');
+      }
+
+      categories = categories.sort();
+
+      categories.forEach(category => {
+        const commands = commandHandler.modules.filter(c => c.category.id === category);
+
+        let categoryName = category === 'default' ? 'user' : category;
+        categoryName = this.client.functions.capitalize(categoryName);
+
+        embed.addField(`${categoryName} - ${commands.size}`, commands.map(c => `\`${c.id}\``).join(', '));
+      });
+    } else {
+      let command = args.command;
+      let usage = command.usage ? `\`${command.id} ${command.usage}\`` : `\`${command.id}\``;
+      let desc = command.description || 'No description provided';
+      let aliases = [...command.aliases];
+      aliases.splice(aliases.findIndex(alias => command.id === alias), 1);
+      aliases = aliases[0] ? aliases.map(alias => `\`${alias}\``).join(' ') : null;
+      let examples = command.examples ? command.examples.map(e => `\`${command.id} ${e}\``).join('\n') : null;
+      embed
+        // .setDescription(usage)
+        .addField(`❯ Usage`, usage)
+        .addField(`❯ Description`, desc);
+      aliases ? embed.addField('❯ Aliases', aliases) : null;
+      examples ? embed.addField('❯ Examples', examples) : null;
     }
-    else {
-      return message.channel.send({embed:{
-        title: 'Error',
-        description: `\`${args[0]}\` is not a valid group or command`,
-        color: bot.config.colors.error
-      }});
-    }
+
+    return message.util.send(embed);
   }
 }
 
-exports.desc = 'Displays list of commands';
-exports.usage = '[command/group]';
-exports.aliases = ['h'];
-exports.examples = [
-  '',
-  'admin',
-  'ping'
-]
+module.exports = HelpCommand;
