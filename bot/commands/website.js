@@ -12,7 +12,7 @@ const getIp = host => {
   });
 };
 
-class ShortenCommand extends Command {
+class WebsiteCommand extends Command {
   constructor() {
     super('website', {
       aliases: ['website', 'website-info', 'url-info', 'wi'],
@@ -83,4 +83,4 @@ class ShortenCommand extends Command {
   }
 }
 
-module.exports = ShortenCommand;
+module.exports = WebsiteCommand;
