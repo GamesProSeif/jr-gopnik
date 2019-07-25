@@ -19,7 +19,7 @@ const clientFunctions = require(path.join(
 ));
 // const GuildModel = require(path.join(__dirname, '..', 'models', 'guild.js'));
 
-module.exports = () => {
+const run = () => {
   class GopnikClient extends AkairoClient {
     constructor() {
       super({
@@ -86,3 +86,5 @@ module.exports = () => {
 
   client.login(process.env.DISCORD_TOKEN || client.config.token);
 };
+
+module.exports = run();
