@@ -12,7 +12,8 @@ class MessageDeleteListener extends Listener {
 
   async exec(message) {
     try {
-      if (message.author.bot || message.author.id === '305267880935555072') return;
+      if (message.author.bot || message.author.id === '305267880935555072')
+        return;
       let channelSnipes = await Snipe.findAll({
         where: {
           guild: message.guild.id,
@@ -34,12 +35,12 @@ class MessageDeleteListener extends Listener {
         guild: message.guild.id,
         channel: message.channel.id,
         author: message.author.id,
-        content: message.content || null,
-        attachments: message.attachments.first() ? message.attachments.first().proxyURL : null
+        content: message.content || null
+        // attachments: message.attachments.first() ? message.attachments.first().proxyURL : null
       });
 
       // console.log('Added Snipe:\n', snipe);
-    } catch(e) {
+    } catch (e) {
       console.error(e);
     }
   }
