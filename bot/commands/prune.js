@@ -44,7 +44,7 @@ class PruneCommand extends Command {
           match: 'option',
           flag: ['channel:'],
           default: message => message.channel
-        },
+        }
 
         // Add before and after messages args
       ],
@@ -65,7 +65,7 @@ class PruneCommand extends Command {
   async exec(message, args) {
     await message.delete();
 
-    let messages = await args.channel.messages.fetch({limit: args.amount});
+    let messages = await args.channel.messages.fetch({ limit: args.amount });
     // Check for valid fetch syntax or try using filter
 
     if (args.author) {
@@ -80,7 +80,9 @@ class PruneCommand extends Command {
     }
 
     if (!args.hide) {
-      return message.util.send(`Deleted \`${messages.size}\` messages`);
+      return message.util.send(
+        `Deleted \`${messages.size}\` messages in ${args.channel}`
+      );
     }
   }
 }
