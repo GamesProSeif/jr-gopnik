@@ -5,8 +5,18 @@ const {
   InhibitorHandler,
   ListenerHandler
 } = require('discord-akairo');
-const clientConfig = require(path.join(__dirname, '..', 'config', 'config.json'));
-const clientFunctions = require(path.join(__dirname, '..', 'config', 'functions.js'));
+const clientConfig = require(path.join(
+  __dirname,
+  '..',
+  'config',
+  'config.json'
+));
+const clientFunctions = require(path.join(
+  __dirname,
+  '..',
+  'config',
+  'functions.js'
+));
 // const GuildModel = require(path.join(__dirname, '..', 'models', 'guild.js'));
 
 module.exports = () => {
@@ -27,14 +37,17 @@ module.exports = () => {
         // },
         prefix: message => clientConfig.prefix,
         allowMention: true,
+        aliasReplacement: /-/g,
         handleEdits: true,
         commandUtil: true,
         commandUtilLifetime: 600000,
         argumentDefaults: {
           prompt: {
-            modifyStart: (message, text) => `${text}\nType \`cancel\` to cancel this command.`,
-            modifyRetry: (message, text) => `${text}\nType \`cancel\` to cancel this command.`,
-            timeout:'Time ran out, command has been cancelled.',
+            modifyStart: (message, text) =>
+              `${text}\nType \`cancel\` to cancel this command.`,
+            modifyRetry: (message, text) =>
+              `${text}\nType \`cancel\` to cancel this command.`,
+            timeout: 'Time ran out, command has been cancelled.',
             ended: 'Too many retries, command has been cancelled.',
             cancel: 'Command has been cancelled.',
             retries: 4,
@@ -45,11 +58,11 @@ module.exports = () => {
       });
 
       this.inhibitorHandler = new InhibitorHandler(this, {
-          directory: path.join(__dirname, 'inhibitors/')
+        directory: path.join(__dirname, 'inhibitors/')
       });
 
       this.listenerHandler = new ListenerHandler(this, {
-          directory: path.join(__dirname, 'listeners/')
+        directory: path.join(__dirname, 'listeners/')
       });
 
       this.listenerHandler.setEmitters({
@@ -72,4 +85,4 @@ module.exports = () => {
   client.functions = clientFunctions;
 
   client.login(process.env.DISCORD_TOKEN || client.config.token);
-}
+};

@@ -6,7 +6,7 @@ const Snipe = require(join(__dirname, '..', '..', 'models', 'snipe.js'));
 class DeleteSnipeCommand extends Command {
   constructor() {
     super('delete-snipe', {
-      aliases: ['delete-snipe', 'deletesnipe', 'd-snipe', 'dsnipe'],
+      aliases: ['delete-snipe', 'd-snipe'],
       description: 'Deletes snipes in a channel',
       category: 'text',
       channel: 'guild',
@@ -36,7 +36,9 @@ class DeleteSnipeCommand extends Command {
       }
     });
 
-    return message.util.send(`✅ Deleted \`${deleted}\` snipe(s) in ${args.channel}`);
+    return message.util.send(
+      `✅ Deleted \`${deleted}\` snipe(s) in ${args.channel}`
+    );
   }
 }
 

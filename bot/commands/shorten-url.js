@@ -19,6 +19,8 @@ class ShortenCommand extends Command {
         }
       ]
     });
+
+    this.usage = '<URL>';
   }
 
   async exec(message, args) {
