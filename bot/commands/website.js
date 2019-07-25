@@ -14,8 +14,8 @@ const getIp = host => {
 
 class ShortenCommand extends Command {
   constructor() {
-    super('website-info', {
-      aliases: ['website-info', 'url-info', 'wi'],
+    super('website', {
+      aliases: ['website', 'website-info', 'url-info', 'wi'],
       description: 'Gets information about a website',
       category: 'info',
       cooldown: 10000,
