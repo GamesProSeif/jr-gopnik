@@ -2,4 +2,4 @@ node_modules/
 package-lock.json
 .env
 db/database.sqlite
-client_secret.json
+
