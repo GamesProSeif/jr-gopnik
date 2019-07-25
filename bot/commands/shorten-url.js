@@ -22,17 +22,24 @@ class ShortenCommand extends Command {
   }
 
   async exec(message, args) {
-    shortURL(
-      args.url.href,
-      'bit.ly',
-      {
-        login: 'gamesproseif',
-        apiKey: process.env.BITLY_API_KEY
-      },
-      shortenedURL => {
-        return message.util.send(`<${shortenedURL}>`);
-      }
-    );
+    try {
+      shortURL(
+        args.url.href,
+        'bit.ly',
+        {
+          login: 'gamesproseif',
+          apiKey: process.env.BITLY_API_KEY
+        },
+        shortenedURL => {
+          return message.util.send(`<${shortenedURL}>`);
+        }
+      );
+    } catch (error) {
+      console.error(error);
+      return message.util.send(
+        'An error occurred while trying to shorten your URL'
+      );
+    }
   }
 }
 
