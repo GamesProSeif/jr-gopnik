@@ -1,27 +1,17 @@
 const { Command } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
-const { create, all } = require('mathjs');
+const util = require('util');
+const execFile = util.promisify(require('child_process').execFile);
 
-const math = create(all);
-const limitedEval = math.evaluate;
+const mathEval = async (...expression) => {
+  expression.unshift('./config/math.js');
+  const { stdout, stderr } = await execFile('node', expression);
 
-math.import(
-  {
-    import: () => {
-      throw new Error('Function import is disabled');
-    },
-    createUnit: () => {
-      throw new Error('Function createUnit is disabled');
-    },
-    evaluate: () => {
-      throw new Error('Function evaluate is disabled');
-    }
-    // parse: () => {
-    //   throw new Error('Function parse is disabled');
-    // }
-  },
-  { override: true }
-);
+  if (stderr) throw new Error(stderr);
+
+  const { evaled } = JSON.parse(stdout.replace('\n', '').trim());
+  return evaled;
+};
 
 class MathCommand extends Command {
   constructor() {
@@ -50,23 +40,24 @@ class MathCommand extends Command {
     ];
   }
 
-  exec(message, { expression }) {
+  async exec(message, { expression }) {
+    const sent = await message.util.send('Evaluating...');
     try {
-      const evaled = limitedEval(expression);
+      const evaled = await mathEval(expression);
 
       const embed = new MessageEmbed()
         .setColor(this.client.config.colors.primary)
         .addField('❯ Input', `\`\`\`\n${expression}\n\`\`\``)
         .addField('❯ Output', `\`\`\`\n${evaled}\n\`\`\``);
 
-      return message.util.send(embed);
+      return sent.edit({ content: null, embed });
     } catch (error) {
       const embed = new MessageEmbed()
         .setColor(this.client.config.colors.error)
         .addField('❯ Input', `\`\`\`\n${expression}\n\`\`\``)
         .addField('❯ Error', `\`\`\`\n${error.message}\n\`\`\``);
 
-      return message.util.send(embed);
+      return sent.edit({ content: null, embed });
     }
   }
 }
