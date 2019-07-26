@@ -32,12 +32,22 @@ class MathCommand extends Command {
       args: [
         {
           id: 'expression',
-          match: 'content'
+          match: 'content',
+          prompt: {
+            start: `What's the expression you want to evaluate?`
+          }
         }
       ]
     });
 
     this.usage = '<expression>';
+    this.examples = [
+      'simplify("4x/2")',
+      'derivative("2x^2 + x", "x")',
+      '12.7 cm to inch',
+      'cos(90 deg)',
+      'sqrt(-4)'
+    ];
   }
 
   exec(message, { expression }) {
