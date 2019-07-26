@@ -35,7 +35,7 @@ let db = mongoose.connection;
 db.once('open', () => {
   console.log('Connected to MongoDB');
   runBot();
-  // (require(path.join(__dirname, 'server', 'server.js')))();
+  require(join(__dirname, 'server', 'server.js'));
 });
 
 db.on('error', console.error);
