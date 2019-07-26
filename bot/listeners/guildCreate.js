@@ -11,17 +11,7 @@ class GuildCreateListener extends Listener {
   }
 
   exec(guild) {
-    let settings = new Map();
-    settings.set('prefix', '/');
-    settings.set('auto_assign_roles', false);
-    settings.set('member_logging', false);
-    settings.set('snipe', true);
-
-
-    const guildDB = new GuildModel({
-      guild_id: guild.id,
-      settings
-    });
+    const guildDB = new GuildModel({ guild_id: guild.id });
 
     guildDB.save(err => {
       if (err) return console.error(err);
