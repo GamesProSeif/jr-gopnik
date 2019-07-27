@@ -16,7 +16,7 @@ const mathEval = async (...expression) => {
 class MathCommand extends Command {
   constructor() {
     super('math', {
-      aliases: ['math', 'm'],
+      aliases: ['math', 'maths', 'maffs', 'calculate', 'm'],
       description: 'Evaluates a mathematical expression',
       category: 'special',
       args: [
