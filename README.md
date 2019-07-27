@@ -10,6 +10,7 @@
 1. [Customizing](#customizing)
 1. [Hosting](#hosting)
 1. [Extra information](#extra-information)
+1. [Credits](#credits)
 
 ---
 
@@ -116,6 +117,17 @@ This is an open source project so contribution of any sort will be much apprecia
 This app is still under development, so some issues might be experienced, and some stuff above might not be even created yet. Please be patient while updates undergo.
 
 The app is authored and maintained by [GamesProSeif](https://github.com/GamesProSeif 'GamesProSeif GitHub page').
+
+---
+
+### Credits
+
+Big thanks to everyone below who helped me reach what I did. Much Love <3
+
+- Pride - Designing application logo, and letting me test my bot on his server's community.
+- Shadow - Coming up with the application name, suggested a couple of commands.
+- BlastWarrior - Tons of suggestions and help in testing.
+- Pride server's community - Testing bot.
 
 ---
 
