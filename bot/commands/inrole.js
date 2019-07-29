@@ -18,11 +18,11 @@ class InRoleCommand extends Command {
     this.usage = '<role>';
   }
 
-  async exec(message, { role }) {
-    const members = await role.members.fetch();
+  exec(message, { role }) {
+    const members = role.members;
 
     const embed = new MessageEmbed()
-      .setColor(this.client.config.colors.info)
+      .setColor(role.color)
       .setDescription(`Members in role **${role.name}** (ID: ${role.id})`)
       .addField('❯ Members', members.map(member => `• ${member}`).join('\n'));
 
