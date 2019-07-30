@@ -31,7 +31,7 @@ class StatsCommand extends Command {
     if (!sharding) {
       guildSize = this.client.guilds.size;
       channelSize = this.client.channels.size;
-      userSize = this.client.users.size;
+      userSize = this.client.guilds.reduce((a, b) => a + b.memberCount, 0);
     } else {
       const guildSizeResults = await this.client.shard.fetchClientValues(
         'guilds.size'
@@ -39,8 +39,8 @@ class StatsCommand extends Command {
       const channelSizeResults = await this.client.shard.fetchClientValues(
         'channels.size'
       );
-      const userSizeResults = await this.client.shard.fetchClientValues(
-        'users.size'
+      const userSizeResults = await this.client.shard.broadcastEval(
+        'this.guilds.reduce((a, b) => a + b.memberCount, 0);'
       );
       guildSize = guildSizeResults.reduce((a, b) => a + b);
       channelSize = channelSizeResults.reduce((a, b) => a + b);
