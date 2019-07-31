@@ -1,7 +1,6 @@
 const { Command } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
 const { join } = require('path');
-const GuildModel = require(join(__dirname, '..', '..', 'models', 'guild.js'));
 const Snipe = require(join(__dirname, '..', '..', 'models', 'snipe.js'));
 
 class SnipeCommand extends Command {
@@ -79,7 +78,11 @@ class SnipeCommand extends Command {
     } else {
       embed
         .setColor(this.client.config.colors.error)
-        .setDescription(`No deleted message found in channel ${args.channel} at position ${args.position}`);
+        .setDescription(
+          `No deleted message found in channel ${args.channel} at position ${
+            args.position
+          }`
+        );
     }
 
     return message.util.send(embed);

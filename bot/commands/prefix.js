@@ -10,7 +10,9 @@ class PrefixCommand extends Command {
   }
 
   exec(message) {
-    return message.util.reply(`My prefix is \`${this.client.commandHandler.prefix()}\``);
+    return message.util.reply(
+      `My prefix is \`${this.client.commandHandler.prefix(message)}\``
+    );
   }
 }
 

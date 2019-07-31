@@ -1,6 +1,5 @@
 const { Listener } = require('discord-akairo');
-const { join } = require('path');
-const GuildModel = require(join(__dirname, '..', '..', 'models', 'guild.js'));
+const fetch = require('node-fetch');
 
 class GuildCreateListener extends Listener {
   constructor() {
@@ -10,13 +9,22 @@ class GuildCreateListener extends Listener {
     });
   }
 
-  exec(guild) {
-    const guildDB = new GuildModel({ guild_id: guild.id });
+  async exec(guild) {
+    try {
+      const res = await fetch(`${serverHost}/api/guilds/?id=${guild.id}`, {
+        method: 'POST',
+        headers: {
+          apikey: process.env.TEST_API_KEY
+        }
+      });
 
-    guildDB.save(err => {
-      if (err) return console.error(err);
-      return console.log('Added Guild');
-    });
+      if (res.ok) return console.log(`Added Guild ${guild.id}`);
+
+      const { error } = await res.json();
+      return console.error(error);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 }
 

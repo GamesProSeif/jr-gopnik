@@ -1,7 +1,6 @@
 const { Command } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
-const { join } = require('path');
-const GuildModel = require(join(__dirname, '..', '..', 'models', 'guild.js'));
+const fetch = require('node-fetch');
 
 class ConfigCommand extends Command {
   constructor() {
@@ -12,22 +11,22 @@ class ConfigCommand extends Command {
       channel: 'guild',
       userPermissions: ['ADMINISTRATOR'],
       args: [
-        // {
-        //   id: 'prefix',
-        //   match: 'option',
-        //   flag: ['prefix:', 'pre:'],
-        // },
+        {
+          id: 'prefix',
+          match: 'option',
+          flag: ['prefix:', 'pre:']
+        },
         {
           id: 'user_role',
           type: 'role',
           match: 'option',
-          flag: ['user-role:', 'userrole:', 'ur:'],
+          flag: ['user-role:', 'userrole:', 'ur:']
         },
         {
           id: 'bot_role',
           type: 'role',
           match: 'option',
-          flag: ['bot-role:', 'botrole:', 'br:'],
+          flag: ['bot-role:', 'botrole:', 'br:']
         },
         {
           id: 'auto_assign_roles',
@@ -39,20 +38,14 @@ class ConfigCommand extends Command {
           id: 'member_logs_channel',
           type: 'channel',
           match: 'option',
-          flag: ['member-logs-channel:', 'memberlogschannel:', 'mlc:'],
+          flag: ['member-logs-channel:', 'memberlogschannel:', 'mlc:']
         },
         {
           id: 'member_logging',
           type: 'lowercase',
           match: 'option',
           flag: ['member-logging:', 'memberlogging:', 'ml:']
-        },
-        // {
-        //   id: 'snipe',
-        //   type: 'lowercase',
-        //   match: 'option',
-        //   flag: ['snipe:']
-        // }
+        }
       ]
     });
 
@@ -66,20 +59,26 @@ class ConfigCommand extends Command {
   }
 
   async exec(message, args) {
-    const guildDB = await GuildModel.findOne({guild_id: message.guild.id}).exec();
-    let settings = guildDB.settings;
+    let settings = message.guild.settings;
 
     if (Object.values(args).every(e => e === null)) {
-      let keys = [/* 'prefix', */ 'user_role', 'bot_role', 'auto_assign_roles', 'member_logs_channel', 'member_logging'];
+      let keys = [
+        'prefix',
+        'user_role',
+        'bot_role',
+        'auto_assign_roles',
+        'member_logs_channel',
+        'member_logging'
+      ];
 
       let serverConfigs = [];
 
       keys.forEach(key => {
-        let value = settings.get(key);
+        let value = settings[key];
 
         if (key === 'auto_assign_roles' || key === 'member_logging') {
-          if (value === 'true') value = 'on';
-          else if (value === 'false') value = 'off';
+          if (value) value = 'on';
+          else value = 'off';
         } else if (key === 'user_role' || key === 'bot_role') {
           if (value) {
             value = message.guild.roles.get(value) || 'not set';
@@ -88,71 +87,129 @@ class ConfigCommand extends Command {
           value = message.guild.channels.get(value) || 'not set';
         }
 
-        serverConfigs.push(`${this.client.functions.capitalize(key.replace('_', ' '))}: ${value}`);
+        serverConfigs.push(
+          `${this.client.functions.capitalize(
+            key.replace(/_/g, ' ')
+          )}: ${value}`
+        );
       });
 
       const embed = new MessageEmbed()
         .setColor(this.client.config.colors.info)
-        .setDescription(`Viewing configuration for **${message.guild.name}** (ID: ${message.guild.id})`)
+        .setDescription(
+          `Viewing configuration for **${message.guild.name}** (ID: ${
+            message.guild.id
+          })`
+        )
         .addField('❯ Configs', serverConfigs.map(c => `• ${c}`))
         .setAuthor(message.author.tag, message.author.avatarURL());
 
       message.util.send(embed);
     } else {
       let changes = [];
-      // if (args.prefix) {
-        //   settings.set('prefix', args.prefix);
-        //   changes.push(`Changed prefix to \`${args.prefix}\``);
-        // }
-        if (args.user_role) {
-          settings.set('user_role', args.user_role.id);
-          changes.push(`Changed user auto-assign role to ${args.user_role}`);
+      const body = {};
+      if (args.prefix) {
+        settings.prefix = args.prefix.replace(/\s/g, '');
+        body.prefix = args.prefix.replace(/\s/g, '');
+        changes.push(`Changed prefix to \`${args.prefix}\``);
+      }
+      if (args.user_role) {
+        settings.user_role = args.user_role.id;
+        body.user_role = args.user_role.id;
+        changes.push(`Changed user auto-assign role to ${args.user_role}`);
+      }
+      if (args.bot_role) {
+        settings.bot_role = args.bot_role.id;
+        body.bot_role = args.bot_role.id;
+        changes.push(`Changed bot auto-assign role to ${args.bot_role}`);
+      }
+      if (args.auto_assign_roles) {
+        if (
+          ['y', 'yes', 'true', 'yup', 'on'].includes(args.auto_assign_roles)
+        ) {
+          settings.auto_assign_roles = true;
+          body.auto_assign_roles = true;
+          changes.push(`Toggled auto-assign role on`);
+        } else if (
+          ['n', 'no', 'false', 'nope', 'off'].includes(args.auto_assign_roles)
+        ) {
+          settings.auto_assign_roles = false;
+          body.auto_assign_roles = false;
+          changes.push(`Toggled auto-assign role off`);
         }
-        if (args.bot_role) {
-          settings.set('bot_role', args.bot_role.id);
-          changes.push(`Changed bot auto-assign role to ${args.bot_role}`);
+      }
+      if (args.member_logs_channel) {
+        settings.member_logs_channel = args.member_logs_channel.id;
+        body.member_logs_channel = args.member_logs_channel.id;
+        changes.push(
+          `Changed member-log channel to ${args.member_logs_channel}`
+        );
+      }
+      if (args.member_logging) {
+        if (['y', 'yes', 'true', 'yup', 'on'].includes(args.member_logging)) {
+          settings.member_logging = true;
+          body.member_logging = true;
+          changes.push(`Toggled member logging on`);
+        } else if (
+          ['n', 'no', 'false', 'nope', 'off'].includes(args.member_logging)
+        ) {
+          settings.member_logging = false;
+          body.member_logging = false;
+          changes.push(`Toggled member logging off`);
         }
-        if (args.auto_assign_roles) {
-          if (['y', 'yes', 'true', 'yup', 'on'].includes(args.auto_assign_roles)) {
-            settings.set('auto_assign_roles', true);
-            changes.push(`Toggled auto-assign role on`);
-          } else if (['n', 'no', 'false', 'nope', 'off'].includes(args.auto_assign_roles)) {
-            settings.set('auto_assign_roles', false);
-            changes.push(`Toggled auto-assign role off`);
+      }
+
+      const res = await fetch(
+        `${this.client.config.serverHost}/api/guilds/${
+          message.guild.id
+        }/settings`,
+        {
+          method: 'PATCH',
+          body: JSON.stringify(body),
+          headers: {
+            apikey: process.env.TEST_API_KEY,
+            'content-type': 'application/json'
           }
         }
-        if (args.member_logs_channel) {
-          settings.set('member_logs_channel', args.member_logs_channel.id);
-          changes.push(`Changed member-log channel to ${args.member_logs_channel}`);
-        }
-        if (args.member_logging) {
-          if (['y', 'yes', 'true', 'yup', 'on'].includes(args.member_logging)) {
-            settings.set('member_logging', true);
-            changes.push(`Toggled member logging on`);
-          } else if (['n', 'no', 'false', 'nope', 'off'].includes(args.member_logging)) {
-            settings.set('member_logging', false);
-            changes.push(`Toggled member logging off`);
-          }
-        }
-        // if (args.snipe) {
-        //   if (['y', 'yes', 'true', 'yup', 'on'].includes(args.snipe)) {
-        //     settings.set('snipe', true);
-        //     changes.push(`Toggled snipe command on`);
-        //   } else if (['n', 'no', 'false', 'nope', 'off'].includes(args.snipe)) {
-        //     settings.set('snipe', false);
-        //     changes.push(`Changed bot snipe command off`);
-        //   }
-        // }
+      );
 
-        let updated = await GuildModel.updateOne({guild_id: message.guild.id}, {settings});
+      const embed = new MessageEmbed();
 
-        const embed = new MessageEmbed()
-        .setColor(this.client.config.colors.primary)
-        .setDescription(`Changing configuration for **${message.guild.name}** (ID: ${message.guild.id})`)
-        .addField('❯ Changes', changes.map(c => `• ${c}`).join('\n'))
-        .setAuthor(message.author.tag, message.author.avatarURL());
+      if (res.ok) {
+        embed
+          .setColor(this.client.config.colors.primary)
+          .setDescription(
+            `Changing configuration for **${message.guild.name}** (ID: ${
+              message.guild.id
+            })`
+          )
+          .addField('❯ Changes', changes.map(c => `• ${c}`).join('\n'))
+          .setAuthor(message.author.tag, message.author.avatarURL());
 
         return message.util.send(embed);
+      } else {
+        embed
+          .setColor(this.client.config.colors.error)
+          .setDescription(
+            'An error occurred while trying to set configurations! Try again later.'
+          );
+
+        message.util.send(embed);
+
+        const { error } = await res.json();
+        console.error(error);
+
+        const { settings } = await (await fetch(
+          `${this.client.config.serverHost}/api/guild/${message.guild.id}`,
+          {
+            headers: {
+              apikey: process.env.TEST_API_KEY
+            }
+          }
+        )).json();
+
+        message.guild.settings = settings;
+      }
     }
   }
 }

@@ -21,14 +21,20 @@ class HelpCommand extends Command {
 
   exec(message, args) {
     const commandHandler = this.client.commandHandler;
-    const embed = new MessageEmbed()
-      .setColor(this.client.config.colors.info);
+    const embed = new MessageEmbed().setColor(this.client.config.colors.info);
 
     if (!args.command) {
       embed
         .setTitle('❯ Commands')
-        .setDescription(`A list of available commands.\nFor additional info on a command, type \`${this.client.commandHandler.prefix()}help <command>\``)
-        .setFooter(`${commandHandler.modules.size} Commands`, this.client.user.displayAvatarURL());
+        .setDescription(
+          `A list of available commands.\nFor additional info on a command, type \`${commandHandler.prefix(
+            message
+          )}help <command>\``
+        )
+        .setFooter(
+          `${commandHandler.modules.size} Commands`,
+          this.client.user.displayAvatarURL()
+        );
 
       let categories = commandHandler.categories.array().map(c => c.id);
 
@@ -40,21 +46,32 @@ class HelpCommand extends Command {
       categories = categories.sort();
 
       categories.forEach(category => {
-        const commands = commandHandler.modules.filter(c => c.category.id === category);
+        const commands = commandHandler.modules.filter(
+          c => c.category.id === category
+        );
 
         let categoryName = category === 'default' ? 'user' : category;
         categoryName = this.client.functions.capitalize(categoryName);
 
-        embed.addField(`${categoryName} - ${commands.size}`, commands.map(c => `\`${c.id}\``).join(', '));
+        embed.addField(
+          `${categoryName} - ${commands.size}`,
+          commands.map(c => `\`${c.id}\``).join(', ')
+        );
       });
     } else {
       let command = args.command;
-      let usage = command.usage ? `\`${command.id} ${command.usage}\`` : `\`${command.id}\``;
+      let usage = command.usage
+        ? `\`${command.id} ${command.usage}\``
+        : `\`${command.id}\``;
       let desc = command.description || 'No description provided';
       let aliases = [...command.aliases];
       aliases.splice(aliases.findIndex(alias => command.id === alias), 1);
-      aliases = aliases[0] ? aliases.map(alias => `\`${alias}\``).join(' ') : null;
-      let examples = command.examples ? command.examples.map(e => `\`${command.id} ${e}\``).join('\n') : null;
+      aliases = aliases[0]
+        ? aliases.map(alias => `\`${alias}\``).join(' ')
+        : null;
+      let examples = command.examples
+        ? command.examples.map(e => `\`${command.id} ${e}\``).join('\n')
+        : null;
       embed
         // .setDescription(usage)
         .addField(`❯ Usage`, usage)

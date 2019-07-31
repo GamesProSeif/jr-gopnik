@@ -1,11 +1,16 @@
 require('dotenv').config();
 const fs = require('fs');
+const fetch = require('node-fetch');
 const { join } = require('path');
 const config = require(join(__dirname, 'config', 'config.json'));
-const mongoose = require('mongoose');
 const { ShardingManager } = require('discord.js');
 
-const runBot = () => {
+const runBot = async () => {
+  const res = await fetch(`${config.serverHost}/util/ping`);
+  if (!res.ok) {
+    console.error('Server is offline! Exiting...');
+    process.exit(1);
+  }
   if (!config.sharding) return require(join(__dirname, 'bot', 'bot.js'));
   else {
     const manager = new ShardingManager(join(__dirname, 'bot', 'bot.js'));
@@ -25,16 +30,5 @@ fs.writeFile(join(__dirname, 'db', 'database.sqlite'), '', err => {
   if (err) return console.error(err);
 
   console.log('Created SQLite file');
-});
-
-mongoose.set('useCreateIndex', true);
-
-mongoose.connect(process.env.DB_URI, { useNewUrlParser: true });
-let db = mongoose.connection;
-
-db.once('open', () => {
-  console.log('Connected to MongoDB');
   runBot();
 });
-
-db.on('error', console.error);

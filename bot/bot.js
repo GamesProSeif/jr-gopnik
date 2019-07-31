@@ -17,7 +17,6 @@ const clientFunctions = require(path.join(
   'config',
   'functions.js'
 ));
-// const GuildModel = require(path.join(__dirname, '..', 'models', 'guild.js'));
 
 const run = () => {
   class GopnikClient extends AkairoClient {
@@ -28,14 +27,13 @@ const run = () => {
 
       this.commandHandler = new CommandHandler(this, {
         directory: path.join(__dirname, 'commands/'),
-        // prefix: async message => {
-        //   if (!message || !message.guild) return '/';
-        //   const {settings} = await GuildModel.findOne({guild_id: message.guild.id}).exec();
-        //   const prefix = settings.get('prefix');
-        //   console.log(prefix);
-        //   return prefix || '/';
-        // },
-        prefix: message => clientConfig.prefix,
+        prefix: message => {
+          if (!message || !message.guild || !message.guild.settings)
+            return clientConfig.prefix;
+          const prefix = message.guild.settings.prefix;
+          return prefix || clientConfig;
+        },
+        // prefix: message => clientConfig.prefix,
         allowMention: true,
         aliasReplacement: /-/g,
         handleEdits: true,

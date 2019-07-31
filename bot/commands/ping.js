@@ -17,7 +17,7 @@ class PingCommand extends Command {
     const botHeartbeat = parseInt(this.client.ws.ping);
 
     const start = Date.now();
-    const { ok } = await fetch(this.client.config.serverHost);
+    const { ok } = await fetch(`${this.client.config.serverHost}/util/ping`);
     const serverPing = Date.now() - start;
 
     const embed = new MessageEmbed()
