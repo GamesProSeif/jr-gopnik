@@ -6,7 +6,7 @@ class ConfigCommand extends Command {
   constructor() {
     super('config', {
       aliases: ['config', 'cfg'],
-      description: `View or change configuration of the server\nUse key:value to change keys\n**Available Keys:**\n• user-role\n• bot-role\n• auto-assign-roles\n• member-logs-channel\n• member-logging\n• snipe`,
+      description: `View or change configuration of the server\nUse key:value to change keys\n**Available Keys:**\n• prefix\n• user-role\n• bot-role\n• auto-assign-roles\n• member-logs-channel\n• member-logging`,
       category: 'config',
       channel: 'guild',
       userPermissions: ['ADMINISTRATOR'],
