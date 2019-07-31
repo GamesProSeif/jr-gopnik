@@ -3,13 +3,11 @@ const { MessageEmbed } = require('discord.js');
 const moment = require('moment');
 const fetch = require('node-fetch');
 const { join } = require('path');
-const { version } = require(join(__dirname, '..', '..', 'package.json'));
-const { sharding } = require(join(
+const { version: botVersion } = require(join(
   __dirname,
   '..',
   '..',
-  'config',
-  'config.json'
+  'package.json'
 ));
 
 class StatsCommand extends Command {
@@ -26,9 +24,16 @@ class StatsCommand extends Command {
       'https://api.github.com/repos/gamesproseif/jr-gopnik/commits'
     )).json())[0];
 
+    const {
+      memoryUsage: serverMemoryUsage,
+      version: serverVersion
+    } = await (await fetch(
+      `${this.client.config.serverHost}/util/stats`
+    )).json();
+
     let guildSize, channelSize, userSize;
 
-    if (!sharding) {
+    if (!this.client.config.sharding) {
       guildSize = this.client.guilds.size;
       channelSize = this.client.channels.size;
       userSize = this.client.guilds.reduce((a, b) => a + b.memberCount, 0);
@@ -52,21 +57,22 @@ class StatsCommand extends Command {
       .setThumbnail(this.client.user.displayAvatarURL())
       .setDescription(`**${this.client.user.username} Statistics**`)
       .addField(
-        '❯ Uptime',
-        moment.duration(this.client.uptime).format('d[d ]h[h ]m[m ]s[s]'),
+        '❯ General Statistics',
+        `• Guilds: ${guildSize}\n• Channels: ${channelSize}\n• Users: ${userSize}`,
+        false
+      )
+      .addField(
+        '❯ Version',
+        `• Bot: ${botVersion}\n• Server: ${serverVersion}`,
         true
       )
       .addField(
         '❯ Memory Usage',
-        `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`,
+        `• Bot: ${Math.round(
+          process.memoryUsage().heapUsed / 1024 / 1024
+        )}MB\n• Server: ${Math.round(serverMemoryUsage / 1024 / 1024)}MB`,
         true
       )
-      .addField(
-        '❯ General Statistics',
-        `• Guilds: ${guildSize}\n• Channels: ${channelSize}\n• Users: ${userSize}`,
-        true
-      )
-      .addField('❯ Version', version, true)
       .addField(
         '❯ Source Code',
         `[View Here](https://github.com/GamesProSeif/jr-gopnik/)`,
@@ -77,7 +83,20 @@ class StatsCommand extends Command {
         `[discord.js](https://discord.js.org/) - [akairo](https://discord-akairo.github.io/)`,
         true
       )
-      .addField('❯ Last Update', `[${commit.message}](${commitURL})`)
+      .addField(
+        '❯ Uptime',
+        moment.duration(this.client.uptime).format('d[d ]h[h ]m[m ]s[s]'),
+        true
+      )
+      .addField(
+        '❯ Last Update',
+        `[${
+          commit.message.length > 20
+            ? commit.message.slice(0, 20) + '...'
+            : commit.message
+        }](${commitURL})`,
+        true
+      )
       .setFooter(`© ${moment().format('YYYY')} Jr. Gopnik`);
 
     return message.util.send(embed);

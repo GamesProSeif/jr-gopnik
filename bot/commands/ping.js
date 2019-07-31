@@ -1,4 +1,6 @@
 const { Command } = require('discord-akairo');
+const { MessageEmbed } = require('discord.js');
+const fetch = require('node-fetch');
 
 class PingCommand extends Command {
   constructor() {
@@ -11,17 +13,23 @@ class PingCommand extends Command {
 
   async exec(message) {
     const sent = await message.util.send('Pinging...');
-    const ping = parseInt(sent.createdTimestamp - message.createdTimestamp);
-    const heartbeat = parseInt(this.client.ws.ping);
+    const botPing = parseInt(sent.createdTimestamp - message.createdTimestamp);
+    const botHeartbeat = parseInt(this.client.ws.ping);
 
-    return sent.edit({
-      content: '',
-      embed: {
-        title: 'Pong!',
-        description: `⏰ ${ping} ms\n💓 ${heartbeat} ms`,
-        color: this.client.config.colors.primary
-      }
-    });
+    const start = Date.now();
+    const { ok } = await fetch(this.client.config.serverHost);
+    const serverPing = Date.now() - start;
+
+    const embed = new MessageEmbed()
+      .setColor(this.client.config.colors.primary)
+      .setTitle('Pong!')
+      .setDescription(
+        `⏰ ${botPing} ms\n💓 ${botHeartbeat} ms\n ☁ ${
+          ok ? serverPing + ' ms' : 'offline'
+        }`
+      );
+
+    return sent.edit({ content: null, embed });
   }
 }
 

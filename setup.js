@@ -33,12 +33,18 @@ const run = async () => {
       type: 'confirm',
       message:
         'Do you want sharding feature? (for bots in more than 2500 servers)'
+    },
+    {
+      name: 'serverHost',
+      type: 'input',
+      message: 'What is the link of the server?'
     }
   ]);
 
   if (configObject.ownerID.includes(',')) {
     configObject.ownerID = configObject.ownerID.replace(/\s/g, '').split(',');
   }
+  configObject.serverHost = configObject.serverHost.replace(/\/+$/, '');
 
   console.log(JSON.stringify(configObject, null, 2));
 
