@@ -74,7 +74,7 @@ class RoleCommand extends Command {
         '❯ Info',
         `• Color: ${role.hexColor.toUpperCase()}\n• Hoisted: ${
           role.hoist ? 'Yes' : 'No'
-        }\n• Mentionable: ${
+        }\n• Position: ${role.position}\n• Mentionable: ${
           role.mentionable ? 'Yes' : 'No'
         }\n• Creation Date: ${moment(role.createdAt).format(
           'dddd, MMMM Do YYYY, h:mm:ss A'
