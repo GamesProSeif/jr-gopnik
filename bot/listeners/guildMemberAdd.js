@@ -17,7 +17,7 @@ class GuildMemberAddListener extends Listener {
         if (
           !member.user.bot &&
           settings.user_role &&
-          member.guild.me.permissions.MANAGE_ROLES
+          member.guild.me.permissions.has('MANAGE_ROLES')
         ) {
           member.roles.add(settings.user_role);
         } else if (
