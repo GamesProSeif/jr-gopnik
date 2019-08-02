@@ -208,6 +208,7 @@ class ConfigCommand extends Command {
           }
         )).json();
 
+        // eslint-disable-next-line require-atomic-updates
         message.guild.settings = settings;
       }
     }
