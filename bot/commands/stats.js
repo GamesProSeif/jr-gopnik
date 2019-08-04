@@ -75,7 +75,7 @@ class StatsCommand extends Command {
       )
       .addField(
         '❯ Source Code',
-        `[View Here](https://github.com/GamesProSeif/jr-gopnik/)`,
+        `[View Here](https://github.com/GamesProSeif/jr-gopnik/ "GamesProSeif/jr-gopnik")`,
         true
       )
       .addField(
@@ -87,16 +87,14 @@ class StatsCommand extends Command {
         '❯ Uptime',
         moment.duration(this.client.uptime).format('d[d ]h[h ]m[m ]s[s]'),
         true
-      )
-      .addField(
-        '❯ Last Update',
-        `[${
-          commit.message.length > 20
-            ? commit.message.slice(0, 20) + '...'
-            : commit.message
-        }](${commitURL})`,
-        true
-      )
+      );
+    let lastUpdate = `[${commit.message}](${commitURL})`;
+    if (commit.message.length > 20) {
+      let shortened = commit.message.slice(0, 20) + '...';
+      lastUpdate = `[${shortened}](${commitURL} "${commit.message}")`;
+    }
+    embed
+      .addField('❯ Last Update', lastUpdate, true)
       .setFooter(`© ${moment().format('YYYY')} Jr. Gopnik`);
 
     return message.util.send(embed);
