@@ -45,7 +45,9 @@ class ServerCommand extends Command {
           guild.region
         }\n• Creation Date: ${moment(guild.createdAt).format(
           'dddd, MMMM Do YYYY, h:mm:ss A'
-        )}\n• Verification Level: ${HUMAN_LEVELS[guild.verificationLevel]}`
+        )}\n• Verification Level: ${
+          HUMAN_LEVELS[guild.verificationLevel]
+        }\n• Nitro Server Boosts: ${guild.premiumSubscriptionCount}`
       );
 
     return message.util.send(embed);
