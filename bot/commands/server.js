@@ -47,7 +47,7 @@ class ServerCommand extends Command {
           'dddd, MMMM Do YYYY, h:mm:ss A'
         )}\n• Verification Level: ${
           HUMAN_LEVELS[guild.verificationLevel]
-        }\n• Nitro Server Boosts: ${guild.premiumSubscriptionCount}`
+        }\n• Nitro Server Boosts: ${guild.premiumSubscriptionCount || 0}`
       );
 
     return message.util.send(embed);
