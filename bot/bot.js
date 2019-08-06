@@ -39,6 +39,7 @@ const run = () => {
         handleEdits: true,
         commandUtil: true,
         commandUtilLifetime: 600000,
+        storeMessages: true,
         argumentDefaults: {
           prompt: {
             modifyStart: (message, text) =>
