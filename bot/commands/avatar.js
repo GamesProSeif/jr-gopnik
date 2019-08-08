@@ -5,7 +5,8 @@ class AvatarCommand extends Command {
   constructor() {
     super('avatar', {
       aliases: ['avatar', 'av'],
-      description: 'Displays the avatar of a user',
+      description:
+        'Displays the avatar of a user\n**Available arguments**\n• Format: `webp`, `jpg`, `png`, `gif`\n• Size: `16`, `32`, `64`, `128`, `256`, `512`, `1024`, `2048`',
       category: 'info',
       args: [
         {
@@ -46,6 +47,7 @@ class AvatarCommand extends Command {
     });
 
     this.usage = '[user] [format:] [size:]';
+    this.examples = ['format:jpg', 'xPLEBx size:64', 'Noob101 f:png s:512'];
   }
 
   exec(message, args) {
