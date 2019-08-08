@@ -43,13 +43,17 @@ const run = () => {
         argumentDefaults: {
           prompt: {
             modifyStart: (message, text) =>
-              `${text}\nType \`cancel\` to cancel this command.`,
+              `${
+                message.member
+              }, ${text}\nType \`cancel\` to cancel this command.`,
             modifyRetry: (message, text) =>
-              `${text}\nType \`cancel\` to cancel this command.`,
+              `${
+                message.member
+              }, ${text}\nType \`cancel\` to cancel this command.`,
             timeout: 'Time ran out, command has been cancelled.',
             ended: 'Too many retries, command has been cancelled.',
             cancel: 'Command has been cancelled.',
-            retries: 4,
+            retries: 3,
             time: 30000
           }
         },

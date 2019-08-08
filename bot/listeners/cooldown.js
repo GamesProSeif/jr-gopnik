@@ -1,6 +1,5 @@
 const { Listener } = require('discord-akairo');
 const moment = require('moment');
-const momentDurationFormatSetup = require("moment-duration-format");
 
 class CooldownListener extends Listener {
   constructor() {
@@ -10,8 +9,15 @@ class CooldownListener extends Listener {
     });
   }
 
-  exec(message, command, cooldown) {
-    return message.util.reply(`You have to wait \`${moment.duration(cooldown).format('d[d ]h[h ]m[m ]s[s]')}\` before using command \`${command.id}\` again.`);
+  async exec(message, command, cooldown) {
+    const sent = await message.util.reply(
+      `You have to wait \`${moment
+        .duration(cooldown)
+        .format('d[d ]h[h ]m[m ]s[s]')}\` before using command \`${
+        command.id
+      }\` again.`
+    );
+    sent.delete(5000);
   }
 }
 
