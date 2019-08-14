@@ -10,12 +10,15 @@ class GuildDeleteListener extends Listener {
 
   async exec(guild) {
     try {
-      const res = await fetch(`${serverHost}/api/guilds/${guild.id}`, {
-        method: 'DELETE',
-        headers: {
-          apikey: process.env.TEST_API_KEY
+      const res = await fetch(
+        `${this.client.config.serverHost}/api/guilds/${guild.id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            apikey: process.env.TEST_API_KEY
+          }
         }
-      });
+      );
 
       if (res.ok) return console.log(`Deleted Guild ${guild.id}`);
 

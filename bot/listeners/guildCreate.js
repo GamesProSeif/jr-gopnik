@@ -11,12 +11,15 @@ class GuildCreateListener extends Listener {
 
   async exec(guild) {
     try {
-      const res = await fetch(`${serverHost}/api/guilds/?id=${guild.id}`, {
-        method: 'POST',
-        headers: {
-          apikey: process.env.TEST_API_KEY
+      const res = await fetch(
+        `${this.client.config.serverHost}/api/guilds/?id=${guild.id}`,
+        {
+          method: 'POST',
+          headers: {
+            apikey: process.env.TEST_API_KEY
+          }
         }
-      });
+      );
 
       if (res.ok) return console.log(`Added Guild ${guild.id}`);
 
