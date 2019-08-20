@@ -103,7 +103,7 @@ module.exports = GreetCommand;
 
 A lot of options are valid for hosting the app. You can host it on your local machine, on a VPS, or a free service such as [Heroku](https://heroku.com). The app would work properly on all platforms. **BUT** consider hiding your bot's token, cause people can steal it, and use it to control your discord bot. The application supports environment variables, which will allow you to hide the token safely. You should remove the `DISCORD_TOKEN` property from the `~/config/config.json` file, then have an environment variable key of `DISCORD_TOKEN` and set its value to your bot's token. A `.env` file is also supported, just put `DISCORD_TOKEN = yourtokenhere` inside it and it should work fine.
 
-After making sure your bot's token is hidden, you can run the bot by the command `npm start`. If there is no errors, the bot should be working fine. If the server isn't working, it's probably due to some scaling issues, which are related to the hoist company, you would read the documentation of how to upload the app to it, or contact their staff if you are still facing issues.
+After making sure your bot's token is hidden, you can run the bot by the command `npm start`. If there is no errors, the bot should be working fine. If the server isn't working, it's probably due to some scaling issues, which are related to the hosting company, you would read the documentation of how to upload the app to it, or contact their staff if you are still facing issues.
 
 > Note that your `~/config/config.json` file should be uploaded with the bot.  
 > You can run the command `npm run setup` from the host service.
