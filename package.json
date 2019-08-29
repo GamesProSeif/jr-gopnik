@@ -4,41 +4,74 @@
   "description": "A multi-functional Discord bot for the modern users",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "setup": "node setup.js",
-    "dev": "nodemon index.js"
+    "start": "npm run serve",
+    "serve": "node dist/index.js",
+    "setup": "node dist/setup.js",
+    "dev": "nodemon dist/index.js",
+    "postinstall": "npm run build-ts",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w"
   },
-  "keywords": [],
+  "keywords": [
+    "discord",
+    "bot",
+    "akairo"
+  ],
+  "engines": {
+    "node": "^10.0.0"
+  },
   "author": "GamesProSeif",
   "license": "MIT",
   "dependencies": {
     "color-convert": "^2.0.0",
+    "common-tags": "^1.8.0",
     "discord-akairo": "github:discord-akairo/discord-akairo",
     "discord.js": "github:discordjs/discord.js",
     "dotenv": "^7.0.0",
-    "ejs": "^2.6.2",
-    "enmap": "^4.8.1",
-    "express": "^4.16.4",
-    "express-formidable": "^1.2.0",
     "inquirer": "^6.5.0",
     "mathjs": "^6.0.3",
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",
+    "mongoose": "^5.6.11",
     "node-emoji": "^1.10.0",
     "node-fetch": "^2.3.0",
+    "node-opus": "^0.3.2",
     "punycode": "^2.1.1",
     "sequelize": "^5.8.12",
-    "serve-favicon": "^2.5.0",
     "shorturl": "0.0.3",
+    "sqlite": "^3.0.3",
     "sqlite3": "^4.0.9",
+    "ws": "^7.1.2",
     "youtube-search": "^1.1.4"
   },
   "devDependencies": {
+    "@types/bluebird": "^3.5.27",
+    "@types/color-convert": "^1.9.0",
+    "@types/common-tags": "^1.8.0",
+    "@types/dotenv": "^6.1.1",
+    "@types/inquirer": "^6.5.0",
+    "@types/moment": "^2.13.0",
+    "@types/moment-duration-format": "^2.2.2",
+    "@types/mongoose": "^5.5.13",
+    "@types/node": "^12.7.2",
+    "@types/node-emoji": "^1.8.1",
+    "@types/node-fetch": "^2.5.0",
+    "@types/sequelize": "^4.28.4",
+    "@types/validator": "^10.11.3",
+    "@types/ws": "^6.0.3",
     "eslint": "^6.1.0",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "prettier": "^1.18.2",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.5.3"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/GamesProSeif/jr-gopnik.git"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.1",
+    "zlib-sync": "^0.1.5"
   }
 }
