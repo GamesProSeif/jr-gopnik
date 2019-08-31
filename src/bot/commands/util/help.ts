@@ -33,7 +33,7 @@ export default class HelpCommand extends Command {
           `A list of available commands.\nFor additional info on a command, type \`${prefix}help <command>\``
         )
         .setFooter(
-          `${this.handler.modules.size} Commands`,
+          `${this.handler.modules.size} Modules`,
           this.client.user!.displayAvatarURL()
         );
 

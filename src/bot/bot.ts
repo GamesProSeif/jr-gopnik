@@ -7,5 +7,5 @@ import GopnikTextChannel from './extended/GopnikTextChannel';
   await GopnikTextChannel();
   const client = new GopnikClient();
 
-  client.login(process.env.DISCORD_TOKEN || client.config.token);
+  client.start(process.env.DISCORD_TOKEN || client.config.token!);
 })();
