@@ -4,7 +4,8 @@ export default class ClientWarnListener extends Listener {
   constructor() {
     super('client-warn', {
       emitter: 'client',
-      event: 'warn'
+      event: 'warn',
+      category: 'client'
     });
   }
 
