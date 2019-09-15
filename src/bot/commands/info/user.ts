@@ -35,8 +35,8 @@ export default class UserCommand extends Command {
         stripIndents`
         • Nickname: ${member.nickname ? member.nickname : 'None'}
         • Roles: ${member.roles.map((r: Role) => '`' + r.name + '`').join(' ')}
-        • Joined At: ${moment(member.joinedAt).format(
-          'dddd, MMMM Do YYYY, h:mm:ss A'
+        • Joined At: ${moment.utc(member.joinedAt).format(
+          'dddd, MMMM Do YYYY, h:mm:ss A [UTC]'
         )}`,
         true
       )
@@ -45,8 +45,8 @@ export default class UserCommand extends Command {
         stripIndents`
         • ID: ${user.id}
         • Username: ${user.tag}
-        • Creation Date: ${moment(user.createdAt).format(
-          'dddd, MMMM Do YYYY, h:mm:ss A'
+        • Creation Date: ${moment.utc(user.createdAt).format(
+          'dddd, MMMM Do YYYY, h:mm:ss A [UTC]'
         )}
         • Status: ${user.presence.status.toUpperCase()}
         • Activity: ${

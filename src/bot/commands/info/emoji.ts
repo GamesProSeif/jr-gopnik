@@ -53,7 +53,7 @@ export default class EmojiCommand extends Command {
         • Identifier: \`<${emoji.identifier}>\`
         • Creation Date: ${moment
           .utc(emoji.createdAt)
-          .format('YYYY/MM/DD hh:mm:ss')}
+          .format('YYYY/MM/DD hh:mm:ss [UTC]')}
         • URL: ${emoji.url}
         `
       );

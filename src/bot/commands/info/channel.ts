@@ -46,8 +46,8 @@ export default class ChannelCommand extends Command {
         stripIndents`
         • Type: ${channel.type}
         • Position: ${channel.position}
-        • Creation Date: ${moment(channel.createdAt).format(
-          'dddd, MMMM Do YYYY, h:mm:ss A'
+        • Creation Date: ${moment.utc(channel.createdAt).format(
+          'dddd, MMMM Do YYYY, h:mm:ss A [UTC]'
         )}
         `
       );

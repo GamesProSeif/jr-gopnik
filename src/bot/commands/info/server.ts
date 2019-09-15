@@ -51,8 +51,8 @@ export default class ServerCommand extends Command {
         stripIndents`
         • Roles: ${guild.roles.size}
         • Region: ${guild.region}
-        • Creation Date: ${moment(guild.createdAt).format(
-          'dddd, MMMM Do YYYY, h:mm:ss A'
+        • Creation Date: ${moment.utc(guild.createdAt).format(
+          'dddd, MMMM Do YYYY, h:mm:ss A [UTC]'
         )}
         • Verification Level: ${HUMAN_LEVELS[guild.verificationLevel]}
         • Nitro Server Boosts: ${guild.premiumSubscriptionCount || 0}

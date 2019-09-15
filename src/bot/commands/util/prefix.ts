@@ -12,7 +12,7 @@ export default class PrefixCommand extends Command {
       args: [
         {
           id: 'prefix',
-          type: Argument.range('string', 1, 3),
+          type: Argument.range('string', 1, 3, true),
           default: null,
           prompt: {
             start: 'What is the prefix you want to set?',

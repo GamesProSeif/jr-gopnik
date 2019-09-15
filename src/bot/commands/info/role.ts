@@ -81,8 +81,8 @@ export default class RoleCommand extends Command {
         }
         • Position: ${role.position}
         • Mentionable: ${role.mentionable ? 'Yes' : 'No'}
-        • Creation Date: ${moment(role.createdAt).format(
-          'dddd, MMMM Do YYYY, h:mm:ss A'
+        • Creation Date: ${moment.utc(role.createdAt).format(
+          'dddd, MMMM Do YYYY, h:mm:ss A [UTC]'
         )}
         `
       )
