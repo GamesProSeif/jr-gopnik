@@ -9,33 +9,33 @@ export default class TagCommand extends Command {
       description: {
         content: stripIndents`
         Available methods:
-         • show <tag>
-         • add [--hoist] <tag> <content>
-         • alias <--add/--del> <tag> <tagalias>
-         • del <tag>
-         • edit [--hoist/--unhoist] <tag> <content>
-         • source [--file] <tag>
-         • info <tag>
-         • search <tag>
-         • list [member]
-         • download [member]
+         • show \`<tag>\`
+         • add \`[--hoist] <tag> <content>\`
+         • alias \`<--add/--del> <tag> <tagalias>\`
+         • del \`<tag>\`
+         • edit \`[--hoist/--unhoist] <tag> <content>\`
+         • source \`[--file] <tag>\`
+         • info \`<tag>\`
+         • search \`<tag>\`
+         • list \`[member]\`
+         • download \`[member]\`
         `,
         usage: '<method> <...arguments>',
         examples: [
-          'show `abc`',
-          'add `abc def`',
-          'add `--hoist "abc 2" defghi`',
-          'alias `--add abc abc1`',
-          'alias `--del "abc 2" abc2`',
-          'del `abc`',
-          'edit `"abc 2" xyz`',
-          'edit `abc --hoist`',
-          'source `abc`',
-          'source `--file "abc 2"`',
-          'info `abc`',
-          'search `abc`',
-          'list `@GamesProSeif`',
-          'download `@GamesProSeif`'
+          'show abc',
+          'add abc def',
+          'add --hoist "abc 2" defghi',
+          'alias --add abc abc1',
+          'alias --del "abc 2" abc2',
+          'del abc',
+          'edit "abc 2" xyz',
+          'edit abc --hoist',
+          'source abc',
+          'source --file "abc 2"',
+          'info abc',
+          'search abc',
+          'list @GamesProSeif',
+          'download @GamesProSeif'
         ]
       },
       category: 'tags',
