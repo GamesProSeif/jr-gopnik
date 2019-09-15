@@ -5,7 +5,7 @@ import fetch from 'node-fetch';
 export default class LyricsCommand extends Command {
   constructor() {
     super('lyrics', {
-      aliases: ['lyrics'],
+      aliases: ['lyrics', 'l'],
       description: {
         content: 'Gets lyrics of a song',
         usage: '<song-title>'
