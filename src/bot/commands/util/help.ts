@@ -1,4 +1,5 @@
 // Mainly inspired by Crawl's bot "Yukikaze" https://github.com/Naval-Base/yukikaze/
+import { stripIndents } from 'common-tags';
 import { Command, PrefixSupplier } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
 
@@ -30,7 +31,12 @@ export default class HelpCommand extends Command {
       embed
         .setTitle('❯ Commands')
         .setDescription(
-          `A list of available commands.\nFor additional info on a command, type \`${prefix}help <command>\``
+          stripIndents`
+          A list of available commands.
+          For additional info on a command, type \`${prefix}help <command>\`
+          <> mean required, [] mean optional
+          Numbers represent modules
+          `
         )
         .setFooter(
           `${this.handler.modules.size} Modules`,

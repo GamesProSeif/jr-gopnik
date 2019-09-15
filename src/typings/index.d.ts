@@ -70,3 +70,16 @@ export interface ISnipe {
   attachments?: string[];
   timestamp: number;
 }
+
+export interface ITag extends Document {
+  user: Snowflake;
+  guild: Snowflake;
+  name: string;
+  content: string;
+  aliases: string[];
+  hoisted: boolean;
+  uses: number;
+  lastModified?: Snowflake;
+  createdAt: number;
+  updatedAt: number;
+}
