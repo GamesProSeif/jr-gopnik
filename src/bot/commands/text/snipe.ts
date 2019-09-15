@@ -16,7 +16,7 @@ export default class SnipeCommand extends Command {
       args: [
         {
           id: 'position',
-          type: Argument.range('integer', 0, 10),
+          type: Argument.range('integer', 0, 10, true),
           unordered: true,
           default: 0,
           prompt: {

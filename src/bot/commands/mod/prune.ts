@@ -27,7 +27,7 @@ export default class PruneCommand extends Command {
       args: [
         {
           id: 'amount',
-          type: Argument.range('integer', 1, 100),
+          type: Argument.range('integer', 1, 100, true),
           prompt: {
             start: `How many messages do you want to delete? (max 100)`,
             retry: `Invalid number! Try again`
