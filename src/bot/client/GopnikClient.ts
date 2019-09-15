@@ -1,12 +1,15 @@
 import {
   AkairoClient,
   CommandHandler,
+  Flag,
   InhibitorHandler,
   ListenerHandler
 } from 'discord-akairo';
+import { Util } from 'discord.js';
 import { join } from 'path';
 import clientConfig from '../../../config.json';
 import * as clientFunctions from '../../config/functions';
+import { TagModel } from '../../models/tag';
 import { ClientConfig } from '../../typings/index.js';
 
 const commandsPath = join(__dirname, '..', 'commands/');
@@ -63,6 +66,55 @@ export default class GopnikClient extends AkairoClient {
 
   public constructor() {
     super({ ownerID: clientConfig.ownerID });
+
+    this.commandHandler.resolver.addType('tag', async (message, phrase) => {
+      if (!phrase) return Flag.fail(phrase);
+      phrase = Util.cleanContent(phrase.toLowerCase(), message);
+      let tag;
+      try {
+        tag = await TagModel.findOne({
+          $or: [
+            { name: phrase, guild: message.guild!.id },
+            { aliases: phrase, guild: message.guild!.id }
+          ]
+        });
+        // tslint:disable-next-line: no-empty
+      } catch {}
+
+      return tag || Flag.fail(phrase);
+    });
+
+    this.commandHandler.resolver.addType(
+      'existingTag',
+      async (message, phrase) => {
+        if (!phrase) return Flag.fail(phrase);
+        phrase = Util.cleanContent(phrase.toLowerCase(), message);
+        let tag;
+        try {
+          tag = await TagModel.findOne({
+            $or: [
+              { name: phrase, guild: message.guild!.id },
+              { aliases: phrase, guild: message.guild!.id }
+            ]
+          });
+          // tslint:disable-next-line: no-empty
+        } catch {}
+
+        return tag ? Flag.fail(phrase) : phrase;
+      }
+    );
+
+    this.commandHandler.resolver.addType(
+      'tagContent',
+      async (message, phrase) => {
+        if (!phrase) phrase = '';
+        phrase = Util.cleanContent(phrase, message);
+        if (message.attachments.first())
+          phrase += `\n${message.attachments.first()!.url}`;
+
+        return phrase || Flag.fail(phrase);
+      }
+    );
   }
 
   public async start(token: string) {

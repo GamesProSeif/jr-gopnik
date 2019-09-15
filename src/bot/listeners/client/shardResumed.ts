@@ -4,7 +4,8 @@ export default class ShardResumedListener extends Listener {
   constructor() {
     super('shardResumed', {
       emitter: 'client',
-      event: 'shardResumed'
+      event: 'shardResumed',
+      category: 'client'
     });
   }
 

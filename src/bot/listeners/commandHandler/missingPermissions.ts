@@ -36,7 +36,8 @@ export default class MissingPermissionsListener extends Listener {
   constructor() {
     super('missingPermissions', {
       emitter: 'commandHandler',
-      event: 'missingPermissions'
+      event: 'missingPermissions',
+      category: 'commandHandler'
     });
   }
 
