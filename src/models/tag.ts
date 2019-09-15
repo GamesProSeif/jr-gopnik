@@ -42,4 +42,4 @@ export const TagSchema = new Schema({
   }
 });
 
-export const TagModel = model<ITag>('guilds', TagSchema);
+export const TagModel = model<ITag>('tags', TagSchema);
