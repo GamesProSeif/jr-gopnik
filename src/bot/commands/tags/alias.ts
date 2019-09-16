@@ -38,20 +38,20 @@ export default class TagAliasCommand extends Command {
 
 		const second = yield add
 			? {
-					match: 'rest',
-					type: 'existingTag',
-					prompt: {
-						start: 'What is the alias you want to apply to this tag?',
-						retry: (_: Message, { failure }: { failure: { value: string } }) =>
-							`A tag with the name **${failure.value}** already exists.`
-					}
+				match: 'rest',
+				type: 'existingTag',
+				prompt: {
+					start: 'What is the alias you want to apply to this tag?',
+					retry: (_: Message, { failure }: { failure: { value: string } }) =>
+						`A tag with the name **${failure.value}** already exists.`
+				}
 			  }
 			: {
-					match: 'rest',
-					type: 'string',
-					prompt: {
-						start: 'What is the alias you want to remove from this tag'
-					}
+				match: 'rest',
+				type: 'string',
+				prompt: {
+					start: 'What is the alias you want to remove from this tag'
+				}
 			  };
 
 		return { first, add, del, second };
@@ -66,7 +66,6 @@ export default class TagAliasCommand extends Command {
 			second
 		}: { first: ITag; add: boolean; del: boolean; second: string }
 	) {
-		
 		if (add) {
 			if (second && second.length >= 1900) {
 				return message.util!.reply('Tag name is too long');

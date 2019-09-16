@@ -53,10 +53,11 @@ export default class TagListCommand extends Command {
 			return message.util!.send(embed);
 		}
 		tags = await TagModel.find({ guild: message.guild!.id });
-		if (!tags.length)
+		if (!tags.length) {
 			return message.util!.send(
 				`**${message.guild!.name}** doesn't have any tags.`
 			);
+		}
 
 		const hoistedTags = tags
 			.filter(tag => tag.hoisted)
@@ -75,8 +76,9 @@ export default class TagListCommand extends Command {
 			message.author!.displayAvatarURL()
 		);
 		if (hoistedTags) embed.addField('❯ Tags', hoistedTags);
-		if (userTags)
+		if (userTags) {
 			embed.addField(`❯ ${message.member!.displayName}'s tags`, userTags);
+		}
 
 		return message.util!.send(embed);
 	}

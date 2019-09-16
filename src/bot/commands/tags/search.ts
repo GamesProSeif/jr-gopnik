@@ -27,7 +27,7 @@ export default class TagSearchCommand extends Command {
 
 	public async exec(message: Message, { name }: { name: string }) {
 		name = Util.cleanContent(name, message);
-		const tags = await TagModel.find({ name: { $regex: '.*' + name + '.*'}});
+		const tags = await TagModel.find({ name: { $regex: `.*${name}.*` } });
 
 		if (!tags.length) return message.util!.reply(`No results found with query ${name}.`);
 
