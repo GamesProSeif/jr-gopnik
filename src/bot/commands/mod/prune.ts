@@ -1,5 +1,5 @@
 import { Argument, Command } from 'discord-akairo';
-import { GuildMember, Message, TextChannel } from 'discord.js';
+import { Collection, GuildMember, Message, Snowflake, TextChannel } from 'discord.js';
 
 interface PruneArgs {
   amount: number;
@@ -69,7 +69,7 @@ export default class PruneCommand extends Command {
   public async exec(message: Message, args: PruneArgs) {
     await message.delete();
 
-    let messages = await args.channel.messages.fetch({ limit: args.amount });
+    let messages = (await args.channel.messages.fetch({ limit: args.amount })).filter(() => true);
     // Check for valid fetch syntax or try using filter
 
     if (args.author) {
@@ -84,7 +84,7 @@ export default class PruneCommand extends Command {
     }
 
     if (messages.size) {
-      await args.channel.bulkDelete(messages);
+      await args.channel.bulkDelete(messages as Collection<Snowflake, Message>);
     }
 
     if (!args.hide) {

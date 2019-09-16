@@ -1,11 +1,9 @@
 import { Command } from 'discord-akairo';
 import {
-  Collection,
   GuildMember,
   Message,
   MessageEmbed,
   Role,
-  Snowflake
 } from 'discord.js';
 
 interface RaffleArgs {
@@ -77,7 +75,7 @@ export default class RaffleCommand extends Command {
   }
 
   public async exec(message: Message, args: RaffleArgs) {
-    let members = message.guild!.members as Collection<Snowflake, GuildMember>;
+    let members = message.guild!.members.filter(() => true);
 
     if (args.type === 'all') {
       // Do nothing
