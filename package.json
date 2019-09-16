@@ -8,9 +8,9 @@
     "serve": "node dist/index.js",
     "setup": "node dist/setup.js",
     "dev": "nodemon dist/index.js",
-    "postinstall": "npm run build-ts",
-    "build-ts": "tsc",
-    "watch-ts": "tsc -w"
+    "postinstall": "npm run build",
+    "build": "tsc",
+    "watch": "tsc -w"
   },
   "keywords": [
     "discord",
@@ -18,7 +18,7 @@
     "akairo"
   ],
   "engines": {
-    "node": "^10.0.0"
+    "node": ">=10.0.0"
   },
   "author": "GamesProSeif",
   "license": "MIT",
@@ -50,7 +50,6 @@
     "@types/common-tags": "^1.8.0",
     "@types/dotenv": "^6.1.1",
     "@types/inquirer": "^6.5.0",
-    "@types/moment": "^2.13.0",
     "@types/moment-duration-format": "^2.2.2",
     "@types/mongoose": "^5.5.13",
     "@types/node": "^12.7.2",
