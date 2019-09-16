@@ -10,6 +10,14 @@ declare module 'discord-akairo' {
 		listenerHandler: ListenerHandler;
 		inhibitorHandler: InhibitorHandler;
 	}
+
+	interface CommandOptions {
+		description?: {
+			content: string;
+			usage?: string;
+			examples: string[];
+		} | any;
+	}
 }
 
 declare module 'discord.js' {

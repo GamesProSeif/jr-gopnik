@@ -1,5 +1,5 @@
 import { Collection, Guild, Snowflake, Structures } from 'discord.js';
-import { ISnipe } from '../../typings';
+import { ISnipe } from 'typings';
 
 export default async () => Structures.extend('TextChannel', TextChannel => {
 	class GopnikTextChannel extends TextChannel {

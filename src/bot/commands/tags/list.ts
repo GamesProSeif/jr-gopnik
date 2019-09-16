@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { GuildMember, Message, MessageEmbed } from 'discord.js';
 import { TagModel } from '../../../models/tag';
-import { ITag } from '../../../typings';
+import { ITag } from 'typings';
 
 export default class TagListCommand extends Command {
 	constructor() {

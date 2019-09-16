@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { ITag } from '../typings';
+import { ITag } from 'typings';
 
 export const TagSchema = new Schema({
 	user: {

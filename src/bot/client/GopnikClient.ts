@@ -10,7 +10,7 @@ import { join } from 'path';
 import clientConfig from '../../../config.json';
 import * as clientFunctions from '../../config/functions';
 import { TagModel } from '../../models/tag';
-import { ClientConfig } from '../../typings/index.js';
+import { ClientConfig } from 'typings';
 
 const commandsPath = join(__dirname, '..', 'commands/');
 const inhibitorsPath = join(__dirname, '..', 'inhibitors/');

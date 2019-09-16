@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
 import { Message, Util } from 'discord.js';
-import { ITag } from '../../../typings';
+import { ITag } from 'typings';
 
 export default class TagEditCommand extends Command {
 	constructor() {

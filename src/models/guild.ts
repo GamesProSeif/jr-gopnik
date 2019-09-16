@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { prefix } from '../../config.json';
-import { IGuild, IGuildSettings } from '../typings';
+import { IGuild, IGuildSettings } from 'typings';
 
 export const defaultSettings: IGuildSettings = {
 	prefix,
