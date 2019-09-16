@@ -1,5 +1,5 @@
 import { Argument, Command } from 'discord-akairo';
-import { Collection, GuildMember, Message, Snowflake, TextChannel } from 'discord.js';
+import { GuildMember, Message, TextChannel } from 'discord.js';
 
 interface PruneArgs {
 	amount: number;
@@ -83,7 +83,7 @@ export default class PruneCommand extends Command {
 		}
 
 		if (messages.size) {
-			await args.channel.bulkDelete(messages as Collection<Snowflake, Message>);
+			await args.channel.bulkDelete(messages.map(m => m.id));
 		}
 
 		if (!args.hide) {

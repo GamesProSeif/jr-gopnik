@@ -1,6 +1,6 @@
 import { ShardingManager } from 'discord.js';
 import { config } from 'dotenv';
-import mongoose from 'mongoose';
+import * as mongoose from 'mongoose';
 import * as clientConfig from '../config.json';
 
 // tslint:disable-next-line: no-var-requires
@@ -20,9 +20,11 @@ const runBot = async () => {
 	});
 };
 
+
+mongoose.connect(process.env.DB_URI!, { useNewUrlParser: true, useUnifiedTopology: true });
+
 mongoose.set('useCreateIndex', true);
 
-mongoose.connect(process.env.DB_URI!, { useNewUrlParser: true });
 const db = mongoose.connection;
 
 db.once('open', () => {
