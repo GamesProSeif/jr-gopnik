@@ -2,7 +2,7 @@ import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
 import * as moment from 'moment';
 import fetch from 'node-fetch';
-import pack from '../../../../package.json';
+import * as pack from '../../../../package.json';
 
 export default class StatsCommand extends Command {
 	constructor() {
