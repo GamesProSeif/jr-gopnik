@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
 import { Message, MessageEmbed, User } from 'discord.js';
-import moment from 'moment';
+import * as moment from 'moment';
 import { ITag } from 'typings';
 
 export default class TagInfoCommand extends Command {

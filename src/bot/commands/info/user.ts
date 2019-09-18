@@ -1,7 +1,7 @@
 import { stripIndents } from 'common-tags';
 import { Command } from 'discord-akairo';
 import { Message, MessageEmbed, Role } from 'discord.js';
-import moment from 'moment';
+import * as moment from 'moment';
 
 export default class UserCommand extends Command {
 	constructor() {

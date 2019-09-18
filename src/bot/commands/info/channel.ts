@@ -7,7 +7,7 @@ import {
 	TextChannel,
 	VoiceChannel
 } from 'discord.js';
-import moment from 'moment';
+import * as moment from 'moment';
 
 export default class ChannelCommand extends Command {
 	constructor() {
