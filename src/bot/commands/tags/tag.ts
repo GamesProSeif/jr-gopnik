@@ -5,7 +5,7 @@ import { Message } from 'discord.js';
 export default class TagCommand extends Command {
 	constructor() {
 		super('tag', {
-			aliases: ['tag'],
+			aliases: ['tag', 't'],
 			description: {
 				content: stripIndents`
         Available methods:
