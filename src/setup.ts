@@ -21,7 +21,7 @@ const run = async () => {
 			name: 'ownerID',
 			type: 'input',
 			message:
-        'What is the owner ID? (for more owners add IDs separated by commas)'
+				'What is the owner ID? (for more owners add IDs separated by commas)'
 		},
 		{
 			name: 'prefix',
@@ -32,7 +32,7 @@ const run = async () => {
 			name: 'sharding',
 			type: 'confirm',
 			message:
-        'Do you want sharding feature? (for bots in more than 2500 servers)'
+				'Do you want sharding feature? (for bots in more than 2500 servers)'
 		},
 		{
 			name: 'serverHost',

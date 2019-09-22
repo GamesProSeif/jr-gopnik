@@ -29,7 +29,7 @@ export default class EmojiCommand extends Command {
 						}
 						return (
 							message.guild!.emojis.find(e => e.name === content) ||
-              emojis.find(content)
+								emojis.find(content)
 						);
 					}
 				}
@@ -50,31 +50,20 @@ export default class EmojiCommand extends Command {
 			embed.addField(
 				'❯ Info',
 				stripIndents`
-        • Identifier: \`<${emoji.identifier}>\`
-        • Creation Date: ${moment
-		.utc(emoji.createdAt)
-		.format('YYYY/MM/DD hh:mm:ss [UTC]')}
-        • URL: ${emoji.url}
-        `
+				• Identifier: \`<${emoji.identifier}>\`
+				• Creation Date: ${moment.utc(emoji.createdAt).format('YYYY/MM/DD hh:mm:ss [UTC]')}
+				• URL: ${emoji.url}
+				`
 			);
 		} else {
 			embed.setDescription(`Info about ${emoji.emoji}`);
 			embed.addField(
 				'❯ Info',
 				stripIndents`
-        • Name: \`${emoji.key}\`
-        • Raw: \`${emoji.emoji}\`
-        • Unicode: \`${punycode.ucs2
-		.decode(emoji.emoji)
-		.map(
-			e =>
-				`\\u${e
-					.toString(16)
-					.toUpperCase()
-					.padStart(4, '0')}`
-		)
-		.join('')}\`
-          `
+				• Name: \`${emoji.key}\`
+				• Raw: \`${emoji.emoji}\`
+				• Unicode: \`${punycode.ucs2.decode(emoji.emoji).map(e => `\\u${e.toString(16).toUpperCase().padStart(4, '0')}`).join('')}\`
+				`
 			);
 		}
 

@@ -45,14 +45,14 @@ export default class TagAliasCommand extends Command {
 					retry: (_: Message, { failure }: { failure: { value: string } }) =>
 						`A tag with the name **${failure.value}** already exists.`
 				}
-			  }
+			}
 			: {
 				match: 'rest',
 				type: 'string',
 				prompt: {
 					start: 'What is the alias you want to remove from this tag'
 				}
-			  };
+			};
 
 		return { first, add, del, second };
 	}

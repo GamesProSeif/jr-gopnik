@@ -33,30 +33,26 @@ export default class ServerCommand extends Command {
 			.addField(
 				'❯ Channels',
 				stripIndents`
-        • ${guild.channels.filter(c => c.type === 'text').size} Text, ${
-	guild.channels.filter(c => c.type === 'voice').size
-} Voice
-        • AFK: ${guild.afkChannel ? guild.afkChannel : 'None'}
-        `
+				• ${guild.channels.filter(c => c.type === 'text').size} Text, ${guild.channels.filter(c => c.type === 'voice').size} Voice
+				• AFK: ${guild.afkChannel ? guild.afkChannel : 'None'}
+				`
 			)
 			.addField(
 				'❯ Member',
 				stripIndents`
-        • ${guild.memberCount} members
-        • Owner: ${guild.owner!.user.tag} (ID: ${guild.ownerID})
-        `
+				• ${guild.memberCount} members
+				• Owner: ${guild.owner!.user.tag} (ID: ${guild.ownerID})
+				`
 			)
 			.addField(
 				'❯ Other',
 				stripIndents`
-        • Roles: ${guild.roles.size}
-        • Region: ${guild.region}
-        • Creation Date: ${moment.utc(guild.createdAt).format(
-		'dddd, MMMM Do YYYY, h:mm:ss A [UTC]'
-	)}
-        • Verification Level: ${HUMAN_LEVELS[guild.verificationLevel]}
-        • Nitro Server Boosts: ${guild.premiumSubscriptionCount || 0}
-        `
+				• Roles: ${guild.roles.size}
+				• Region: ${guild.region}
+				• Creation Date: ${moment.utc(guild.createdAt).format('dddd, MMMM Do YYYY, h:mm:ss A [UTC]')}
+				• Verification Level: ${HUMAN_LEVELS[guild.verificationLevel]}
+				• Nitro Server Boosts: ${guild.premiumSubscriptionCount || 0}
+				`
 			);
 
 		return message.util!.send(embed);

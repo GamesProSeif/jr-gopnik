@@ -8,7 +8,7 @@ class AvatarCommand extends Command {
 			category: 'info',
 			description: {
 				content:
-          'Displays the avatar of a member\n**Available arguments**\n• Format: `webp`, `jpg`, `png`, `gif`\n• Size: `16`, `32`, `64`, `128`, `256`, `512`, `1024`, `2048`',
+					'Displays the avatar of a member\n**Available arguments**\n• Format: `webp`, `jpg`, `png`, `gif`\n• Size: `16`, `32`, `64`, `128`, `256`, `512`, `1024`, `2048`',
 				usage: '[member] [format:] [size:]',
 				examples: ['format:jpg', 'xPLEBx size:64', 'Noob101 f:png s:512']
 			},

@@ -30,9 +30,9 @@ export default async () => {
 					data.user_role = data.user_role || this.settings!.user_role;
 					data.bot_role = data.bot_role || this.settings!.bot_role;
 					data.auto_assign_roles =
-            data.auto_assign_roles || this.settings!.auto_assign_roles;
+						data.auto_assign_roles || this.settings!.auto_assign_roles;
 					data.member_logs_channel =
-            data.member_logs_channel || this.settings!.member_logs_channel;
+						data.member_logs_channel || this.settings!.member_logs_channel;
 					data.logging = data.logging || this.settings!.logging;
 
 					guild!.settings = data;

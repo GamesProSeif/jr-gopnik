@@ -25,9 +25,9 @@ export default class PingCommand extends Command {
 			.setTitle('Pong!')
 			.setDescription(
 				stripIndents`
-        ⏰ ${botPing} ms
-        💓 ${botHeartbeat} ms
-        `
+				⏰ ${botPing} ms
+				💓 ${botHeartbeat} ms
+				`
 			);
 
 		return sent.edit({ content: null, embed });

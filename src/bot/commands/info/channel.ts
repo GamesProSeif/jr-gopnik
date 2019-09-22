@@ -44,12 +44,10 @@ export default class ChannelCommand extends Command {
 			.addField(
 				'❯ General Info',
 				stripIndents`
-        • Type: ${channel.type}
-        • Position: ${channel.position}
-        • Creation Date: ${moment.utc(channel.createdAt).format(
-		'dddd, MMMM Do YYYY, h:mm:ss A [UTC]'
-	)}
-        `
+				• Type: ${channel.type}
+				• Position: ${channel.position}
+				• Creation Date: ${moment.utc(channel.createdAt).format('dddd, MMMM Do YYYY, h:mm:ss A [UTC]')}
+				`
 			);
 
 		if (channel.type === 'text') {
@@ -57,11 +55,11 @@ export default class ChannelCommand extends Command {
 			embed.addField(
 				'❯ Text Info',
 				stripIndents`
-        • Topic: ${textChannel.topic ? textChannel.topic : 'None'}
-        • NSFW: ${Boolean(textChannel.nsfw)}
-        • Viewable by: ${textChannel.members.size} members
-        • Last message by: ${textChannel.lastMessage!.author}
-        `
+				• Topic: ${textChannel.topic ? textChannel.topic : 'None'}
+				• NSFW: ${Boolean(textChannel.nsfw)}
+				• Viewable by: ${textChannel.members.size} members
+				• Last message by: ${textChannel.lastMessage!.author}
+				`
 			);
 		}
 
@@ -70,12 +68,10 @@ export default class ChannelCommand extends Command {
 			embed.addField(
 				'❯ Voice Info',
 				stripIndents`
-        • Bitrate: ${voiceChanenl.bitrate}
-        • Limit: ${
-	voiceChanenl.userLimit ? voiceChanenl.userLimit : 'unlimited'
-}
-        • Member Count: ${voiceChanenl.members.size}
-        `
+				• Bitrate: ${voiceChanenl.bitrate}
+				• Limit: ${voiceChanenl.userLimit ? voiceChanenl.userLimit : 'unlimited'}
+				• Member Count: ${voiceChanenl.members.size}
+				`
 			);
 		}
 

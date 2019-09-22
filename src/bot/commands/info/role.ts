@@ -67,7 +67,7 @@ export default class RoleCommand extends Command {
 			? ['ADMINISTRATOR']
 			: permissions;
 		const formatPerms =
-      permsList.map(perm => `• ${PERMISSIONS[perm]}`).join('\n') || 'None';
+			permsList.map(perm => `• ${PERMISSIONS[perm]}`).join('\n') || 'None';
 
 		const embed = new MessageEmbed()
 			.setColor(role.color)
@@ -76,15 +76,11 @@ export default class RoleCommand extends Command {
 			.addField(
 				'❯ Info',
 				stripIndents`
-        • Color: ${role.hexColor.toUpperCase()}\n• Hoisted: ${
-	role.hoist ? 'Yes' : 'No'
-}
-        • Position: ${role.position}
-        • Mentionable: ${role.mentionable ? 'Yes' : 'No'}
-        • Creation Date: ${moment.utc(role.createdAt).format(
-		'dddd, MMMM Do YYYY, h:mm:ss A [UTC]'
-	)}
-        `
+				• Color: ${role.hexColor.toUpperCase()}\n• Hoisted: ${role.hoist ? 'Yes' : 'No'}
+				• Position: ${role.position}
+				• Mentionable: ${role.mentionable ? 'Yes' : 'No'}
+				• Creation Date: ${moment.utc(role.createdAt).format('dddd, MMMM Do YYYY, h:mm:ss A [UTC]')}
+				`
 			)
 			.addField('❯ Permissions', formatPerms);
 

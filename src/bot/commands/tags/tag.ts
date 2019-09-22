@@ -8,18 +8,18 @@ export default class TagCommand extends Command {
 			aliases: ['tag', 't'],
 			description: {
 				content: stripIndents`
-        Available methods:
-         • show \`<tag>\`
-         • add \`[--hoist] <tag> <content>\`
-         • alias \`<--add/--del> <tag> <tagalias>\`
-         • del \`<tag>\`
-         • edit \`[--hoist/--unhoist] <tag> <content>\`
-         • source \`[--file] <tag>\`
-         • info \`<tag>\`
-         • search \`<tag>\`
-         • list \`[member]\`
-         • download \`[member]\`
-        `,
+				Available methods:
+				• show \`<tag>\`
+				• add \`[--hoist] <tag> <content>\`
+				• alias \`<--add/--del> <tag> <tagalias>\`
+				• del \`<tag>\`
+				• edit \`[--hoist/--unhoist] <tag> <content>\`
+				• source \`[--file] <tag>\`
+				• info \`<tag>\`
+				• search \`<tag>\`
+				• list \`[member]\`
+				• download \`[member]\`
+				`,
 				usage: '<method> <...arguments>',
 				examples: [
 					'show abc',

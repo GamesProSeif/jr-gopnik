@@ -41,14 +41,14 @@ export default class IpCommand extends Command {
 			.setTitle(`Information about IP ${json.ipAddress}`)
 			.setDescription(
 				stripIndents`
-        • Country Code: ${json.countryCode}
-        • Country Name: ${json.countryName}
-        • Region Name: ${json.regionName}
-        • Zip Code: ${json.zipCode}
-        • Latitude: ${json.latitude}
-        • Longitude: ${json.longitude}
-        • Time Zone: ${json.timeZone}
-        `
+				• Country Code: ${json.countryCode}
+				• Country Name: ${json.countryName}
+				• Region Name: ${json.regionName}
+				• Zip Code: ${json.zipCode}
+				• Latitude: ${json.latitude}
+				• Longitude: ${json.longitude}
+				• Time Zone: ${json.timeZone}
+				`
 			);
 
 		return sent.edit({

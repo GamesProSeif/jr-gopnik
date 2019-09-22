@@ -69,11 +69,11 @@ export default class EvalCommand extends Command {
 		} catch (err) {
 			message.util!.send(
 				stripIndents`
-        \`ERROR\`
-        \`\`\`
-        ${this.client.functions.clean(err)}
-        \`\`\`
-      `
+				\`ERROR\`
+				\`\`\`
+				${this.client.functions.clean(err)}
+				\`\`\`
+				`
 			);
 		}
 	}

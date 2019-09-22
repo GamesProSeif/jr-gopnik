@@ -33,25 +33,21 @@ export default class UserCommand extends Command {
 			.addField(
 				'❯ Member Details',
 				stripIndents`
-        • Nickname: ${member.nickname ? member.nickname : 'None'}
-        • Roles: ${member.roles.map((r: Role) => `\`${r.name}\``).join(' ')}
-        • Joined At: ${moment.utc(member.joinedAt).format(
-		'dddd, MMMM Do YYYY, h:mm:ss A [UTC]'
-	)}`,
+				• Nickname: ${member.nickname ? member.nickname : 'None'}
+				• Roles: ${member.roles.map((r: Role) => `\`${r.name}\``).join(' ')}
+				• Joined At: ${moment.utc(member.joinedAt).format('dddd, MMMM Do YYYY, h:mm:ss A [UTC]')}
+				`,
 				true
 			)
 			.addField(
 				'❯ User Details',
 				stripIndents`
-        • ID: ${user.id}
-        • Username: ${user.tag}
-        • Creation Date: ${moment.utc(user.createdAt).format(
-		'dddd, MMMM Do YYYY, h:mm:ss A [UTC]'
-	)}
-        • Status: ${user.presence.status.toUpperCase()}
-        • Activity: ${
-	user.presence.activity ? user.presence.activity : 'None'
-}`,
+				• ID: ${user.id}
+				• Username: ${user.tag}
+				• Creation Date: ${moment.utc(user.createdAt).format('dddd, MMMM Do YYYY, h:mm:ss A [UTC]')}
+				• Status: ${user.presence.status.toUpperCase()}
+				• Activity: ${user.presence.activity ? user.presence.activity : 'None'}
+				`,
 				true
 			);
 

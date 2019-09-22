@@ -44,19 +44,19 @@ export default class WebsiteCommand extends Command {
 					.addField(
 						'❯ Website Details',
 						stripIndents`
-            • Online?: Yes
-            • Status Code: ${res.status}
-            • Content Type: ${res.headers.get('content-type')}
-            `
+						• Online?: Yes
+						• Status Code: ${res.status}
+						• Content Type: ${res.headers.get('content-type')}
+						`
 					)
 					.addField(
 						'❯ URL Details',
 						stripIndents`
-            • Href: ${url.href}
-            • Host: ${url.host}
-            • Protocol: ${url.protocol}
-            • IPv${family}: ${address}
-            `
+						• Href: ${url.href}
+						• Host: ${url.host}
+						• Protocol: ${url.protocol}
+						• IPv${family}: ${address}
+						`
 					);
 			} else {
 				embed
@@ -65,17 +65,17 @@ export default class WebsiteCommand extends Command {
 					.addField(
 						'❯ Website Details',
 						stripIndents`
-            • Online?: No
-            • Status Code: ${res.status}
-            `
+						• Online?: No
+						• Status Code: ${res.status}
+						`
 					)
 					.addField(
 						'❯ URL Details',
 						stripIndents`
-            • Href: ${url.href}
-            • Host: ${url.host}
-            • Protocol: ${url.protocol}
-            `
+						• Href: ${url.href}
+						• Host: ${url.host}
+						• Protocol: ${url.protocol}
+						`
 					);
 			}
 

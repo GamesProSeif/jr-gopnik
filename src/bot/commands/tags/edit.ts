@@ -40,14 +40,14 @@ export default class TagEditCommand extends Command {
 			? {
 				match: 'rest',
 				type: 'tagContent'
-			  }
+			}
 			: {
 				match: 'rest',
 				type: 'tagContent',
 				prompt: {
 					start: 'What should the new content be?'
 				}
-			  };
+			};
 
 		return { tag, hoist, unhoist, content };
 	}

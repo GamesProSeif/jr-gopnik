@@ -159,7 +159,7 @@ export default class ColourCommand extends Command {
 			aliases: ['color', 'colour', 'color-info', 'colour-info', 'c'],
 			description: {
 				content:
-          'Displays information about a color\n**Available Formats:** Hex, RGB, HSL, HSV, HWB, CMYK, Integer, Ansi16, Ansi256, and CSS keywords',
+					'Displays information about a color\n**Available Formats:** Hex, RGB, HSL, HSV, HWB, CMYK, Integer, Ansi16, Ansi256, and CSS keywords',
 				usage: '<color-value>',
 				examples: [
 					'#FFFFFF',

@@ -40,7 +40,7 @@ export default class BanCommand extends Command {
 	) {
 		if (
 			args.member.roles.highest.position >=
-      message.member!.roles.highest.position
+				message.member!.roles.highest.position
 		) {
 			return this.client.commandHandler.emit(
 				'missingPermissions',
@@ -52,7 +52,7 @@ export default class BanCommand extends Command {
 		}
 		if (
 			args.member.roles.highest.position >=
-      message.guild!.me!.roles.highest.position
+				message.guild!.me!.roles.highest.position
 		) {
 			return this.client.commandHandler.emit(
 				'missingPermissions',

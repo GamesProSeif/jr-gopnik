@@ -57,11 +57,11 @@ export default class HelpCommand extends Command {
 				.setTitle('❯ Commands')
 				.setDescription(
 					stripIndents`
-          A list of available commands.
-          For additional info on a command, type \`${prefix}help <command>\`
-          <> mean required, [] mean optional
-          Numbers represent modules
-          `
+					A list of available commands.
+					For additional info on a command, type \`${prefix}help <command>\`
+					<> mean required, [] mean optional
+					Numbers represent modules
+					`
 				)
 				.setFooter(
 					`${this.handler.modules.size} Modules`,
