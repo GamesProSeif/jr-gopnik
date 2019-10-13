@@ -3,17 +3,17 @@ import { TOPICS, EVENTS } from '../../util/logger';
 
 export default class ClientErrorListener extends Listener {
 	constructor() {
-		super('clientError', {
+		super('clientDebug', {
 			emitter: 'client',
-			event: 'error',
+			event: 'debug',
 			category: 'client'
 		});
 	}
 
-	public exec(error: any) {
-		this.client.logger.error(error, {
+	public exec(info: string) {
+		this.client.logger.debug(info, {
 			topic: TOPICS.DISCORD,
-			event: EVENTS.ERROR
+			event: EVENTS.DEBUG
 		});
 	}
 }

@@ -25,7 +25,6 @@ export default class EmbedCommmand extends Command {
 
 	public async exec(message: Message, args: any) {
 		try {
-			console.log(args.json);
 			const embed = await JSON.parse(args.json);
 			if (embed.color) {
 				embed.color = parseInt(embed.color.replace('#', '0x'), 16);

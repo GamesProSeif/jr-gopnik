@@ -1,8 +1,10 @@
 import { Collection, Snowflake } from 'discord.js';
 import { ClientConfig, GopnikFunctions, IGuildSettings, ISnipe } from '.';
+import { Logger } from 'winston';
 
 declare module 'discord-akairo' {
 	interface AkairoClient {
+		logger: Logger;
 		ready: boolean;
 		config: ClientConfig;
 		functions: GopnikFunctions;

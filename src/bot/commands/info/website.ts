@@ -4,6 +4,7 @@ import { Message, MessageEmbed } from 'discord.js';
 import { lookup } from 'dns';
 import fetch from 'node-fetch';
 import { promisify } from 'util';
+import { TOPICS } from '../../util/logger';
 
 const getIp = promisify(lookup);
 
@@ -81,7 +82,9 @@ export default class WebsiteCommand extends Command {
 
 			return message.util!.send(embed);
 		} catch (error) {
-			console.log(error);
+			this.client.logger.error(error, {
+				topic: TOPICS.DISCORD
+			});
 			return message.util!.send(
 				'An error occurred while getting information about your website'
 			);

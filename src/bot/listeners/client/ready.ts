@@ -1,5 +1,6 @@
 import { Listener } from 'discord-akairo';
 import { prefix } from '../../../../config.json';
+import { EVENTS, TOPICS } from '../../util/logger';
 
 const clientPrefix =
 	process.env.NODE_ENV === 'development' ? prefix.replace(/.$/, '@') : prefix;
@@ -16,6 +17,9 @@ export default class Ready extends Listener {
 	public async exec() {
 		await this.client.user!.setActivity(`${clientPrefix}help`);
 		this.client.ready = true;
-		console.log(`${this.client.user!.username} launched...`);
+		this.client.logger.info(`${this.client.user!.username} launched...`, {
+			topic: TOPICS.DISCORD,
+			event: EVENTS.READY
+		});
 	}
 }

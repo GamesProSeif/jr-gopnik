@@ -2,6 +2,7 @@ import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 import { readdirSync } from 'fs';
 import * as path from 'path';
+import { TOPICS } from '../../util/logger';
 
 export default class LaterCommand extends Command {
 	constructor() {
@@ -41,8 +42,10 @@ export default class LaterCommand extends Command {
 			return message.util!.send({
 				files: [file]
 			});
-		} catch (e) {
-			return console.log(e);
+		} catch (error) {
+			return this.client.logger.error(error, {
+				topic: TOPICS.DISCORD
+			});
 		}
 	}
 }

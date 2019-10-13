@@ -1,8 +1,9 @@
 import { Listener } from 'discord-akairo';
+import { EVENTS, TOPICS } from '../../util/logger';
 
 export default class ClientWarnListener extends Listener {
 	constructor() {
-		super('client-warn', {
+		super('clientWarn', {
 			emitter: 'client',
 			event: 'warn',
 			category: 'client'
@@ -10,6 +11,6 @@ export default class ClientWarnListener extends Listener {
 	}
 
 	public exec(warning: string) {
-		console.warn(warning);
+		this.client.logger.warn(warning, { topic: TOPICS.DISCORD, event: EVENTS.WARN });
 	}
 }

@@ -1,6 +1,7 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 import { Url } from 'url';
+import { TOPICS } from '../../util/logger';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const shortURL = require('shorturl');
@@ -40,7 +41,9 @@ class ShortenCommand extends Command {
 				(shortenedURL: string) => message.util!.send(`<${shortenedURL}>`)
 			);
 		} catch (error) {
-			console.error(error);
+			this.client.logger.error(error, {
+				topic: TOPICS.DISCORD
+			});
 			return message.util!.send(
 				'An error occurred while trying to shorten your URL'
 			);

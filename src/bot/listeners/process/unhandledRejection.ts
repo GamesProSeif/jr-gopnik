@@ -1,4 +1,5 @@
 import { Listener } from 'discord-akairo';
+import { TOPICS } from '../../util/logger';
 
 export default class UnhandledRejectionListener extends Listener {
 	constructor() {
@@ -8,7 +9,7 @@ export default class UnhandledRejectionListener extends Listener {
 		});
 	}
 
-	public exec(error: Error) {
-		console.error(error);
+	public exec(error: any) {
+		this.client.logger.error(error, { topic: TOPICS.UNHANDLED_REJECTION });
 	}
 }

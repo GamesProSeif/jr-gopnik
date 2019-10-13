@@ -1,5 +1,6 @@
 import { Command, Listener } from 'discord-akairo';
 import { Message } from 'discord.js';
+import { EVENTS, TOPICS } from '../../util/logger';
 
 export default class CommandBlockedListener extends Listener {
 	constructor() {
@@ -26,10 +27,14 @@ export default class CommandBlockedListener extends Listener {
 		} else if (reason === 'blacklist') {
 			return message.util!.reply(`You are blacklisted...`);
 		}
-		return console.log(
+		return this.client.logger.info(
 			`${message.author!.username} was blocked from using ${
 				command.id
-			} because of ${reason}!`
+			} because of ${reason}!`,
+			{
+				topic: TOPICS.DISCORD,
+				event: EVENTS.COMMAND_BLOCKED
+			}
 		);
 	}
 }

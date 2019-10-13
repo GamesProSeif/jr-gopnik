@@ -8,7 +8,8 @@ import {
 import { Util } from 'discord.js';
 import { join } from 'path';
 import * as clientConfig from '../../../config.json';
-import * as clientFunctions from '../../config/functions';
+import { logger, EVENTS, TOPICS } from '../util/logger';
+import * as clientFunctions from '../util/functions';
 import { TagModel } from '../../models/tag';
 import { ClientConfig } from 'typings';
 
@@ -18,6 +19,8 @@ const listenersPath = join(__dirname, '..', 'listeners/');
 
 export default class GopnikClient extends AkairoClient {
 	public ready = false;
+
+	public logger = logger;
 
 	public config: ClientConfig = clientConfig;
 
@@ -120,11 +123,11 @@ export default class GopnikClient extends AkairoClient {
 	}
 
 	public async start(token: string) {
-		await this._init();
+		this._init();
 		return this.login(token);
 	}
 
-	private async _init() {
+	private _init() {
 		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
 		this.commandHandler.useListenerHandler(this.listenerHandler);
 
@@ -136,7 +139,10 @@ export default class GopnikClient extends AkairoClient {
 		});
 
 		this.commandHandler.loadAll();
+		this.logger.info('Command handler loaded', { topic: TOPICS.DISCORD_AKAIRO, event: EVENTS.INIT });
 		this.inhibitorHandler.loadAll();
+		this.logger.info('Inhibitor handler loaded', { topic: TOPICS.DISCORD_AKAIRO, event: EVENTS.INIT });
 		this.listenerHandler.loadAll();
+		this.logger.info('Listener handler loaded', { topic: TOPICS.DISCORD_AKAIRO, event: EVENTS.INIT });
 	}
 }
