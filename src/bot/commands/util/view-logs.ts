@@ -25,8 +25,6 @@ export default class ViewLogsCommand extends Command {
 			.sort()
 			.reverse();
 
-		console.log(logfiles);
-
 		if (logfiles.length === 1) return { filename: logfiles[0] };
 
 		const index: number = yield {
