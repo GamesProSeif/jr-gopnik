@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
-import search from 'youtube-search';
+import * as search from 'youtube-search';
 
 const opts = {
 	maxResults: 10,
