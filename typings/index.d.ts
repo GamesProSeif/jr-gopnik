@@ -1,9 +1,6 @@
 import { Message, Snowflake } from 'discord.js';
 import {
-	AkairoClient,
 	CommandHandler,
-	ListenerHandler,
-	InhibitorHandler,
 	Command
 } from 'discord-akairo';
 import { Document } from 'mongoose';
@@ -43,12 +40,6 @@ export interface IGuildData {
 
 export interface GopnikCommandHandler extends CommandHandler {
 	prefix(message?: Message): string;
-}
-
-export interface AkairoClient extends AkairoClient {
-	commandHandler: GopnikCommandHandler;
-	listenerHandler: ListenerHandler;
-	inhibitorHandler: InhibitorHandler;
 }
 
 export interface GopnikCommand extends Command {
