@@ -1,4 +1,4 @@
-import convert from 'color-convert';
+import * as convert from 'color-convert';
 import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
 
