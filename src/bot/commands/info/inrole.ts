@@ -31,7 +31,7 @@ export default class InRoleCommand extends Command {
 		};
 
 		let members = (await role.guild!.members.fetch()) as Collection<Snowflake, GuildMember>;
-		members = members.filter(m => m.roles.has(role.id)) as Collection<Snowflake, GuildMember>;
+		members = members.filter(m => m.roles.cache.has(role.id)) as Collection<Snowflake, GuildMember>;
 
 		const memberList = Util.splitMessage(
 			members

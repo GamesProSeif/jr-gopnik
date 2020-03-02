@@ -70,7 +70,7 @@ export default class SnipeCommand extends Command {
 			return message.util!.send(embed);
 		}
 
-		const author = this.client.users.get(snipe.author)!;
+		const author = this.client.users.cache.get(snipe.author)!;
 
 		embed
 			.setColor(this.client.config.colors!.primary)

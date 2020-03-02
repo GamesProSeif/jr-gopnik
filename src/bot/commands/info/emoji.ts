@@ -25,10 +25,10 @@ export default class EmojiCommand extends Command {
 							content = matched!.groups!.content;
 						}
 						if (!isNaN(parseInt(content, 10))) {
-							return message.guild!.emojis.get(content);
+							return message.guild!.emojis.cache.get(content);
 						}
 						return (
-							message.guild!.emojis.find(e => e.name === content) ||
+							message.guild!.emojis.cache.find(e => e.name === content) ||
 								emojis.find(content)
 						);
 					}

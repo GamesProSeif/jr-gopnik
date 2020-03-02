@@ -75,7 +75,7 @@ export default class RaffleCommand extends Command {
 	}
 
 	public async exec(message: Message, args: RaffleArgs) {
-		let members = message.guild!.members.filter(() => true);
+		let members = message.guild!.members.cache.filter(() => true);
 
 		if (args.type === 'all') {
 			// Do nothing
@@ -98,7 +98,7 @@ export default class RaffleCommand extends Command {
 		if (args.role) {
 			// tslint:disable-next-line: no-shadowed-variable
 			members = members.filter((member: GuildMember) =>
-				member.roles.has(args.role!.id));
+				member.roles.cache.has(args.role!.id));
 		}
 
 		if (!members.size) {

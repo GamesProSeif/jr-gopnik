@@ -36,7 +36,7 @@ export default class TagInfoCommand extends Command {
 		} catch (error) {
 			lastModified = null;
 		}
-		const guild = this.client.guilds.get(tag.guild);
+		const guild = this.client.guilds.cache.get(tag.guild);
 
 		const embed = new MessageEmbed()
 			.setColor(this.client.config.colors!.info)

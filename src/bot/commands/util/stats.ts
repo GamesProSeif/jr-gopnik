@@ -42,9 +42,11 @@ export default class StatsCommand extends Command {
 			channelSize = channelSizeResults.reduce((a, b) => a + b);
 			userSize = userSizeResults.reduce((a, b) => a + b);
 		} else {
-			guildSize = this.client.guilds.size;
-			channelSize = this.client.channels.size;
-			userSize = this.client.guilds.reduce((a, b) => a + b.memberCount, 0);
+			guildSize = this.client.guilds.cache.size;
+			channelSize = this.client.channels.cache.size;
+			userSize = this.client.guilds.cache.reduce(
+				(a, b) => a + b.memberCount, 0
+			);
 		}
 
 		const embed = new MessageEmbed()

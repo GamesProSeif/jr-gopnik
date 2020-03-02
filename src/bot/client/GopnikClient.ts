@@ -8,7 +8,8 @@ import {
 import { Util } from 'discord.js';
 import { join } from 'path';
 import * as clientConfig from '../../../config.json';
-import { logger, EVENTS, TOPICS } from '../util/logger';
+import { EVENTS, TOPICS } from '../util/logger';
+import { generateLogger } from 'gamesproseif-common';
 import * as clientFunctions from '../util/functions';
 import { TagModel } from '../../models/tag';
 import { ClientConfig } from 'typings';
@@ -20,7 +21,12 @@ const listenersPath = join(__dirname, '..', 'listeners/');
 export default class GopnikClient extends AkairoClient {
 	public ready = false;
 
-	public logger = logger;
+	public logger = generateLogger({
+		label: 'BOT',
+		prefix: 'jrgopnik',
+		dirname: join(process.cwd(), 'logs/'),
+		enableRotateFile: true
+	});
 
 	public config: ClientConfig = clientConfig;
 
