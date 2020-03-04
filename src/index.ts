@@ -1,17 +1,14 @@
 import { ShardingManager } from 'discord.js';
-import { config } from 'dotenv';
-import * as mongoose from 'mongoose';
-import * as clientConfig from '../config.json';
-import { logger, EVENTS, TOPICS } from './bot/util/logger';
+import './util/env';
+import { SHARDING } from './util/constants';
+import 'moment-duration-format';
 
 // tslint:disable-next-line: no-var-requires
-require('moment-duration-format');
-
-config({ path: './.env' });
+// require('moment-duration-format');
 
 const runBot = async () => {
-	if (!clientConfig.sharding) {
-		return require('./bot/bot.js');
+	if (!SHARDING) {
+		return require('./bot.js');
 	}
 	const manager = new ShardingManager('./bot/bot.js');
 
@@ -21,23 +18,4 @@ const runBot = async () => {
 	});
 };
 
-mongoose.connect(process.env.DB_URI!, { useNewUrlParser: true, useUnifiedTopology: true });
-
-mongoose.set('useCreateIndex', true);
-
-const db = mongoose.connection;
-
-db.once('open', () => {
-	logger.info('Connected to MongoDB', {
-		topic: TOPICS.MONGOOSE,
-		event: EVENTS.INIT
-	});
-	runBot();
-});
-
-db.on('error', error => {
-	logger.error(error, {
-		topic: TOPICS.MONGOOSE,
-		event: EVENTS.INIT
-	});
-});
+runBot();

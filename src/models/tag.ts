@@ -1,45 +1,37 @@
-import { model, Schema } from 'mongoose';
-import { ITag } from 'typings';
+import { Column, Entity, ObjectIdColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-export const TagSchema = new Schema({
-	user: {
-		type: String,
-		required: true
-	},
-	guild: {
-		type: String,
-		required: true
-	},
-	name: {
-		type: String,
-		required: true
-	},
-	content: {
-		type: String,
-		required: true
-	},
-	hoisted: {
-		'type': Boolean,
-		'default': false
-	},
-	aliases: {
-		type: [String]
-	},
-	uses: {
-		'type': Number,
-		'default': 0
-	},
-	lastModified: {
-		type: String
-	},
-	createdAt: {
-		'type': Number,
-		'default': Date.now
-	},
-	updatedAt: {
-		'type': Number,
-		'default': Date.now
-	}
-});
+@Entity('tags')
+export class Tag {
+	@ObjectIdColumn()
+	public id!: string;
 
-export const TagModel = model<ITag>('tags', TagSchema);
+	@Column()
+	public user!: string;
+
+	@Column()
+	public guild!: string;
+
+	@Column()
+	public name!: string;
+
+	@Column()
+	public content!: string;
+
+	@Column()
+	public hoisted!: boolean;
+
+	@Column({ 'default': [] })
+	public aliases!: string[];
+
+	@Column({ 'default': 0 })
+	public uses!: number;
+
+	@Column()
+	public lastModified!: string;
+
+	@CreateDateColumn()
+	public createdAt!: Date;
+
+	@UpdateDateColumn()
+	public updatedAt!: Date;
+}

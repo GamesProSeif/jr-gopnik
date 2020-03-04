@@ -3,7 +3,6 @@ import {
 	CommandHandler,
 	Command
 } from 'discord-akairo';
-import { Document } from 'mongoose';
 
 export interface ClientConfig {
 	ownerID: Snowflake[];
@@ -18,24 +17,6 @@ export interface ClientConfig {
 	};
 	emojis?: object;
 	token?: string;
-}
-
-export interface IGuildSettings {
-	prefix: string;
-	user_role: Snowflake | null;
-	bot_role: Snowflake | null;
-	auto_assign_roles: boolean;
-	member_logs_channel: Snowflake | null;
-	logging: boolean;
-}
-
-export interface IGuild extends Document {
-	id: Snowflake;
-	settings: IGuildSettings;
-}
-
-export interface IGuildData {
-	id: Snowflake;
 }
 
 export interface GopnikCommandHandler extends CommandHandler {
@@ -61,7 +42,7 @@ export interface ISnipe {
 	timestamp: number;
 }
 
-export interface ITag extends Document {
+export interface ITag {
 	user: Snowflake;
 	guild: Snowflake;
 	name: string;
