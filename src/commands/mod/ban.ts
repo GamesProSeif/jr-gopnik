@@ -1,14 +1,14 @@
 import { Argument, Command } from 'discord-akairo';
 import { GuildMember, Message, MessageEmbed } from 'discord.js';
-import { COLORS } from '../../util/constants';
+import { COLORS, MESSAGES } from '../../util/constants';
 
 export default class BanCommand extends Command {
 	constructor() {
 		super('ban', {
 			aliases: ['ban'],
 			description: {
-				content: 'Bans a member',
-				usage: '<member> <reason>'
+				content: MESSAGES.COMMANDS.MOD.BAN.DESCRIPTION.CONTENT,
+				usage: MESSAGES.COMMANDS.MOD.BAN.DESCRIPTION.USAGE
 			},
 			category: 'mod',
 			channel: 'guild',
@@ -19,8 +19,8 @@ export default class BanCommand extends Command {
 					id: 'member',
 					type: 'member',
 					prompt: {
-						start: `Who do you want to ban?`,
-						retry: `Invalid member! Try again.`
+						start: MESSAGES.COMMANDS.MOD.BAN.ARGS.MEMBER.PROMPT.START,
+						retry: MESSAGES.COMMANDS.MOD.BAN.ARGS.MEMBER.PROMPT.RETRY
 					}
 				},
 				{
@@ -28,7 +28,7 @@ export default class BanCommand extends Command {
 					type: 'string',
 					match: 'rest',
 					prompt: {
-						start: `What's the reason? (Type \`none\` to leave empty)`
+						start: MESSAGES.COMMANDS.MOD.BAN.ARGS.REASON.PROMPT.START
 					}
 				}
 			]
@@ -37,10 +37,10 @@ export default class BanCommand extends Command {
 
 	public async exec(
 		message: Message,
-		args: { member: GuildMember; reason: string }
+		{ member, reason }: { member: GuildMember; reason?: string }
 	) {
 		if (
-			args.member.roles.highest.position >=
+			member.roles.highest.position >=
 				message.member!.roles.highest.position
 		) {
 			return this.client.commandHandler.emit(
@@ -52,7 +52,7 @@ export default class BanCommand extends Command {
 			);
 		}
 		if (
-			args.member.roles.highest.position >=
+			member.roles.highest.position >=
 				message.guild!.me!.roles.highest.position
 		) {
 			return this.client.commandHandler.emit(
@@ -64,17 +64,15 @@ export default class BanCommand extends Command {
 			);
 		}
 
-		const reason = args.reason === 'none' ? undefined : args.reason;
+		reason = reason === 'none' ? undefined : reason;
 
 		const embed = new MessageEmbed()
 			.setColor(COLORS.WARNING)
-			.setAuthor(args.member.user.tag, args.member.user.displayAvatarURL())
-			.setDescription(
-				`This member is going to be **banned**. Do you wish to continue? (yes/no)`
-			)
+			.setAuthor(member.user.tag, member.user.displayAvatarURL())
+			.setDescription(MESSAGES.COMMANDS.MOD.BAN.RESPONSE.CONFIRM.DESCRIPTION)
 			.addField(
 				'❯ Member',
-				`• Mention: ${args.member}\n• Tag: ${args.member.user.tag}\n• ID: ${args.member.id}`
+				MESSAGES.COMMANDS.MOD.BAN.RESPONSE.CONFIRM.FIELD(member)
 			)
 			.addField(`❯ Reason`, reason ? reason : 'Not supplied');
 
@@ -89,9 +87,9 @@ export default class BanCommand extends Command {
 		const confirm = await confirmArg.collect(message);
 
 		if (confirm.match(/y(es|up)?/)) {
-			await args.member.ban({ days: 1, reason });
-			return message.channel.send(`Member ${args.member.user.tag} banned`);
+			await member.ban({ days: 1, reason });
+			return message.channel.send(MESSAGES.COMMANDS.MOD.BAN.RESPONSE.DONE(member));
 		}
-		return message.channel.send('Command has been cancelled.');
+		return message.channel.send(MESSAGES.CLIENT.COMMAND_HANDLER.PROMPT_CANCEL);
 	}
 }

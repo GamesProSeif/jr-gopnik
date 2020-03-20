@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
 import fetch from 'node-fetch';
-import { COLORS } from '../../util/constants';
+import { COLORS, MESSAGES, SRA_LINK } from '../../util/constants';
 
 export default class PatCommand extends Command {
 	constructor() {
@@ -15,20 +15,18 @@ export default class PatCommand extends Command {
 			],
 			category: 'image',
 			description: {
-				content: 'Sends a random pat image'
+				content: MESSAGES.COMMANDS.IMAGE.SRA.DESCRIPTION.CONTENT('pat')
 			}
 		});
 	}
 
 	public async exec(message: Message, { member }: any) {
-		const { link } = await (await fetch(
-			'https://some-random-api.ml/animu/pat'
-		)).json();
+		const { link } = await (await fetch(SRA_LINK('/animu/pat'))).json();
 
 		const embed = new MessageEmbed()
 			.setColor(COLORS.SECONDARY)
 			.setImage(link)
-			.setFooter('Powered by Some Random API');
+			.setFooter(MESSAGES.COMMANDS.IMAGE.SRA.POWERED_BY);
 
 		return message.util!.send({
 			content: member ? `Pats ${member}` : null,

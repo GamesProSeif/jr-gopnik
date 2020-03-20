@@ -1,5 +1,6 @@
 import { Argument, Command } from 'discord-akairo';
 import { GuildMember, Message, TextChannel } from 'discord.js';
+import { MESSAGES } from '../../util/constants';
 
 interface PruneArgs {
 	amount: number;
@@ -14,14 +15,9 @@ export default class PruneCommand extends Command {
 		super('prune', {
 			aliases: ['prune', 'purge', 'bulk-delete', 'pr'],
 			description: {
-				content: 'Deletes multiple messages with given options',
-				usage: '<last-n-messages> [author:] [content:] [channel:]',
-				examples: [
-					'5',
-					'10 author:GamesProSeif --hide',
-					'15 content:potato',
-					'50 content:"wee wee" channel:general'
-				]
+				content: MESSAGES.COMMANDS.MOD.PRUNE.DESCRIPTION.CONTENT,
+				usage: MESSAGES.COMMANDS.MOD.PRUNE.DESCRIPTION.USAGE,
+				examples: MESSAGES.COMMANDS.MOD.PRUNE.DESCRIPTION.USAGE
 			},
 			category: 'mod',
 			args: [
@@ -29,8 +25,8 @@ export default class PruneCommand extends Command {
 					id: 'amount',
 					type: Argument.range('integer', 1, 100, true),
 					prompt: {
-						start: `How many messages do you want to delete? (max 100)`,
-						retry: `Invalid number! Try again`
+						start: MESSAGES.COMMANDS.MOD.PRUNE.ARGS.AMOUNT.PROMPT.START,
+						retry: MESSAGES.COMMANDS.MOD.PRUNE.ARGS.AMOUNT.PROMPT.RETRY
 					}
 				},
 				{
@@ -87,9 +83,7 @@ export default class PruneCommand extends Command {
 		}
 
 		if (!args.hide) {
-			return message.util!.send(
-				`Deleted \`${messages.size}\` messages in ${args.channel}`
-			);
+			return message.util!.send(MESSAGES.COMMANDS.MOD.PRUNE.RESPONSE.DELETED(messages.size, args.channel));
 		}
 	}
 }

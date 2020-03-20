@@ -5,7 +5,7 @@ import {
 	MessageEmbed,
 	Role
 } from 'discord.js';
-import { COLORS } from '../../util/constants';
+import { COLORS, MESSAGES } from '../../util/constants';
 
 interface RaffleArgs {
 	type: 'all' | 'user' | 'bot';
@@ -18,9 +18,9 @@ export default class RaffleCommand extends Command {
 		super('raffle', {
 			aliases: ['raffle'],
 			description: {
-				content: 'Raffles a random member',
-				usage: '[type:] [status:] [role:]',
-				examples: ['', 'type:bot', 'status:online role:Mods']
+				content: MESSAGES.COMMANDS.GAMBLE.RAFFLE.DESCRIPTION.CONTENT,
+				usage: MESSAGES.COMMANDS.GAMBLE.RAFFLE.DESCRIPTION.USAGE,
+				examples: MESSAGES.COMMANDS.GAMBLE.RAFFLE.DESCRIPTION.EXAMPLES
 			},
 			category: 'gamble',
 			channel: 'guild',
@@ -36,8 +36,8 @@ export default class RaffleCommand extends Command {
 					'flag': ['type:'],
 					'default': 'all',
 					'prompt': {
-						start: `Whats the type of the raffle? (all/user/bot)`,
-						retry: `Invalid type! Try again. (all/user/bot)`,
+						start: MESSAGES.COMMANDS.GAMBLE.RAFFLE.ARGS.ROLE.PROMPT.START,
+						retry: MESSAGES.COMMANDS.GAMBLE.RAFFLE.ARGS.ROLE.PROMPT.RETRY,
 						optional: true
 					}
 				},
@@ -54,8 +54,8 @@ export default class RaffleCommand extends Command {
 					'flag': ['status:'],
 					'default': 'all',
 					'prompt': {
-						start: `Whats the status of the members? (all/online/idle/dnd/offline)`,
-						retry: `Invalid status! Try again. (all/online/idle/dnd/offline)`,
+						start: MESSAGES.COMMANDS.GAMBLE.RAFFLE.ARGS.STATUS.PROMPT.START,
+						retry: MESSAGES.COMMANDS.GAMBLE.RAFFLE.ARGS.STATUS.PROMPT.RETRY,
 						optional: true
 					}
 				},
@@ -66,8 +66,8 @@ export default class RaffleCommand extends Command {
 					'flag': ['role:'],
 					'default': null,
 					'prompt': {
-						start: `Whats the role of the members?`,
-						retry: `Invalid role! Try again`,
+						start: MESSAGES.COMMANDS.GAMBLE.RAFFLE.ARGS.ROLE.PROMPT.START,
+						retry: MESSAGES.COMMANDS.GAMBLE.RAFFLE.ARGS.ROLE.PROMPT.RETRY,
 						optional: true
 					}
 				}
@@ -106,7 +106,7 @@ export default class RaffleCommand extends Command {
 			return message.util!.send({
 				embed: {
 					title: 'Error',
-					description: 'No members matched your query',
+					description: MESSAGES.COMMANDS.GAMBLE.RAFFLE.ERROR_EMBED.DESCRIPTION,
 					color: COLORS.ERROR
 				}
 			});
@@ -116,7 +116,7 @@ export default class RaffleCommand extends Command {
 
 		const embed = new MessageEmbed()
 			.setColor(COLORS.PRIMARY)
-			.setTitle(`🎫 Raffled Member`)
+			.setTitle(MESSAGES.COMMANDS.GAMBLE.RAFFLE.SUCCESS_EMBED.TITLE)
 			.setDescription(`${member}\nID: ${member!.id}`)
 			.setFooter(member!.user.tag, member!.user.displayAvatarURL());
 

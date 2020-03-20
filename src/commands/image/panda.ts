@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
 import fetch from 'node-fetch';
-import { COLORS } from '../../util/constants';
+import { COLORS, MESSAGES, SRA_LINK } from '../../util/constants';
 
 export default class PandaCommand extends Command {
 	constructor() {
@@ -9,20 +9,18 @@ export default class PandaCommand extends Command {
 			aliases: ['panda', 'pandas'],
 			category: 'image',
 			description: {
-				content: 'Sends a random panda image'
+				content: MESSAGES.COMMANDS.IMAGE.SRA.DESCRIPTION.CONTENT('panda')
 			}
 		});
 	}
 
 	public async exec(message: Message) {
-		const { link } = await (await fetch(
-			'https://some-random-api.ml/img/panda'
-		)).json();
+		const { link } = await (await fetch(SRA_LINK('/img/panda'))).json();
 
 		const embed = new MessageEmbed()
 			.setColor(COLORS.SECONDARY)
 			.setImage(link)
-			.setFooter('Powered by Some Random API');
+			.setFooter(MESSAGES.COMMANDS.IMAGE.SRA.POWERED_BY);
 
 		return message.util!.send(embed);
 	}

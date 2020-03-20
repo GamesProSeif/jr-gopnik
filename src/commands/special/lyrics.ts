@@ -1,15 +1,15 @@
 import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
 import fetch from 'node-fetch';
-import { COLORS } from '../../util/constants';
+import { COLORS, MESSAGES, SRA_LINK } from '../../util/constants';
 
 export default class LyricsCommand extends Command {
 	constructor() {
 		super('lyrics', {
 			aliases: ['lyrics', 'l'],
 			description: {
-				content: 'Gets lyrics of a song',
-				usage: '<song-title>'
+				content: MESSAGES.COMMANDS.SPECIAL.LYRICS.DESCRIPTION.CONTENT,
+				usage: MESSAGES.COMMANDS.SPECIAL.LYRICS.DESCRIPTION.USAGE
 			},
 			category: 'special',
 			args: [
@@ -17,8 +17,8 @@ export default class LyricsCommand extends Command {
 					id: 'title',
 					match: 'content',
 					prompt: {
-						start: `What's the song title you want?`,
-						retry: `Invalid song title! Try again.`
+						start: MESSAGES.COMMANDS.SPECIAL.LYRICS.ARGS.TITLE.PROMPT.START,
+						retry: MESSAGES.COMMANDS.SPECIAL.LYRICS.ARGS.TITLE.PROMPT.RETRY
 					}
 				}
 			],
@@ -26,14 +26,12 @@ export default class LyricsCommand extends Command {
 		});
 	}
 
-	public async exec(message: Message, args: any) {
-		const song = await (await fetch(
-			`https://some-random-api.ml/lyrics?title=${args.title}`
-		)).json();
+	public async exec(message: Message, { title }: { title: string }) {
+		const song = await (await fetch(SRA_LINK(`/lyrics?title=${title}`))).json();
 
 		if (song.error) {
 			return message.util!.send(
-				`Couldn't find results for song title \`${args.title}\``
+				MESSAGES.COMMANDS.SPECIAL.LYRICS.RESPONSE.ERROR(title)
 			);
 		}
 

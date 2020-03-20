@@ -1,6 +1,7 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 import * as search from 'youtube-search';
+import { MESSAGES } from '../../util/constants';
 
 const opts = {
 	maxResults: 10,
@@ -12,8 +13,8 @@ export default class YoutubeCommand extends Command {
 		super('youtube', {
 			aliases: ['youtube', 'yt'],
 			description: {
-				content: 'Searches a video on Youtube',
-				usage: '<query>'
+				content: MESSAGES.COMMANDS.SPECIAL.YOUTUBE.DESCRIPTION.CONTENT,
+				usage: MESSAGES.COMMANDS.SPECIAL.YOUTUBE.DESCRIPTION.USAGE
 			},
 			category: 'special',
 			args: [
@@ -21,7 +22,7 @@ export default class YoutubeCommand extends Command {
 					id: 'query',
 					match: 'content',
 					prompt: {
-						start: `What do you want me to search?`
+						start: MESSAGES.COMMANDS.SPECIAL.YOUTUBE.ARGS.QUERY.PROMPT.START
 					}
 				}
 			]
@@ -32,7 +33,7 @@ export default class YoutubeCommand extends Command {
 		// eslint-disable-next-line promise/prefer-await-to-callbacks
 		search(args.query, opts, (err, results) => {
 			if (err) {
-				return message.util!.send('Could not fetch results');
+				return message.util!.send(MESSAGES.COMMANDS.SPECIAL.YOUTUBE.RESPONSE.ERROR);
 			}
 			results = results!.filter(v => v.kind === 'youtube#video');
 			const video = results[0];

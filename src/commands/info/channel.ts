@@ -1,4 +1,3 @@
-import { stripIndents } from 'common-tags';
 import { Command } from 'discord-akairo';
 import {
 	GuildChannel,
@@ -7,31 +6,30 @@ import {
 	TextChannel,
 	VoiceChannel
 } from 'discord.js';
-import * as moment from 'moment';
-import { COLORS } from '../../util/constants';
+import { COLORS, MESSAGES } from '../../util/constants';
 
 export default class ChannelCommand extends Command {
 	constructor() {
 		super('channel', {
 			aliases: ['channel', 'channel-info', 'ci'],
+			description: {
+				content: MESSAGES.COMMANDS.INFO.CHANNEL.DESCRIPTION.CONTENT,
+				usage: MESSAGES.COMMANDS.INFO.CHANNEL.DESCRIPTION.USAGE
+			},
+			category: 'info',
+			channel: 'guild',
 			args: [
 				{
 					'default': (message: Message) => message.channel,
 					'id': 'channel',
 					'prompt': {
-						optional: true,
-						retry: `That's not a valid channel! Try again.`,
-						start: `What's the channel you want information about?`
+						start: MESSAGES.COMMANDS.INFO.CHANNEL.ARGS.CHANNEL.PROMPT.START,
+						retry: MESSAGES.COMMANDS.INFO.CHANNEL.ARGS.CHANNEL.PROMPT.RETRY,
+						optional: true
 					},
 					'type': 'channel'
 				}
-			],
-			category: 'info',
-			channel: 'guild',
-			description: {
-				content: 'Displays information about a channel',
-				usage: '<#channel>'
-			}
+			]
 		});
 	}
 
@@ -40,39 +38,24 @@ export default class ChannelCommand extends Command {
 
 		const embed = new MessageEmbed()
 			.setColor(COLORS.INFO)
-			.setDescription(`Info about **${channel.name}** (ID: ${channel.id})`)
+			.setDescription(MESSAGES.COMMANDS.INFO.CHANNEL.RESPONSE.GENERAL.DESCRIPTION(channel))
 			.setThumbnail(message.guild!.iconURL()!)
 			.addField(
-				'❯ General Info',
-				stripIndents`
-				• Type: ${channel.type}
-				• Position: ${channel.position}
-				• Creation Date: ${moment.utc(channel.createdAt).format('dddd, MMMM Do YYYY, h:mm:ss A [UTC]')}
-				`
+				MESSAGES.COMMANDS.INFO.CHANNEL.RESPONSE.GENERAL.FIELD_NAME,
+				MESSAGES.COMMANDS.INFO.CHANNEL.RESPONSE.GENERAL.FIELD_VALUE(channel)
 			);
 
 		if (channel.type === 'text') {
-			const textChannel = channel as TextChannel;
 			embed.addField(
-				'❯ Text Info',
-				stripIndents`
-				• Topic: ${textChannel.topic ? textChannel.topic : 'None'}
-				• NSFW: ${Boolean(textChannel.nsfw)}
-				• Viewable by: ${textChannel.members.size} members
-				• Last message by: ${textChannel.lastMessage!.author}
-				`
+				MESSAGES.COMMANDS.INFO.CHANNEL.RESPONSE.TEXT.FIELD_NAME,
+				MESSAGES.COMMANDS.INFO.CHANNEL.RESPONSE.TEXT.FIELD_VALUE(channel as TextChannel)
 			);
 		}
 
 		if (channel.type === 'voice') {
-			const voiceChanenl = channel as VoiceChannel;
 			embed.addField(
-				'❯ Voice Info',
-				stripIndents`
-				• Bitrate: ${voiceChanenl.bitrate}
-				• Limit: ${voiceChanenl.userLimit ? voiceChanenl.userLimit : 'unlimited'}
-				• Member Count: ${voiceChanenl.members.size}
-				`
+				MESSAGES.COMMANDS.INFO.CHANNEL.RESPONSE.VOICE.FIELD_NAME,
+				MESSAGES.COMMANDS.INFO.CHANNEL.RESPONSE.VOICE.FIELD_VALUE(channel as VoiceChannel)
 			);
 		}
 

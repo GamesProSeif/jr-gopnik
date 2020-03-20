@@ -8,14 +8,14 @@ import {
 	Snowflake,
 	Util
 } from 'discord.js';
-import { COLORS } from '../../util/constants';
+import { COLORS, MESSAGES } from '../../util/constants';
 
 export default class InRoleCommand extends Command {
 	constructor() {
 		super('in-role', {
 			aliases: ['in-role', 'role-members', 'ir'],
 			description: {
-				content: 'Displays all members that have a role'
+				content: MESSAGES.COMMANDS.INFO.INROLE.DESCRIPTION.CONTENT
 			},
 			category: 'info',
 			channel: 'guild'
@@ -26,8 +26,8 @@ export default class InRoleCommand extends Command {
 		const role: Role = yield {
 			type: 'role',
 			prompt: {
-				start: 'What is the role?',
-				retry: 'Invalid role! Try again.'
+				start: MESSAGES.COMMANDS.INFO.INROLE.ARGS.ROLE.PROMPT.START,
+				retry: MESSAGES.COMMANDS.INFO.INROLE.ARGS.ROLE.PROMPT.RETRY
 			}
 		};
 
@@ -50,8 +50,8 @@ export default class InRoleCommand extends Command {
 			'type': Argument.range('integer', 1, memberList.length),
 			'default': 1,
 			'prompt': {
-				start: `What is the page? (1 - ${memberList.length})`,
-				retry: `Invalid page number (1 - ${memberList.length})`,
+				start: MESSAGES.COMMANDS.INFO.INROLE.ARGS.PAGE.PROMPT.START(memberList.length),
+				retry: MESSAGES.COMMANDS.INFO.INROLE.ARGS.PAGE.PROMPT.RETRY(memberList.length),
 				optional: true
 			}
 		};
@@ -61,7 +61,7 @@ export default class InRoleCommand extends Command {
 
 	public async exec(
 		message: Message,
-		args: {
+		{ role, members, memberList, page}: {
 			role: Role;
 			members: Collection<Snowflake, GuildMember>;
 			memberList: string;
@@ -70,11 +70,9 @@ export default class InRoleCommand extends Command {
 	) {
 		const embed = new MessageEmbed()
 			.setColor(COLORS.INFO)
-			.setTitle(`Members in ${args.role.name}`)
-			.setDescription(args.memberList[args.page - 1])
-			.setFooter(
-				`Page ${args.page}/${args.memberList.length} • Total ${args.members.size} members`
-			);
+			.setTitle(MESSAGES.COMMANDS.INFO.INROLE.RESPONSE.TITLE(role))
+			.setDescription(memberList[page - 1])
+			.setFooter(MESSAGES.COMMANDS.INFO.INROLE.RESPONSE.FOOTER(page, memberList.length, members.size));
 
 		return message.util!.send(embed);
 	}

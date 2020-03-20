@@ -1,14 +1,15 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
+import { MESSAGES } from '../../util/constants';
 
 export default class RollCommand extends Command {
 	constructor() {
 		super('roll', {
 			aliases: ['roll', 'random'],
 			description: {
-				content: 'Rolls a number (default of 6)',
-				usage: '[max/min [max]]',
-				examples: ['', '100', '95 100']
+				content: MESSAGES.COMMANDS.GAMBLE.ROLL.DESCRIPTION.CONTENT,
+				usage: MESSAGES.COMMANDS.GAMBLE.ROLL.DESCRIPTION.USAGE,
+				examples: MESSAGES.COMMANDS.GAMBLE.ROLL.DESCRIPTION.EXAMPLES
 			},
 			category: 'gamble'
 		});
@@ -32,6 +33,6 @@ export default class RollCommand extends Command {
 		const num = args.value
 			? Math.floor((Math.random() * args.value) + 1)
 			: this.client.functions.getRandom(args.min, args.max);
-		return message.util!.send(`I rolled \`${num}\``);
+		return message.util!.send(MESSAGES.COMMANDS.GAMBLE.ROLL.RESPONSE(num));
 	}
 }

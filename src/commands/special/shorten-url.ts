@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 import { Url } from 'url';
-import { TOPICS } from '../../util/constants';
+import { TOPICS, MESSAGES } from '../../util/constants';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const shortURL = require('shorturl');
@@ -11,8 +11,8 @@ class ShortenCommand extends Command {
 		super('shorten-url', {
 			aliases: ['shorten-url', 'shorten', 'short', 'su'],
 			description: {
-				content: 'Shortens a URL',
-				usage: '<URL>'
+				content: MESSAGES.COMMANDS.SPECIAL.SHORTEN_URL.DESCRIPTION.CONTENT,
+				usage: MESSAGES.COMMANDS.SPECIAL.SHORTEN_URL.DESCRIPTION.USAGE
 			},
 			category: 'special',
 			cooldown: 10000,
@@ -21,8 +21,8 @@ class ShortenCommand extends Command {
 					id: 'url',
 					type: 'url',
 					prompt: {
-						start: `What's the URL you want to shorten?`,
-						retry: `Invalid URL! Try again.`
+						start: MESSAGES.COMMANDS.SPECIAL.SHORTEN_URL.ARGS.URL.PROMPT.START,
+						retry: MESSAGES.COMMANDS.SPECIAL.SHORTEN_URL.ARGS.URL.PROMPT.RETRY
 					}
 				}
 			]
@@ -45,7 +45,7 @@ class ShortenCommand extends Command {
 				topic: TOPICS.DISCORD
 			});
 			return message.util!.send(
-				'An error occurred while trying to shorten your URL'
+				MESSAGES.COMMANDS.SPECIAL.SHORTEN_URL.RESPONSE.ERROR
 			);
 		}
 	}

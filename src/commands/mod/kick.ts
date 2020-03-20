@@ -1,14 +1,14 @@
 import { Argument, Command } from 'discord-akairo';
 import { GuildMember, Message, MessageEmbed } from 'discord.js';
-import { COLORS } from '../../util/constants';
+import { COLORS, MESSAGES } from '../../util/constants';
 
 export default class KickCommand extends Command {
 	constructor() {
 		super('kick', {
 			aliases: ['kick'],
 			description: {
-				content: 'Kicks a member',
-				usage: '<member> <reason>'
+				content: MESSAGES.COMMANDS.MOD.KICK.DESCRIPTION.CONTENT,
+				usage: MESSAGES.COMMANDS.MOD.KICK.DESCRIPTION.USAGE
 			},
 			category: 'mod',
 			channel: 'guild',
@@ -37,10 +37,10 @@ export default class KickCommand extends Command {
 
 	public async exec(
 		message: Message,
-		args: { member: GuildMember; reason: string }
+		{ member, reason }: { member: GuildMember; reason?: string }
 	) {
 		if (
-			args.member.roles.highest.position >=
+			member.roles.highest.position >=
 				message.member!.roles.highest.position
 		) {
 			return this.client.commandHandler.emit(
@@ -52,7 +52,7 @@ export default class KickCommand extends Command {
 			);
 		}
 		if (
-			args.member.roles.highest.position >=
+			member.roles.highest.position >=
 				message.guild!.me!.roles.highest.position
 		) {
 			return this.client.commandHandler.emit(
@@ -64,17 +64,15 @@ export default class KickCommand extends Command {
 			);
 		}
 
-		const reason = args.reason === 'none' ? null : args.reason;
+		reason = reason === 'none' ? undefined : reason;
 
 		const embed = new MessageEmbed()
 			.setColor(COLORS.WARNING)
-			.setAuthor(args.member.user.tag, args.member.user.displayAvatarURL())
-			.setDescription(
-				`This member is going to be **kicked**. Do you wish to continue? (yes/no)`
-			)
+			.setAuthor(member.user.tag, member.user.displayAvatarURL())
+			.setDescription(MESSAGES.COMMANDS.MOD.KICK.RESPONSE.CONFIRM.DESCRIPTION)
 			.addField(
 				'❯ Member',
-				`• Mention: ${args.member}\n• Tag: ${args.member.user.tag}\n• ID: ${args.member.id}`
+				MESSAGES.COMMANDS.MOD.KICK.RESPONSE.CONFIRM.FIELD(member)
 			)
 			.addField(`❯ Reason`, reason ? reason : 'Not supplied');
 
@@ -89,9 +87,9 @@ export default class KickCommand extends Command {
 		const confirm = await confirmArg.collect(message);
 
 		if (confirm.match(/y(es|up)?/)) {
-			await args.member.kick(reason!);
-			return message.channel.send(`Member ${args.member.user.tag} kicked`);
+			await member.kick(reason!);
+			return message.channel.send(MESSAGES.COMMANDS.MOD.KICK.RESPONSE.DONE(member));
 		}
-		return message.channel.send('Command has been cancelled.');
+		return message.channel.send(MESSAGES.CLIENT.COMMAND_HANDLER.PROMPT_CANCEL);
 	}
 }

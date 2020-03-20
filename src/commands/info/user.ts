@@ -1,54 +1,41 @@
-import { stripIndents } from 'common-tags';
 import { Command } from 'discord-akairo';
-import { Message, MessageEmbed, Role } from 'discord.js';
-import * as moment from 'moment';
-import { COLORS } from '../../util/constants';
+import { GuildMember, Message, MessageEmbed } from 'discord.js';
+import { COLORS, MESSAGES } from '../../util/constants';
 
 export default class UserCommand extends Command {
 	constructor() {
 		super('user', {
 			aliases: ['user', 'user-info', 'ui'],
+			description: {
+				content: MESSAGES.COMMANDS.INFO.USER.DESCRIPTION.CONTENT,
+				usage: MESSAGES.COMMANDS.INFO.USER.DESCRIPTION.USAGE
+			},
+			category: 'info',
+			channel: 'guild',
 			args: [
 				{
 					'default': (msg: Message) => msg.member,
 					'id': 'member',
 					'type': 'member'
 				}
-			],
-			category: 'info',
-			channel: 'guild',
-			description: {
-				content: 'Displays information about a user',
-				usage: '[user]'
-			}
+			]
 		});
 	}
 
-	public exec(message: Message, args: any) {
-		const member = args.member;
+	public exec(message: Message, { member }: { member: GuildMember }) {
 		const user = member.user;
 
 		const embed = new MessageEmbed()
 			.setColor(COLORS.INFO)
-			.setDescription(`Info about **${user.tag}** (ID: ${user.id})`)
+			.setDescription(MESSAGES.COMMANDS.INFO.USER.RESPONSE.DESCRIPTION(user))
 			.addField(
-				'❯ Member Details',
-				stripIndents`
-				• Nickname: ${member.nickname ? member.nickname : 'None'}
-				• Roles: ${member.roles.map((r: Role) => `\`${r.name}\``).join(' ')}
-				• Joined At: ${moment.utc(member.joinedAt).format('dddd, MMMM Do YYYY, h:mm:ss A [UTC]')}
-				`,
+				MESSAGES.COMMANDS.INFO.USER.RESPONSE.MEMBER.NAME,
+				MESSAGES.COMMANDS.INFO.USER.RESPONSE.MEMBER.VALUE(member),
 				true
 			)
 			.addField(
-				'❯ User Details',
-				stripIndents`
-				• ID: ${user.id}
-				• Username: ${user.tag}
-				• Creation Date: ${moment.utc(user.createdAt).format('dddd, MMMM Do YYYY, h:mm:ss A [UTC]')}
-				• Status: ${user.presence.status.toUpperCase()}
-				• Activity: ${user.presence.activity ? user.presence.activity : 'None'}
-				`,
+				MESSAGES.COMMANDS.INFO.USER.RESPONSE.USER.NAME,
+				MESSAGES.COMMANDS.INFO.USER.RESPONSE.USER.VALUE(user),
 				true
 			);
 

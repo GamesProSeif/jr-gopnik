@@ -1,6 +1,6 @@
 import { Command } from 'discord-akairo';
-import { Message, MessageEmbed } from 'discord.js';
-import { COLORS } from '../../util/constants';
+import { GuildMember, Message, MessageEmbed, ImageURLOptions } from 'discord.js';
+import { COLORS, MESSAGES } from '../../util/constants';
 
 class AvatarCommand extends Command {
 	constructor() {
@@ -8,19 +8,18 @@ class AvatarCommand extends Command {
 			aliases: ['avatar', 'av'],
 			category: 'info',
 			description: {
-				content:
-					'Displays the avatar of a member\n**Available arguments**\n• Format: `webp`, `jpg`, `png`, `gif`\n• Size: `16`, `32`, `64`, `128`, `256`, `512`, `1024`, `2048`',
-				usage: '[member] [format:] [size:]',
-				examples: ['format:jpg', 'xPLEBx size:64', 'Noob101 f:png s:512']
+				content: MESSAGES.COMMANDS.INFO.AVATAR.DESCRIPTION.CONTENT,
+				usage: MESSAGES.COMMANDS.INFO.AVATAR.DESCRIPTION.USAGE,
+				examples: MESSAGES.COMMANDS.INFO.AVATAR.DESCRIPTION.EXAMPLES
 			},
 			args: [
 				{
-					'default': (message: Message) => message.member,
 					'id': 'member',
+					'default': (message: Message) => message.member,
 					'prompt': {
 						optional: true,
-						retry: `Invalid member! Try again.`,
-						start: `Who do you want to view the avatar of?`
+						start: MESSAGES.COMMANDS.INFO.AVATAR.ARGS.MEMBER.PROMPT.START,
+						retry: MESSAGES.COMMANDS.INFO.AVATAR.ARGS.MEMBER.PROMPT.RETRY
 					},
 					'type': 'member'
 				},
@@ -30,8 +29,8 @@ class AvatarCommand extends Command {
 					'flag': ['format:', 'f:'],
 					'default': 'auto',
 					'prompt': {
-						start: `What's the format of the avatar? (auto, webp, jpg, png, gif)`,
-						retry: `Invalid format! Try again. (auto, webp, jpg, png, gif)`,
+						start: MESSAGES.COMMANDS.INFO.AVATAR.ARGS.FORMAT.PROMPT.START,
+						retry: MESSAGES.COMMANDS.INFO.AVATAR.ARGS.FORMAT.PROMPT.RETRY,
 						optional: true
 					},
 					'type': [['auto'], ['webp', 'web'], ['jpg', 'jpeg'], ['png'], ['gif']]
@@ -43,8 +42,8 @@ class AvatarCommand extends Command {
 					'flag': ['size:', 's:'],
 					'default': '2048',
 					'prompt': {
-						start: `What's the size of the avatar? (16, 32, 64, 128, 256, 512, 1024, 2048)`,
-						retry: `Invalid size! Try again. (16, 32, 64, 128, 256, 512, 1024, 2048)`,
+						start: MESSAGES.COMMANDS.INFO.AVATAR.ARGS.SIZE.PROMPT.START,
+						retry: MESSAGES.COMMANDS.INFO.AVATAR.ARGS.SIZE.PROMPT.RETRY,
 						optional: true
 					}
 				}
@@ -52,24 +51,22 @@ class AvatarCommand extends Command {
 		});
 	}
 
-	public exec(message: Message, args: any) {
+	public exec(message: Message, { member, size, format }: { member: GuildMember; size: string; format: string }) {
 		const imageOptions: { size: number; format?: string } = {
-			size: parseInt(args.size, 10)
+			size: parseInt(size, 10)
 		};
 
-		if (args.format !== 'auto') {
-			imageOptions.format = !args.member.user.avatar.startsWith('a_') && args.format === 'gif'
+		if (format !== 'auto') {
+			imageOptions.format = !member.user!.avatar!.startsWith('a_') && format === 'gif'
 				? (imageOptions.format = 'webp')
-				: args.format;
+				: format;
 		}
-		const link = args.member.user.displayAvatarURL(imageOptions);
+		const link = member.user.displayAvatarURL(imageOptions as ImageURLOptions);
 
 		const embed = new MessageEmbed()
 			.setColor(COLORS.PRIMARY)
 			.setTitle('Avatar')
-			.setDescription(
-				`Viewing avatar of **${args.member.user.tag}** (ID: ${args.member.id})`
-			)
+			.setDescription(MESSAGES.COMMANDS.INFO.AVATAR.RESPONSE(member))
 			.setImage(link)
 			.setURL(link);
 

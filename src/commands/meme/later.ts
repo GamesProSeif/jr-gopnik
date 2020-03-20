@@ -2,7 +2,7 @@ import { Command } from 'discord-akairo';
 import { Message } from 'discord.js';
 import { readdirSync } from 'fs';
 import * as path from 'path';
-import { COLORS, TOPICS } from '../../util/constants';
+import { COLORS, TOPICS, MESSAGES } from '../../util/constants';
 
 export default class LaterCommand extends Command {
 	constructor() {
@@ -10,7 +10,7 @@ export default class LaterCommand extends Command {
 			aliases: ['later'],
 			category: 'meme',
 			description: {
-				content: 'Sends a random spongebob later photo'
+				content: MESSAGES.COMMANDS.MEME.LATER.DESCRIPTION.CONTENT
 			}
 		});
 	}
@@ -23,9 +23,9 @@ export default class LaterCommand extends Command {
 			if (!files[0]) {
 				return message.util!.send({
 					embed: {
-						color: COLORS.ERROR,
-						description: 'I have no later photos in my storage 😐',
-						title: 'Error'
+						title: 'Error',
+						description: MESSAGES.COMMANDS.MEME.LATER.RESPONSE.NO_STORAGE,
+						color: COLORS.ERROR
 					}
 				});
 			}

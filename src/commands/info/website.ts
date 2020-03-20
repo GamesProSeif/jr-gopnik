@@ -1,10 +1,10 @@
-import { stripIndents } from 'common-tags';
 import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
 import { lookup } from 'dns';
 import fetch from 'node-fetch';
 import { promisify } from 'util';
-import { COLORS, TOPICS } from '../../util/constants';
+import { COLORS, TOPICS, MESSAGES } from '../../util/constants';
+import { URL } from 'url';
 
 const getIp = promisify(lookup);
 
@@ -12,26 +12,26 @@ export default class WebsiteCommand extends Command {
 	constructor() {
 		super('website', {
 			aliases: ['website', 'website-info', 'url-info', 'wi'],
+			description: {
+				content: MESSAGES.COMMANDS.INFO.WEBSITE.DESCRIPTION.CONTENT,
+				usage: MESSAGES.COMMANDS.INFO.WEBSITE.DESCRIPTION.USAGE
+			},
+			category: 'info',
+			cooldown: 10000,
 			args: [
 				{
 					id: 'url',
 					prompt: {
-						retry: `Invalid URL! Try again.`,
-						start: `What's the website you want info about?`
+						start: MESSAGES.COMMANDS.INFO.WEBSITE.ARGS.URL.PROMPT.START,
+						retry: MESSAGES.COMMANDS.INFO.WEBSITE.ARGS.URL.PROMPT.RETRY
 					},
 					type: 'url'
 				}
-			],
-			category: 'info',
-			cooldown: 10000,
-			description: {
-				content: 'Gets information about a website',
-				usage: '<URL>'
-			}
+			]
 		});
 	}
 
-	public async exec(message: Message, { url }: any) {
+	public async exec(message: Message, { url }: { url: URL }) {
 		try {
 			const res = await fetch(url.href);
 
@@ -41,42 +41,26 @@ export default class WebsiteCommand extends Command {
 				const { address, family } = await getIp(url.host);
 				embed
 					.setColor(COLORS.INFO)
-					.setDescription(`Info about URL ${url.href}`)
+					.setDescription(MESSAGES.COMMANDS.INFO.WEBSITE.RESPONSE.SUCCESS.DESCRIPTION(url))
 					.addField(
-						'❯ Website Details',
-						stripIndents`
-						• Online?: Yes
-						• Status Code: ${res.status}
-						• Content Type: ${res.headers.get('content-type')}
-						`
+						MESSAGES.COMMANDS.INFO.WEBSITE.RESPONSE.SUCCESS.WEBSITE_NAME,
+						MESSAGES.COMMANDS.INFO.WEBSITE.RESPONSE.SUCCESS.WEBSITE_VALUE(res)
 					)
 					.addField(
-						'❯ URL Details',
-						stripIndents`
-						• Href: ${url.href}
-						• Host: ${url.host}
-						• Protocol: ${url.protocol}
-						• IPv${family}: ${address}
-						`
+						MESSAGES.COMMANDS.INFO.WEBSITE.RESPONSE.SUCCESS.URL_NAME,
+						MESSAGES.COMMANDS.INFO.WEBSITE.RESPONSE.SUCCESS.URL_VALUE(url, family, address)
 					);
 			} else {
 				embed
 					.setColor(COLORS.ERROR)
-					.setDescription(`Info about URL ${url.href}`)
+					.setDescription(MESSAGES.COMMANDS.INFO.WEBSITE.RESPONSE.FAIL.DESCRIPTION)
 					.addField(
-						'❯ Website Details',
-						stripIndents`
-						• Online?: No
-						• Status Code: ${res.status}
-						`
+						MESSAGES.COMMANDS.INFO.WEBSITE.RESPONSE.FAIL.WEBSITE_NAME,
+						MESSAGES.COMMANDS.INFO.WEBSITE.RESPONSE.FAIL.WEBSITE_VALUE(res)
 					)
 					.addField(
-						'❯ URL Details',
-						stripIndents`
-						• Href: ${url.href}
-						• Host: ${url.host}
-						• Protocol: ${url.protocol}
-						`
+						MESSAGES.COMMANDS.INFO.WEBSITE.RESPONSE.FAIL.URL_NAME,
+						MESSAGES.COMMANDS.INFO.WEBSITE.RESPONSE.FAIL.URL_VALUE(url)
 					);
 			}
 
@@ -85,9 +69,7 @@ export default class WebsiteCommand extends Command {
 			this.client.logger.error(error, {
 				topic: TOPICS.DISCORD
 			});
-			return message.util!.send(
-				'An error occurred while getting information about your website'
-			);
+			return message.util!.send(MESSAGES.COMMANDS.INFO.WEBSITE.RESPONSE.ERROR);
 		}
 	}
 }

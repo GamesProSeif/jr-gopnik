@@ -1,28 +1,27 @@
-import { stripIndents } from 'common-tags';
 import { Command } from 'discord-akairo';
 import { GuildEmoji, Message, MessageEmbed } from 'discord.js';
-import * as moment from 'moment';
-import emojis from 'node-emoji';
-import punycode from 'punycode';
-import { COLORS } from '../../util/constants';
-
-const EMOJI_REGEX = /<(?:a)?:(?:\w{2,32}):(?<content>\d{17,19})>?/;
+import { Emoji, find as findEmoji } from 'node-emoji';
+import { COLORS, MESSAGES, REGEX } from '../../util/constants';
 
 export default class EmojiCommand extends Command {
 	constructor() {
 		super('emoji', {
 			aliases: ['emoji', 'emoji-info', 'ei'],
+			description: {
+				content: MESSAGES.COMMANDS.INFO.EMOJI.DESCRIPTION.CONTENT
+			},
+			category: 'info',
 			args: [
 				{
 					id: 'emoji',
 					match: 'content',
 					prompt: {
-						retry: `Please provide a valid emoji`,
-						start: `What's the emoji you want informationa about?`
+						start: MESSAGES.COMMANDS.INFO.EMOJI.ARGS.EMOJI.PROMPT.START,
+						retry: MESSAGES.COMMANDS.INFO.EMOJI.ARGS.EMOJI.PROMPT.RETRY
 					},
 					type: async (message, content) => {
-						if (EMOJI_REGEX.test(content)) {
-							const matched = content.match(EMOJI_REGEX);
+						if (REGEX.EMOJI.test(content)) {
+							const matched = content.match(REGEX.EMOJI);
 							content = matched!.groups!.content;
 						}
 						if (!isNaN(parseInt(content, 10))) {
@@ -30,41 +29,29 @@ export default class EmojiCommand extends Command {
 						}
 						return (
 							message.guild!.emojis.cache.find(e => e.name === content) ||
-								emojis.find(content)
+								findEmoji(content)
 						);
 					}
 				}
-			],
-			category: 'info',
-			description: {
-				content: 'Displays information about an emoji'
-			}
+			]
 		});
 	}
 
-	public exec(message: Message, { emoji }: any) {
+	public exec(message: Message, { emoji }: { emoji: Emoji | GuildEmoji }) {
 		const embed = new MessageEmbed().setColor(COLORS.INFO);
 
 		if (emoji instanceof GuildEmoji) {
-			embed.setDescription(`Info about ${emoji.name} (ID: ${emoji.id})`);
+			embed.setDescription(MESSAGES.COMMANDS.INFO.EMOJI.RESPONSE.EMBED1.DESCRIPTION(emoji));
 			embed.setThumbnail(emoji.url!);
 			embed.addField(
-				'❯ Info',
-				stripIndents`
-				• Identifier: \`<${emoji.identifier}>\`
-				• Creation Date: ${moment.utc(emoji.createdAt!).format('YYYY/MM/DD hh:mm:ss [UTC]')}
-				• URL: ${emoji.url}
-				`
+				MESSAGES.COMMANDS.INFO.EMOJI.RESPONSE.EMBED1.FIELD_NAME,
+				MESSAGES.COMMANDS.INFO.EMOJI.RESPONSE.EMBED1.FIELD_VALUE(emoji)
 			);
 		} else {
-			embed.setDescription(`Info about ${emoji.emoji}`);
+			embed.setDescription(MESSAGES.COMMANDS.INFO.EMOJI.RESPONSE.EMBED2.DESCRIPTION(emoji));
 			embed.addField(
-				'❯ Info',
-				stripIndents`
-				• Name: \`${emoji.key}\`
-				• Raw: \`${emoji.emoji}\`
-				• Unicode: \`${punycode.ucs2.decode(emoji.emoji).map(e => `\\u${e.toString(16).toUpperCase().padStart(4, '0')}`).join('')}\`
-				`
+				MESSAGES.COMMANDS.INFO.EMOJI.RESPONSE.EMBED2.FIELD_NAME,
+				MESSAGES.COMMANDS.INFO.EMOJI.RESPONSE.EMBED2.FIELD_VALUE(emoji)
 			);
 		}
 

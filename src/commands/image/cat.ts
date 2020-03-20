@@ -1,7 +1,7 @@
 import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
 import fetch from 'node-fetch';
-import { COLORS } from '../../util/constants';
+import { COLORS, MESSAGES, SRA_LINK } from '../../util/constants';
 
 export default class CatCommand extends Command {
 	constructor() {
@@ -9,20 +9,18 @@ export default class CatCommand extends Command {
 			aliases: ['cat', 'cats', 'meow'],
 			category: 'image',
 			description: {
-				content: 'Sends a random cat image'
+				content: MESSAGES.COMMANDS.IMAGE.SRA.DESCRIPTION.CONTENT('cat')
 			}
 		});
 	}
 
 	public async exec(message: Message) {
-		const { link } = await (await fetch(
-			'https://some-random-api.ml/img/cat'
-		)).json();
+		const { link } = await (await fetch(SRA_LINK('/img/cat'))).json();
 
 		const embed = new MessageEmbed()
 			.setColor(COLORS.SECONDARY)
 			.setImage(link)
-			.setFooter('Powered by Some Random API');
+			.setFooter(MESSAGES.COMMANDS.IMAGE.SRA.POWERED_BY);
 
 		return message.util!.send(embed);
 	}

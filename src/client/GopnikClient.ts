@@ -11,7 +11,7 @@ import { generateLogger } from 'gamesproseif-common';
 import { Logger } from 'winston';
 import { Raw } from 'typeorm';
 import * as clientFunctions from '../util/functions';
-import { EVENTS, TOPICS, DEVELOPMENT, PREFIX, OWNER_ID } from '../util/constants';
+import { EVENTS, TOPICS, DEVELOPMENT, PREFIX, OWNER_ID, MESSAGES } from '../util/constants';
 import Database from '../structures/Database';
 import { Tag } from '../models/tag';
 import SettingsProvider from '../structures/SettingsProvider';
@@ -39,15 +39,13 @@ export default class GopnikClient extends AkairoClient {
 		allowMention: true,
 		argumentDefaults: {
 			prompt: {
-				cancel: 'Command has been cancelled.',
-				ended: 'Too many retries, command has been cancelled.',
-				modifyRetry: (message, text) =>
-					`${message.member}, ${text}\n\nType \`cancel\` to cancel this command.`,
-				modifyStart: (message, text) =>
-					`${message.member}, ${text}\n\nType \`cancel\` to cancel this command.`,
+				cancel: MESSAGES.CLIENT.COMMAND_HANDLER.PROMPT_CANCEL,
+				ended: MESSAGES.CLIENT.COMMAND_HANDLER.PROMPT_CANCEL,
+				modifyRetry: MESSAGES.CLIENT.COMMAND_HANDLER.MODIFY_RETRY,
+				modifyStart: MESSAGES.CLIENT.COMMAND_HANDLER.MODIFY_START,
 				retries: 3,
 				time: 30000,
-				timeout: 'Time ran out, command has been cancelled.'
+				timeout: MESSAGES.CLIENT.COMMAND_HANDLER.TIMEOUT
 			}
 		},
 		commandUtil: true,
@@ -144,7 +142,7 @@ export default class GopnikClient extends AkairoClient {
 
 	private async _init() {
 		await this.db.connect();
-		this.logger.info('Connected to MongoDB', { topic: TOPICS.MONGO_DB, event: EVENTS.READY });
+		this.logger.info(MESSAGES.CLIENT.DB_CONNECTED, { topic: TOPICS.MONGO_DB, event: EVENTS.READY });
 
 		this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
 		this.commandHandler.useListenerHandler(this.listenerHandler);
@@ -157,10 +155,10 @@ export default class GopnikClient extends AkairoClient {
 		});
 
 		this.commandHandler.loadAll();
-		this.logger.info('Command handler loaded', { topic: TOPICS.DISCORD_AKAIRO, event: EVENTS.INIT });
+		this.logger.info(MESSAGES.CLIENT.COMMAND_HANDLER.LOADED, { topic: TOPICS.DISCORD_AKAIRO, event: EVENTS.INIT });
 		this.inhibitorHandler.loadAll();
-		this.logger.info('Inhibitor handler loaded', { topic: TOPICS.DISCORD_AKAIRO, event: EVENTS.INIT });
+		this.logger.info(MESSAGES.CLIENT.INHIBITOR_HANDLER.LOADED, { topic: TOPICS.DISCORD_AKAIRO, event: EVENTS.INIT });
 		this.listenerHandler.loadAll();
-		this.logger.info('Listener handler loaded', { topic: TOPICS.DISCORD_AKAIRO, event: EVENTS.INIT });
+		this.logger.info(MESSAGES.CLIENT.LISTENER_HANDLER.LOADED, { topic: TOPICS.DISCORD_AKAIRO, event: EVENTS.INIT });
 	}
 }
