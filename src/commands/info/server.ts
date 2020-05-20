@@ -20,7 +20,7 @@ export default class ServerCommand extends Command {
 
 		const embed = new MessageEmbed()
 			.setColor(COLORS.INFO)
-			.setDescription(MESSAGES.COMMANDS.INFO.SERVER.RESPONSE.DESCRIPTION)
+			.setDescription(MESSAGES.COMMANDS.INFO.SERVER.RESPONSE.DESCRIPTION(guild))
 			.setThumbnail(guild.iconURL()!)
 			.addField(
 				'❯ Channels',
@@ -38,7 +38,7 @@ export default class ServerCommand extends Command {
 			)
 			.addField(
 				'❯ Other',
-				MESSAGES.COMMANDS.INFO.SERVER.RESPONSE.FIELD_VALUE
+				MESSAGES.COMMANDS.INFO.SERVER.RESPONSE.FIELD_VALUE(guild)
 			);
 
 		return message.util!.send(embed);
