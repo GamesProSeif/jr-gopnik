@@ -32,7 +32,7 @@
     "gamesproseif-common": "gamesproseif/gamesproseif-common",
     "inquirer": "^6.5.0",
     "mathjs": "^7.5.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "moment-duration-format": "^2.3.2",
     "mongodb": "^3.5.4",
     "node-emoji": "^1.10.0",
